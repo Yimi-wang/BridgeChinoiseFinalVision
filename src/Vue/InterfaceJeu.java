@@ -27,8 +27,6 @@ public class InterfaceJeu implements Runnable {
     Atout a;
     public Brand selected;
     Histoire h;
-    PlayCards playCards;
-    TakeCard takeCard;
     JButton player0play;
     JButton player1play;
     JLabel Atout;
@@ -45,14 +43,14 @@ public class InterfaceJeu implements Runnable {
     public void run() {
         //MusicTest m = new MusicTest();
        // m.play();
-        //不知道用处
+        //不知道用�?
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
                  UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
         }
-        //保证Jeu j playercard 里头有手卡
+        //保证Jeu j playercard 里头有手�?
         j = creatJeu();
         gameStart(j, h);
         //gameprocessvue.gameMode(j);（启动游戏）
@@ -67,7 +65,7 @@ public class InterfaceJeu implements Runnable {
 
         frame.setSize(1200, 800);
         frame.add(cardinterface);
-        //初始化正常界面大小
+        //初始化正常界面大�?
         frame.pack();
         //end
 
@@ -79,7 +77,7 @@ public class InterfaceJeu implements Runnable {
         frame.setVisible(true);
     }
 
-    //构造函数
+    //构�?�函�?
     public InterfaceJeu() {
     }
 
@@ -91,7 +89,7 @@ public class InterfaceJeu implements Runnable {
         Brand player2playercard;
 
         public GamePane(Jeu j) {
-            //点击鼠标，如果点击是卡的位置，则会将卡向上移，不是的话已经移动过的卡回退原来的位置）
+            //点击鼠标，如果点击是卡的位置，则会将卡向上移，不是的话已经移动过的卡回�??原来的位置）
 
             mapCards = new HashMap<>(j.playercard[0].size());
             addMouseListener(new MouseAdapter() {
@@ -255,16 +253,16 @@ public class InterfaceJeu implements Runnable {
             int cardWidth = (int) (cardHeight * 0.6);
             //每个卡片的偏移量
             int xDelta = cardWidth + 5;
-            //第一个卡片的横坐标和纵坐标
+            //第一个卡片的横坐标和纵坐�?
             int xPos = getWidth() / 10;
             int yPos = (getHeight() - 20) - cardHeight;
-            //建立一个hashmap，使每个长方形和每个卡片进行对应。显示下方玩家的手牌。
+            //建立�?个hashmap，使每个长方形和每个卡片进行对应。显示下方玩家的手牌�?
             for (Brand card : j.playercard[0]) {
                 Rectangle bounds = new Rectangle(xPos, yPos, cardWidth, cardHeight);
                 mapCards.put(card, bounds);
                 xPos += xDelta;
             }
-            //显示上方的手牌
+            //显示上方的手�?
             xPos = getWidth() / 10;
             yPos = getHeight() / 20;
             for (Brand card : j.playercard[1]) {
@@ -272,7 +270,7 @@ public class InterfaceJeu implements Runnable {
                 mapCards.put(card, bounds);
                 xPos += xDelta;
             }
-            //显示pile的手卡。
+            //显示pile的手卡�??
             xPos = getWidth() / 5 * 3;
             xDelta = cardWidth / 5;
             yPos = getHeight() / 2 - cardHeight / 2;
@@ -291,7 +289,7 @@ public class InterfaceJeu implements Runnable {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
 
-            //背景图片（游戏主界面）
+            //背景图片（游戏主界面�?
             BufferedImage imageBackGround;
             File ImageBackGroundFile;
             ImageBackGroundFile = new File("./res/images/background.png");
@@ -303,7 +301,7 @@ public class InterfaceJeu implements Runnable {
             g2d.drawImage(imageBackGround,0, 0, getWidth()/5*4,getWidth() , null);
 
 
-            //背景界面（游戏右菜单）
+            //背景界面（游戏右菜单�?
             BufferedImage imageBackGroundRight;
             File ImageBackGroundRightFile;
             ImageBackGroundRightFile = new File("./res/images/backright.jpg");
@@ -318,7 +316,7 @@ public class InterfaceJeu implements Runnable {
 
 
             if (j.TurnProcess == 2 || j.TurnProcess == 3) {
-                //画先手方出的牌
+                //画先手方出的�?
                 if (j.TurnProcess == 2) {
                     BufferedImage imageCard;
                     File imgFilecard = null;
@@ -343,7 +341,7 @@ public class InterfaceJeu implements Runnable {
                         g2d.drawImage(imageCard, getWidth() / 3, getHeight() / 20 * 5, cardWidth, cardHeight, null);
                     }
                 }
-                //打印双方出的牌
+                //打印双方出的�?
                 if (j.TurnProcess == 3) {
                     //打印先手方出的牌
                     BufferedImage imageCard;
@@ -371,7 +369,7 @@ public class InterfaceJeu implements Runnable {
             }
             for (Brand card : j.playercard[1]) {
                 Rectangle bounds = mapCards.get(card);
-                //根据长方形的位置，填充图片
+                //根据长方形的位置，填充图�?
                 if (bounds != null) {
                     BufferedImage imageCard;
                     File imgFile = new File("./res/images/card (" + card.id + ").png");
@@ -382,7 +380,7 @@ public class InterfaceJeu implements Runnable {
                     }
                     int cardHeight = (getHeight() - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //画图像
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
                     //画长方形边框
                     g2d.setColor(Color.BLACK);
@@ -396,7 +394,7 @@ public class InterfaceJeu implements Runnable {
             for (Brand card : j.playercard[0]) {
                 Rectangle bounds = mapCards.get(card);
                 //System.out.println(bounds);
-                //根据长方形的位置，填充图片
+                //根据长方形的位置，填充图�?
                 if (bounds != null) {
                     BufferedImage imageCard;
                     File imgFile = new File("./res/images/card (" + card.id + ").png");
@@ -407,7 +405,7 @@ public class InterfaceJeu implements Runnable {
                     }
                     int cardHeight = (getHeight() - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //画图像
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
                     //画长方形边框
                     g2d.setColor(Color.BLACK);
@@ -424,7 +422,7 @@ public class InterfaceJeu implements Runnable {
                     Brand card = j.pilescard[i].get(a);
                     Rectangle bounds = mapCards.get(card);
                     //System.out.println(bounds);
-                    //根据长方形的位置，填充图片
+                    //根据长方形的位置，填充图�?
                     if (bounds != null) {
                         BufferedImage imageCard;
                         File imgFile;
@@ -441,7 +439,7 @@ public class InterfaceJeu implements Runnable {
                         }
                         int cardHeight = (getHeight() - 20) / 8;
                         int cardWidth = (int) (cardHeight * 0.6);
-                        //画图像
+                        //画图�?
                         g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
                         //画长方形边框
                         g2d.setColor(Color.BLACK);
@@ -453,7 +451,7 @@ public class InterfaceJeu implements Runnable {
             String[] dfonts;
             dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
-            //输出右边游戏信息。
+            //输出右边游戏信息�?
             //Atout 文字
             g2d.setColor(Color.red);
             g2d.setFont(new Font(dfonts[1],Font.BOLD,30));
@@ -499,7 +497,7 @@ public class InterfaceJeu implements Runnable {
                 g2d.drawString(GameModeStr,getWidth()/100*82,getHeight()/100*60);
             }
 
-            //numbre de tour  回合数
+            //numbre de tour  回合�?
             String nbtour="Le numbre de tour est "+j.numberOfRounds;
             g2d.setColor(Color.blue);
             g2d.setFont(new Font(dfonts[3],Font.BOLD,15));
@@ -508,7 +506,7 @@ public class InterfaceJeu implements Runnable {
             g2d.setColor(Color.yellow);
             g2d.setFont(new Font(dfonts[4],Font.BOLD,15));
             g2d.drawString("C'est le tour de joueur "+j.getPlayerNow()+1,getWidth()/100*82,getHeight()/100*70);
-            //playercard ou takecard该出牌还是拿牌
+            //playercard ou takecard该出牌还是拿�?
             g2d.setColor(Color.green);
             g2d.setFont(new Font(dfonts[5],Font.BOLD,15));
             if(j.TurnProcess<3){
@@ -559,11 +557,11 @@ public class InterfaceJeu implements Runnable {
 
     public void gameStart(Jeu j, Histoire h) {
         j.reset();
-        if (j.numberOfGames == 0) j.numberOfGames = 1;//如果游戏刚开始的话
-        if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
+        if (j.numberOfGames == 0) j.numberOfGames = 1;//如果游戏刚开始的�?
+        if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏�??
             j.playerFirst = (j.numberOfGames - 1) % 2;
             j.numberOfRounds = 1;
-            //进行发牌以及牌堆的实现
+            //进行发牌以及牌堆的实�?
             if (j.numberOfGames != 1) {
                 StartHand startHand = new StartHand(j);
                 startHand.stardHand();
