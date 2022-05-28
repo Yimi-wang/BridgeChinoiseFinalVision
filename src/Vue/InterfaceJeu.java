@@ -94,10 +94,12 @@ public class InterfaceJeu implements Runnable {
         JMenuItem saveMenuItem02 = new JMenuItem("Save and quit");
         saveMenu.add(saveMenuItem01);
         saveMenu.add(saveMenuItem02);
+        //TODO save 实现
         saveMenuItem01.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("新建  被点击");
+                //SaveLoadVue.Save(h,"name");
             }
         });
         saveMenuItem02.addActionListener(new ActionListener() {
@@ -869,7 +871,7 @@ public class InterfaceJeu implements Runnable {
 
         public void wingamewindow(Jeu j, int i, int winner) {
             if (i == 1) {
-                String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continue";
+                String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continuer";
                 JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
             } else {
                 String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
