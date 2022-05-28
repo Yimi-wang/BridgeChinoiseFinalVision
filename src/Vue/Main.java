@@ -4,14 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 
 public class Main extends JFrame implements ActionListener {
     JFrame mainframe;
@@ -25,7 +21,7 @@ public class Main extends JFrame implements ActionListener {
     JButton btnSettingButton;
     JButton btnOnlineButton;
     //文本输入按钮
-    JTextField  jta ;
+    JTextField jta;
     //gameMode
     JButton GameModeQuestionButton; // ?按钮
     JButton GameModeLeftButton;//左箭头按钮
@@ -198,8 +194,8 @@ public class Main extends JFrame implements ActionListener {
         //添加文本框
         jta = new JTextField();
         jta.setForeground(Color.BLACK);    //设置组件的背景色
-        jta.setFont(new Font(dfonts[15],Font.ROMAN_BASELINE,10 ));    //修改字体样式
-        jta.setBounds(150,350,200,30);
+        jta.setFont(new Font(dfonts[15], Font.ROMAN_BASELINE, 10));    //修改字体样式
+        jta.setBounds(150, 350, 200, 30);
         mainContentPanel.add(jta);
 
         //添加左右按钮
@@ -355,31 +351,14 @@ public class Main extends JFrame implements ActionListener {
                 FileWriter fw;
                 fw = new FileWriter("./res/default.cfg", false);
                 // Human vs Human
-
-
-
-//                String NB = this.interIni.NBText.getText();
-//                if (GameMode > 2) {
-//                    fw.write("GameInformation=" + NB + "\n");
-//                    System.out.println("gameInformation est " + NB);
-//                }
-//
-//                if (this.isAIGame) {
-//                    int aiType = 0;
-//                    for (int i = 0; i < this.interIni.aiSelections.size(); i++) {
-//                        if (this.interIni.aiSelections.get(i).isSelected()) {
-//                            aiType = i + 1;
-//                            break;
-//                        }
-//                    }
-//                    System.out.println("ai type est " + aiType);
-//                    fw.write("AI=" + aiType + "\n");
-//                } else {
-//                    fw.write("AI=0\n");
-//                }
-//                fw.close();
-//                interIni.frame.setVisible(false);
-
+                GameMode = GameModeComboBox.getSelectedIndex() + 1;
+                fw.write("GameMode=" + GameMode + "\n");
+                String NB = jta.getText();
+                if (GameMode > 2) {
+                    fw.write("GameInformation=" + NB + "\n");
+                    System.out.println("gameInformation est " + NB);
+                }
+                fw.close();
             } catch (IOException err) {
                 err.printStackTrace();
             }
@@ -392,9 +371,20 @@ public class Main extends JFrame implements ActionListener {
             gameModeAppear();
         }
         if (e.getSource() == AIModeRightButton) {
-            mainframe.setVisible(false);
-            gameframe.setVisible(true);
+            try {
+                FileWriter fw;
+                fw = new FileWriter("./res/default.cfg", true);
+                // Human vs Human
+                int IA = AIModeComboBox.getSelectedIndex() + 1;
+                fw.write("AI=" + IA + "\n");
+                fw.close();
+            } catch (IOException err) {
+                err.printStackTrace();
+            }
+            mainframe.dispose();
+            InterfaceJeu.start();
         }
+
         if (e.getSource() == AIModeQuestionButton) {
             JOptionPane.showMessageDialog(null, "这里给出本游戏AI模式的疑问解答\r\n如果您有什么不懂的，可以联系我们121212@gmail.com\r\n", "提示", JOptionPane.QUESTION_MESSAGE);
         }

@@ -30,6 +30,8 @@ public class TakeCardVue {
         j.playercard[j.Playerwin].add(card);
         j.handCardSorting();
         j.TurnProcess++;
+        Jeu j3 = (Jeu) j.clone();
+        h.ajouteListDeHistoire(j3);
         return j;
     }
 
@@ -53,8 +55,8 @@ public class TakeCardVue {
         if (j.TurnProcess == 5) {
             j.TurnProcess = 1;
         }
-//        Jeu j4 = (Jeu) j.clone();
-//        h.ajouteListDeHistoire(j4);
+        Jeu j4 = (Jeu) j.clone();
+       h.ajouteListDeHistoire(j4);
 
         return j;
     }

@@ -28,9 +28,11 @@ public class SaveLoad implements java.io.Serializable {
         System.out.println("Donner le nom pour save");
         Scanner input = new Scanner(System.in);
         String Save = input.nextLine();
+        Save = "./res/saveload/"+Save;
         Save = Save.concat(".ser");
 
         try {
+            File file = new File(Save);
             FileOutputStream fileOut = new FileOutputStream(Save);
 
             //创建一个ObjectOutputStream
@@ -52,6 +54,7 @@ public class SaveLoad implements java.io.Serializable {
             System.out.println("Donner le nom pour load");
             Scanner input = new Scanner(System.in);
             String Load = input.nextLine();
+            Load="./res/saveload/"+Load;
             Load = Load.concat(".ser");
             //读取对象
             FileInputStream fileIn = new FileInputStream(Load);

@@ -20,7 +20,7 @@ public class Histoire implements Serializable {
         System.out.println("put in histoire");
     }
 
-    public void returnHistoire() {
+    public Jeu returnHistoire() {
         if (j.numberOfRounds == 0) {
             //无法回退
             System.out.println("首回合");
@@ -32,7 +32,7 @@ public class Histoire implements Serializable {
         Jeu j0 = (Jeu) j1.clone();
         ajouteListDeHistoire(j0);
         System.out.println("delete");
-
+        return listDeHistoire.get(listDeHistoire.size()-1);
     }
 
     public void cleanHistoire() {

@@ -39,6 +39,8 @@ public class PlayCardsVue {
         j = playCards(j, index);
         //打印先手方出的牌
         System.out.println((j.playerNow + 1) + "jouer" + j.FirstPlayerPlayCard.toString());
+        Jeu j1 = (Jeu) j.clone();
+        h.ajouteListDeHistoire(j1);
         return j;
     }
 
@@ -80,6 +82,8 @@ public class PlayCardsVue {
             j.TurnProcess = 1;
         }
         estFINI(j,h);
+        Jeu j1 = (Jeu) j.clone();
+        h.ajouteListDeHistoire(j1);
         return j;
     }
 
