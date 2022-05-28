@@ -12,8 +12,6 @@ import java.io.IOException;
 public class Main extends JFrame implements ActionListener {
     JFrame mainframe;
 
-    JFrame gameframe;
-
     Container mainContentPanel;
 
     JButton btnStartButton;
@@ -387,6 +385,12 @@ public class Main extends JFrame implements ActionListener {
 
         if (e.getSource() == AIModeQuestionButton) {
             JOptionPane.showMessageDialog(null, "这里给出本游戏AI模式的疑问解答\r\n如果您有什么不懂的，可以联系我们121212@gmail.com\r\n", "提示", JOptionPane.QUESTION_MESSAGE);
+        }
+        if(e.getSource()==btnLoadButton){
+            mainframe.dispose();
+            //TODO Loadgame
+            //use Jeu j =Controleur.SaveLoadVue(Dossier nom)
+            //
         }
     }
 }

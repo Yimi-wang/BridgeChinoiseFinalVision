@@ -30,8 +30,10 @@ public class TakeCardVue {
         j.playercard[j.Playerwin].add(card);
         j.handCardSorting();
         j.TurnProcess++;
+        j.playerNow=(j.playerNow+1)%2;
         Jeu j3 = (Jeu) j.clone();
         h.ajouteListDeHistoire(j3);
+
         return j;
     }
 

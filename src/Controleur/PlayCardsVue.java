@@ -39,6 +39,7 @@ public class PlayCardsVue {
         j = playCards(j, index);
         //打印先手方出的牌
         System.out.println((j.playerNow + 1) + "jouer" + j.FirstPlayerPlayCard.toString());
+        j.playerNow=(j.playerNow+1)%2;
         Jeu j1 = (Jeu) j.clone();
         h.ajouteListDeHistoire(j1);
         return j;
@@ -81,9 +82,10 @@ public class PlayCardsVue {
             j.numberOfRounds++;
             j.TurnProcess = 1;
         }
-        estFINI(j,h);
+        j.playerNow=j.Playerwin;
         Jeu j1 = (Jeu) j.clone();
         h.ajouteListDeHistoire(j1);
+
         return j;
     }
 
@@ -212,88 +214,5 @@ public class PlayCardsVue {
         System.out.println("winner is " + (j.Playerwin + 1));
         return j;
     }
-    public void estFINI(Jeu j, Histoire h) {
-        switch (j.GameMode) {
-            case 1:
-                if (j.numberOfRounds == 27) {
-                    if (j.Player1totalScore > j.Player2totalScore) {
-                        System.out.println("Player 1 win!");
-                    } else {
-                        System.out.println("Player 2 win!");
-                    }
-                    h.cleanHistoire();
-                    exit(0);
-                }
-                break;
-            case 2:
-                if (j.numberOfRounds == 27) {
-                    if (j.Player1totalScore > j.Player2totalScore) {
-                        j.Player1WinGame++;
-                    } else {
-                        j.Player2WinGame++;
-                    }
-                    if (j.Player1WinGame == 2) {
-                        System.out.println("Player 1 win!");
-                    } else if (j.Player2WinGame == 2) {
-                        System.out.println("Player 2 win!");
-                    }
-                    gameStartencore(j, h);
-                    exit(0);
-                }
-                break;
-            case 3:
-                if (j.numberOfRounds == 27) {
-                    j.reset();
-                    j.Game_ind++;
-                    if (j.Game_ind > j.GameInformation) {
-                        if (j.Player1totalScore > j.Player2totalScore) {
-                            System.out.println("Player 1 win!");
-                        } else {
-                            System.out.println("Player 2 win!");
-                        }
-                        h.cleanHistoire();
-                        exit(0);
-                    }
-                    gameStartencore(j, h);
-                }
-                break;
-            case 4:
-                if (j.numberOfRounds == 27) {
-                    j.reset();
-                    gameStartencore(j, h);
-                }
-                if (j.Player1totalScore >= j.GameInformation || j.Player2totalScore >= j.GameInformation) {
-                    if (j.Player1totalScore > j.Player2totalScore) {
-                        System.out.println("Player 1 win!");
-                    } else {
-                        System.out.println("Player 2 win!");
-                    }
-                    h.cleanHistoire();
-                    exit(0);
-                }
-                break;
 
-        }
-    }
-
-    public void gameStartencore(Jeu j, Histoire h) {
-        j.reset();
-        if (j.numberOfGames == 0) j.numberOfGames = 1;//如果游戏刚开始的话
-        if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
-            j.playerFirst = (j.numberOfGames - 1) % 2;
-            j.numberOfRounds = 1;
-            //进行发牌以及牌堆的实现
-            if (j.numberOfGames != 1) {
-                StartHand startHand = new StartHand(j);
-                startHand.stardHand();
-            }
-            Atout a = new Atout(j);
-            a.determinerAtout();
-            Jeu j0 = (Jeu) j.clone();
-            h.ajouteListDeHistoire(j0);
-            Jeu j100 = (Jeu) j.clone();
-            h.ajouteListDeHistoire(j100);
-
-        }
-    }
 }

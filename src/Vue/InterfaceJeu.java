@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import static java.lang.System.exit;
 
@@ -32,6 +34,8 @@ public class InterfaceJeu implements Runnable {
     JButton player1play;
     JLabel Atout;
     int a1 = 0;
+
+    boolean showcard;
 
     public static void main(String[] args) {
         start();
@@ -65,7 +69,7 @@ public class InterfaceJeu implements Runnable {
         cardinterface.setLayout(null);
 
         frame.setSize(1200, 800);
-
+        frame.setMinimumSize(new Dimension(1200, 800));
         /**
          * 游戏菜单栏实现
          */
@@ -163,8 +167,22 @@ public class InterfaceJeu implements Runnable {
         showcardgroup.add(showcardFalse);
 
         // 默认第一个单选按钮子菜单选中
-        showcardTrue.setSelected(true);
+        showcardFalse.setSelected(true);
 
+        showcardTrue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showcard = true;
+                cardinterface.repaint();
+            }
+        });
+        showcardFalse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showcard = false;
+                cardinterface.repaint();
+            }
+        });
         /**
          * help主菜单和监听和对应方法。
          */
@@ -232,7 +250,7 @@ public class InterfaceJeu implements Runnable {
                         if (j.playerFirst == 0) {
                             for (Brand card : j.playercard[0]) {
                                 Rectangle bounds = mapCards.get(card);
-                                 if (bounds.contains(e.getPoint())) {
+                                if (bounds.contains(e.getPoint())) {
                                     selected = card;
                                     bounds.y -= 30;
                                     //鎵撳嵃鐜╁鎵嬬墝
@@ -288,14 +306,16 @@ public class InterfaceJeu implements Runnable {
                         }
                     } else if (j.TurnProcess >= 3 && j.numberOfRounds <= 15) {
                         for (int i = 0; i <= 5; i++) {
-                            Brand card = j.pilescard[i].get(0);
-                            Rectangle bounds = mapCards.get(card);
-                            if (bounds.contains((e.getPoint()))) {
-                                if (j.TurnProcess == 3)
-                                    takecard.playerWinTakeCard(j, card);
-                                else takecard.playerLoseTakeCard(j, card);
-                                drawCHANGFANGXING(j);
-                                repaint();
+                            if (j.pilescard[i].size() > 0) {
+                                Brand card = j.pilescard[i].get(0);
+                                Rectangle bounds = mapCards.get(card);
+                                if (bounds.contains((e.getPoint()))) {
+                                    if (j.TurnProcess == 3)
+                                        takecard.playerWinTakeCard(j, card);
+                                    else takecard.playerLoseTakeCard(j, card);
+                                    drawCHANGFANGXING(j);
+                                    repaint();
+                                }
                             }
                         }
                     }
@@ -330,10 +350,13 @@ public class InterfaceJeu implements Runnable {
                             player1playercard = selected;
                             if (j.playerNow == j.playerFirst)
                                 playcard.playerFirstPlayCard(j, selected);
-                            else playcard.playerSecondePlayCard(j, selected);
+                            else {
+                                playcard.playerSecondePlayCard(j, selected);
+                                estFINI(j, h);
+                            }
                             drawCHANGFANGXING(j);
+
                             repaint();
-                            j.playerNow = (j.playerNow + 1) % 2;
                         }
                     } else System.out.println("1");
                 }
@@ -352,10 +375,12 @@ public class InterfaceJeu implements Runnable {
                             player2playercard = selected;
                             if (j.playerNow == j.playerFirst)
                                 playcard.playerFirstPlayCard(j, selected);
-                            else playcard.playerSecondePlayCard(j, selected);
+                            else {
+                                playcard.playerSecondePlayCard(j, selected);
+                                estFINI(j, h);
+                            }
                             drawCHANGFANGXING(j);
                             repaint();
-                            j.playerNow = (j.playerNow + 1) % 2;
                         }
                     } else System.out.println("1");
                 }
@@ -393,7 +418,8 @@ public class InterfaceJeu implements Runnable {
                 xPos += xDelta;
             }
             //鏄剧ずpile鐨勬墜鍗°??
-            xPos = getWidth() / 5 * 3;
+            int xOri = 60;
+            xPos = getWidth() / 100 * xOri;
             xDelta = cardWidth / 5;
             yPos = getHeight() / 2 - cardHeight / 2;
             for (int i = 0; i <= 5; i++) {
@@ -403,14 +429,15 @@ public class InterfaceJeu implements Runnable {
                     mapCards.put(card, bounds);
                     xPos -= xDelta;
                 }
-                xPos = xPos - getWidth() / 20;
+                xOri -= 10;
+                xPos = getWidth() / 100 * xOri;
             }
         }
 
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
-
+            //TODO setting background.
 //            //背景
 //            BufferedImage imageBackGround;
 //            File ImageBackGroundFile;
@@ -493,11 +520,36 @@ public class InterfaceJeu implements Runnable {
                 //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
                 if (bounds != null) {
                     BufferedImage imageCard;
-                    File imgFile = new File("./res/images/card (" + card.id + ").png");
-                    try {
-                        imageCard = ImageIO.read(imgFile);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    if (showcard || j.playerNow == 1) {
+                        if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 1 && j.TurnProcess == 2) {
+                            File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                            try {
+                                imageCard = ImageIO.read(imgFile);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            File imgFile = new File("./res/images/card (" + card.id + ").png");
+                            try {
+                                imageCard = ImageIO.read(imgFile);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        int cardHeight = (getHeight() - 20) / 8;
+                        int cardWidth = (int) (cardHeight * 0.6);
+                        //鐢诲浘鍍?
+                        g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
+                        //鐢婚暱鏂瑰舰杈规
+                        g2d.setColor(Color.BLACK);
+                        g2d.draw(bounds);
+                    } else {
+                        File imgFile = new File("./res/images/back.png");
+                        try {
+                            imageCard = ImageIO.read(imgFile);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     int cardHeight = (getHeight() - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
@@ -506,23 +558,46 @@ public class InterfaceJeu implements Runnable {
                     //鐢婚暱鏂瑰舰杈规
                     g2d.setColor(Color.BLACK);
                     g2d.draw(bounds);
-                    if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 1 && j.TurnProcess == 2) {
-                        g2d.setColor(Color.RED);
-                        g2d.drawLine(bounds.x, bounds.y, bounds.x + cardWidth, bounds.y + cardHeight);
-                    }
                 }
             }
+
+
             for (Brand card : j.playercard[0]) {
                 Rectangle bounds = mapCards.get(card);
                 //System.out.println(bounds);
                 //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
                 if (bounds != null) {
                     BufferedImage imageCard;
-                    File imgFile = new File("./res/images/card (" + card.id + ").png");
-                    try {
-                        imageCard = ImageIO.read(imgFile);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    if (showcard || j.playerNow == 0) {
+                        if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 0 && j.TurnProcess == 2) {
+                            File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                            try {
+                                imageCard = ImageIO.read(imgFile);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            File imgFile = new File("./res/images/card (" + card.id + ").png");
+                            try {
+                                imageCard = ImageIO.read(imgFile);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        int cardHeight = (getHeight() - 20) / 8;
+                        int cardWidth = (int) (cardHeight * 0.6);
+                        //鐢诲浘鍍?
+                        g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
+                        //鐢婚暱鏂瑰舰杈规
+                        g2d.setColor(Color.BLACK);
+                        g2d.draw(bounds);
+                    } else {
+                        File imgFile = new File("./res/images/back.png");
+                        try {
+                            imageCard = ImageIO.read(imgFile);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     int cardHeight = (getHeight() - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
@@ -531,12 +606,9 @@ public class InterfaceJeu implements Runnable {
                     //鐢婚暱鏂瑰舰杈规
                     g2d.setColor(Color.BLACK);
                     g2d.draw(bounds);
-                    if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 0 && j.TurnProcess == 2) {
-                        g2d.setColor(Color.RED);
-                        g2d.drawLine(bounds.x, bounds.y, bounds.x + cardWidth, bounds.y + cardHeight);
-                    }
                 }
             }
+
             for (int i = 0; i <= 5; i++) {
 
                 for (int a = j.pilescard[i].size() - 1; a >= 0; a--) {
@@ -570,13 +642,21 @@ public class InterfaceJeu implements Runnable {
             }
 
             String[] dfonts;
-            dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().
+
+                    getAvailableFontFamilyNames();
 
             //杈撳嚭鍙宠竟娓告垙淇℃伅銆?
             //Atout 鏂囧瓧
             g2d.setColor(Color.red);
-            g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
-            g2d.drawString("Atout", getWidth() / 100 * 85, getHeight() / 15);
+            g2d.setFont(new
+
+                    Font(dfonts[1], Font.BOLD, 30));
+            g2d.drawString("Atout",
+
+                    getWidth() / 100 * 85,
+
+                    getHeight() / 15);
             //BRAND 鍥剧墖
             BufferedImage imageCardAtout;
             File ImageAtoutFile;
@@ -587,10 +667,19 @@ public class InterfaceJeu implements Runnable {
             }
             try {
                 imageCardAtout = ImageIO.read(ImageAtoutFile);
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imageCardAtout, getWidth() / 100 * 82, getHeight() / 100 * 8, getWidth() / 100 * 15, (getWidth() / 100 * 15) / 6 * 10, null);
+            g2d.drawImage(imageCardAtout,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 8,
+
+                    getWidth() / 100 * 15, (
+
+                            getWidth() / 100 * 15) / 6 * 10, null);
 
             //GameMode 娓告垙妯″紡杈撳嚭
             String GameModeStr = "GameMode est :";
@@ -612,8 +701,14 @@ public class InterfaceJeu implements Runnable {
                     break;
             }
             g2d.setColor(Color.green);
-            g2d.setFont(new Font(dfonts[2], Font.BOLD, 15));
-            g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 55);
+            g2d.setFont(new
+
+                    Font(dfonts[2], Font.BOLD, 15));
+            g2d.drawString(GameModeStr,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 55);
             if (GameMode2 != null) {
                 g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 60);
             }
@@ -621,34 +716,173 @@ public class InterfaceJeu implements Runnable {
             //numbre de tour  鍥炲悎鏁?
             String nbtour = "Le numbre de tour est " + j.numberOfRounds;
             g2d.setColor(Color.blue);
-            g2d.setFont(new Font(dfonts[3], Font.BOLD, 15));
-            g2d.drawString(nbtour, getWidth() / 100 * 82, getHeight() / 100 * 65);
+            g2d.setFont(new
+
+                    Font(dfonts[3], Font.BOLD, 15));
+            g2d.drawString(nbtour,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 65);
             //playernow  鍝釜鐜╁杩涜鎿嶄綔
             g2d.setColor(Color.yellow);
-            g2d.setFont(new Font(dfonts[4], Font.BOLD, 15));
-            g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1, getWidth() / 100 * 82, getHeight() / 100 * 70);
+            g2d.setFont(new
+
+                    Font(dfonts[4], Font.BOLD, 15));
+            g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 70);
             //playercard ou takecard璇ュ嚭鐗岃繕鏄嬁鐗?
             g2d.setColor(Color.green);
-            g2d.setFont(new Font(dfonts[5], Font.BOLD, 15));
+            g2d.setFont(new
+
+                    Font(dfonts[5], Font.BOLD, 15));
             if (j.TurnProcess < 3) {
                 g2d.drawString("Veuillez montrer vos cartes", getWidth() / 100 * 82, getHeight() / 100 * 75);
-            } else g2d.drawString("Veuillez prendre une carte", getWidth() / 100 * 82, getHeight() / 100 * 75);
+            } else g2d.drawString("Veuillez prendre une carte",
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 75);
             //鏄剧ず鐜╁1寰楀垎
             g2d.setColor(Color.PINK);
-            g2d.setFont(new Font(dfonts[8], Font.BOLD, 15));
-            g2d.drawString("Player 01 total score est " + j.Player1totalScore, getWidth() / 100 * 82, getHeight() / 100 * 80);
+            g2d.setFont(new
+
+                    Font(dfonts[8], Font.BOLD, 15));
+            g2d.drawString("Player 01 total score est " + j.Player1totalScore,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 80);
             //鏄剧ず鐜╁2寰楀垎
             g2d.setColor(Color.cyan);
-            g2d.setFont(new Font(dfonts[7], Font.BOLD, 15));
-            g2d.drawString("Player 02 total score est " + j.Player2totalScore, getWidth() / 100 * 82, getHeight() / 100 * 85);
+            g2d.setFont(new
+
+                    Font(dfonts[7], Font.BOLD, 15));
+            g2d.drawString("Player 02 total score est " + j.Player2totalScore,
+
+                    getWidth() / 100 * 82,
+
+                    getHeight() / 100 * 85);
 
 
             g2d.dispose();
         }
 
+        public void estFINI(Jeu j, Histoire h) {
+            switch (j.GameMode) {
+                case 1:
+                    if (j.numberOfRounds == 27) {
+                        if (j.Player1totalScore > j.Player2totalScore) {
+                            wingamewindow(j, 2, 1);
+                        } else {
+                            wingamewindow(j, 2, 2);
+                        }
+                        h.cleanHistoire();
+                    }
+                    break;
+                case 2:
+                    if (j.numberOfRounds == 27) {
+                        if (j.Player1Score > j.Player2Score) {
+                            wingamewindow(j, 1, 1);
+                            j.Player1WinGame++;
+                        } else {
+                            wingamewindow(j, 1, 2);
+                            j.Player2WinGame++;
+                        }
+                        if (j.Player1WinGame == 2) {
+                            wingamewindow(j, 2, 1);
+                        } else if (j.Player2WinGame == 2) {
+                            wingamewindow(j, 2, 2);
+                        }
+
+                        gameStartencore(j, h);
+                    }
+                    break;
+                case 3:
+                    if (j.numberOfRounds == 27) {
+                        j.Game_ind++;
+                        if (j.Game_ind > j.GameInformation) {
+                            if (j.Player1totalScore > j.Player2totalScore) {
+                                wingamewindow(j, 2, 1);
+                                System.out.println("Player 1 win!");
+                            } else {
+                                wingamewindow(j, 2, 2);
+                                System.out.println("Player 2 win!");
+                            }
+                            h.cleanHistoire();
+                        } else {
+                            if (j.Player1Score > j.Player2Score) {
+                                wingamewindow(j, 1, 1);
+                            } else {
+                                wingamewindow(j, 1, 2);
+                            }
+                        }
+                        gameStartencore(j, h);
+                    }
+                    break;
+                case 4:
+                    if (j.numberOfRounds == 27) {
+                        gameStartencore(j, h);
+                    }
+                    if (j.Player1totalScore >= j.GameInformation || j.Player2totalScore >= j.GameInformation) {
+                        if (j.Player1totalScore > j.Player2totalScore) {
+                            wingamewindow(j, 2, 1);
+                        } else {
+                            wingamewindow(j, 2, 2);
+                        }
+                        h.cleanHistoire();
+                        exit(0);
+                    }
+                    break;
+
+            }
+        }
+
+        public void gameStartencore(Jeu j, Histoire h) {
+            j.reset();
+            if (j.numberOfGames == 0) j.numberOfGames = 1;//如果游戏刚开始的话
+            if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
+                j.playerFirst = (j.numberOfGames - 1) % 2;
+                j.numberOfRounds = 1;
+                //进行发牌以及牌堆的实现
+                if (j.numberOfGames != 1) {
+                    StartHand startHand = new StartHand(j);
+                    startHand.stardHand();
+                }
+                Atout a = new Atout(j);
+                a.determinerAtout();
+                Jeu j0 = (Jeu) j.clone();
+                h.ajouteListDeHistoire(j0);
+                Jeu j100 = (Jeu) j.clone();
+                h.ajouteListDeHistoire(j100);
+
+            }
+        }
+
         public void changejue(Jeu j) {
             this.j = j;
             repaint();
+        }
+
+        public void wingamewindow(Jeu j, int i, int winner) {
+            if (i == 1) {
+                String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continue";
+                JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
+                int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
+                if (res == 0) {
+                    //TODO how to close the window of game
+                    Main window = new Main();
+                    window.mainframe.setVisible(true);
+                } else {
+                    exit(0);
+                }
+            }
+
         }
     }
 
