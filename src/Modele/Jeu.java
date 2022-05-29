@@ -28,7 +28,8 @@ public class Jeu implements Cloneable, Serializable {
     public int GameMode;
     public int GameInformation;
     public int Game_ind;
-
+    public Brand player1takecard;
+    public Brand player2takecard;
 
     public Jeu() {
         numberOfGames = 0;
@@ -186,6 +187,11 @@ public class Jeu implements Cloneable, Serializable {
         Player1Score = 0;
         Player2Score = 0;
         TurnProcess = 1;
-
+        numberOfGames++;
+    }
+    public void restart(){
+        Player1totalScore=0;
+        Player2totalScore=0;
+        reset();
     }
 }

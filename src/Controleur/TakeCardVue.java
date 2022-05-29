@@ -28,6 +28,8 @@ public class TakeCardVue {
         //把赢家的牌放到手牌里头
         j.pilescard[index].remove(0);
         j.playercard[j.Playerwin].add(card);
+        if(j.Playerwin==0)j.player1takecard=card;
+        else j.player2takecard=card;
         j.handCardSorting();
         j.TurnProcess++;
         j.playerNow=(j.playerNow+1)%2;
@@ -50,6 +52,8 @@ public class TakeCardVue {
         //把输家的牌放到手牌里头
         j.pilescard[index].remove(0);
         j.playercard[a].add(card);
+        if(j.Playerwin==0)j.player2takecard=card;
+        else j.player1takecard=card;
         j.handCardSorting();
         j.TurnProcess++;
         j.numberOfRounds++;

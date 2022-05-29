@@ -1,9 +1,14 @@
 package Vue;
 
-import Controleur.*;
+import Controleur.IASimpleVue;
+import Controleur.PlayCardsVue;
+import Controleur.SaveLoadVue;
+import Controleur.TakeCardVue;
 import Modele.*;
 import global.Configuration;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,23 +17,20 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.System.exit;
 
 
 public class InterfaceJeu implements Runnable {
 
+    public Brand selected;
     Jeu j;
     int player2;
     int player1;
     int IA;
     Atout a;
-    public Brand selected;
     Histoire h;
     JButton player0play;
     JButton player1play;
@@ -36,6 +38,10 @@ public class InterfaceJeu implements Runnable {
     int a1 = 0;
 
     boolean showcard;
+
+    //鏋勯?犲嚱鏁?
+    public InterfaceJeu() {
+    }
 
     public static void main(String[] args) {
         start();
@@ -94,15 +100,75 @@ public class InterfaceJeu implements Runnable {
         JMenuItem saveMenuItem02 = new JMenuItem("Save and quit");
         saveMenu.add(saveMenuItem01);
         saveMenu.add(saveMenuItem02);
-        //TODO save 实现
         saveMenuItem01.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("新建  被点击");
-                //SaveLoadVue.Save(h,"name");
+
+
+                SaveLoadVue slv = new SaveLoadVue();
+
+                JFrame saveframe = new JFrame("Sauvgarder !");
+                saveframe.setSize(200, 120);
+                /*
+                 * ImageIcon savelogo = new ImageIcon("res/images/Logo.png"); JLabel
+                 * savelogolabel = new JLabel(savelogo); savelogolabel.setBounds(30, 20, 300,
+                 * 100); savelogo.setImage(savelogo.getImage().getScaledInstance(savelogolabel.
+                 * getWidth(), savelogolabel.getHeight(), Image.SCALE_DEFAULT));
+                 * saveframe.add(savelogolabel, BorderLayout.NORTH);
+                 */
+
+
+                JButton saveconfirm = new JButton("Sauvgarder");
+                saveframe.add(saveconfirm);
+
+                JButton savecancel = new JButton("Quitter");
+                saveframe.add(savecancel);
+
+
+                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvgarder");
+                saveframe.add(saveinfoLabel);
+
+
+                JTextField savenameField = new JTextField("defautSaveFile");
+                saveframe.add(savenameField);
+
+
+                Box savebuttonBox = Box.createHorizontalBox();
+                savebuttonBox.add(saveconfirm);
+                savebuttonBox.add(savecancel);
+
+                Box savecontentBox = Box.createVerticalBox();
+                savecontentBox.add(saveinfoLabel);
+                savecontentBox.add(savenameField);
+
+                saveconfirm.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        slv.Save(h, savenameField.getText());
+                        saveframe.dispose();
+                    }
+                });
+                savecancel.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        saveframe.dispose();
+                    }
+                });
+
+
+                saveframe.setLayout(new BorderLayout(20, 20));
+                saveframe.setLocationRelativeTo(null);
+
+                saveframe.add(savecontentBox, BorderLayout.CENTER);
+                saveframe.add(savebuttonBox, BorderLayout.SOUTH);
+
+                saveframe.setVisible(true);
+
             }
         });
         saveMenuItem02.addActionListener(new ActionListener() {
+            //TODO 如何回到主菜单 save界面
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("新建  被点击");
@@ -128,9 +194,10 @@ public class InterfaceJeu implements Runnable {
 
         });
         backMenuItem02.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("新建  被点击");
+                //TODO 手卡没有实现
+                j.restart();
+                cardinterface.repaint();
             }
         });
         /**
@@ -146,13 +213,13 @@ public class InterfaceJeu implements Runnable {
             @Override
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("新建  被点击");
+                cardinterface.surrenderthisgame();
             }
         });
         surrenderMenuItem02.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("新建  被点击");
+                cardinterface.wingamewindow(j, 2, j.playerNow);
             }
         });
         /**
@@ -218,17 +285,60 @@ public class InterfaceJeu implements Runnable {
         frame.setVisible(true);
     }
 
-    //鏋勯?犲嚱鏁?
-    public InterfaceJeu() {
+    public Jeu creatJeu() {
+        player1 = 0;
+        player2 = 0;
+        j = new Jeu();
+        a = new Atout(j);
+        h = new Histoire(j);
+        String GameMode = Configuration.instance().lis("GameMode");
+        int GameModei = Integer.parseInt(GameMode);
+        if (GameModei > 2) {
+            String GameInformation = Configuration.instance().lis("GameInformation");
+            int GameInformationi = Integer.parseInt(GameInformation);
+            j.GameInformation = GameInformationi;
+        }
+
+        String AI = Configuration.instance().lis("AI");
+        int AIi = Integer.parseInt(AI);
+        j.AI = AIi;
+        j.GameMode = GameModei;
+
+        j.playerFirst = 2;
+        IA = j.AI;
+        StartHand startHand = new StartHand(j);
+        startHand.stardHand();
+        //gameMode(j);
+        return j;
+    }
+
+    public void gameStart(Jeu j, Histoire h) {
+        j.reset();
+        if (j.numberOfGames == 0) j.numberOfGames = 1;//濡傛灉娓告垙鍒氬紑濮嬬殑璇?
+        if (j.playerFirst == 2) {//濡傛灉鏈疆璇ュ紑濮嬬殑璇濓紝鍒ゆ柇鍝釜鐜╁鍏堝紑濮嬫父鎴忋??
+            j.playerFirst = (j.numberOfGames - 1) % 2;
+            j.numberOfRounds = 1;
+            //杩涜鍙戠墝浠ュ強鐗屽爢鐨勫疄鐜?
+            if (j.numberOfGames != 1) {
+                StartHand startHand = new StartHand(j);
+                startHand.stardHand();
+            }
+            a.determinerAtout();
+            Jeu j0 = (Jeu) j.clone();
+            h.ajouteListDeHistoire(j0);
+            Jeu j100 = (Jeu) j.clone();
+            h.ajouteListDeHistoire(j100);
+
+        }
     }
 
     public class GamePane extends JPanel {
         Jeu j;
         PlayCardsVue playcard = new PlayCardsVue(j, h);
         TakeCardVue takecard = new TakeCardVue(j, h);
-        private Map<Brand, Rectangle> mapCards;
         Brand player1playercard;
         Brand player2playercard;
+        private Map<Brand, Rectangle> mapCards;
 
         public GamePane(Jeu j) {
             //鐐瑰嚮榧犳爣锛屽鏋滅偣鍑绘槸鍗＄殑浣嶇疆锛屽垯浼氬皢鍗″悜涓婄Щ锛屼笉鏄殑璇濆凡缁忕Щ鍔ㄨ繃鐨勫崱鍥為??鍘熸潵鐨勪綅缃級
@@ -240,10 +350,9 @@ public class InterfaceJeu implements Runnable {
                 public void mouseClicked(MouseEvent e) {
                     if (selected != null) {
                         Rectangle bounds = mapCards.get(selected);
-                        player0play.setText("HINT");
-                        player1play.setText("HINT");
-                        if (selected.getPlace() == 0)
-                            bounds.y += 30;
+                        player0play.setText("Suggestion ");
+                        player1play.setText("Suggestion ");
+                        if (selected.getPlace() == 0) bounds.y += 30;
                         else if (selected.getPlace() == 1) bounds.y -= 30;
                         repaint();
                     }
@@ -312,8 +421,7 @@ public class InterfaceJeu implements Runnable {
                                 Brand card = j.pilescard[i].get(0);
                                 Rectangle bounds = mapCards.get(card);
                                 if (bounds.contains((e.getPoint()))) {
-                                    if (j.TurnProcess == 3)
-                                        takecard.playerWinTakeCard(j, card);
+                                    if (j.TurnProcess == 3) takecard.playerWinTakeCard(j, card);
                                     else takecard.playerLoseTakeCard(j, card);
                                     drawCHANGFANGXING(j);
                                     repaint();
@@ -342,7 +450,7 @@ public class InterfaceJeu implements Runnable {
             //player0鍑虹墝鎸夐挳
             player0play = new JButton();
             player0play.setBounds(getWidth() / 3, getHeight() / 20 * 15, getWidth() / 15, getHeight() / 20);
-            player0play.setText("HINT");
+            player0play.setText("suggestion");
 
             player0play.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -350,24 +458,39 @@ public class InterfaceJeu implements Runnable {
                         if (j.playerNow == 0) {
                             System.out.println("playcard");
                             player1playercard = selected;
-                            if (j.playerNow == j.playerFirst)
-                                playcard.playerFirstPlayCard(j, selected);
+                            if (j.playerNow == j.playerFirst) playcard.playerFirstPlayCard(j, selected);
                             else {
                                 playcard.playerSecondePlayCard(j, selected);
                                 estFINI(j, h);
                             }
                             drawCHANGFANGXING(j);
-
+                            //TODO Can't make the button disappear
                             repaint();
+                            player0play.setOpaque(false);
+                            player0play.setContentAreaFilled(false);
+                            player0play.setBorderPainted(false);
+                            selected = null;
                         }
-                    } else System.out.println("1");
+                    }
+                    else if(player0play.getText() == "suggestion"){
+                        if(j.playerNow==0){
+                            System.out.println("playcard");
+                            IASimpleVue ia = new IASimpleVue(j);
+                            int index = ia.IASimplePlayerCard(0);
+                            selected=j.playercard[0].get(index);
+                            Rectangle bounds = mapCards.get(selected);
+                            bounds.y-=20;
+                            repaint();
+                            player0play.setText("PLAY");
+                        }
+                    }
                 }
             });
 
             //player1鍑虹墝鎸夐挳
             player1play = new JButton();
             player1play.setBounds(getWidth() / 3, getHeight() / 20 * 4, getWidth() / 15, getHeight() / 20);
-            player1play.setText("HINT");
+            player1play.setText("suggestion");
 
             player1play.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -375,16 +498,27 @@ public class InterfaceJeu implements Runnable {
                         if (j.playerNow == 1) {
                             System.out.println("playcard");
                             player2playercard = selected;
-                            if (j.playerNow == j.playerFirst)
-                                playcard.playerFirstPlayCard(j, selected);
+                            if (j.playerNow == j.playerFirst) playcard.playerFirstPlayCard(j, selected);
                             else {
                                 playcard.playerSecondePlayCard(j, selected);
                                 estFINI(j, h);
                             }
                             drawCHANGFANGXING(j);
                             repaint();
+                            selected = null;
                         }
-                    } else System.out.println("1");
+                    } else if(player0play.getText() == "suggestion"){
+                        if(j.playerNow==1){
+                            System.out.println("playcard");
+                            IASimpleVue ia = new IASimpleVue(j);
+                            int index = ia.IASimplePlayerCard(1);
+                            selected=j.playercard[1].get(index);
+                            Rectangle bounds = mapCards.get(selected);
+                            bounds.y+=20;
+                            repaint();
+                            player1play.setText("PLAY");
+                        }
+                    }
                 }
             });
 
@@ -404,7 +538,7 @@ public class InterfaceJeu implements Runnable {
             int xDelta = cardWidth + 5;
             //绗竴涓崱鐗囩殑妯潗鏍囧拰绾靛潗鏍?
             int xPos = getWidth() / 10;
-            int yPos = (getHeight() - 20) - cardHeight;
+            int yPos = getHeight() / 100 * 85;
             //寤虹珛涓?涓猦ashmap锛屼娇姣忎釜闀挎柟褰㈠拰姣忎釜鍗＄墖杩涜瀵瑰簲銆傛樉绀轰笅鏂圭帺瀹剁殑鎵嬬墝銆?
             for (Brand card : j.playercard[0]) {
                 Rectangle bounds = new Rectangle(xPos, yPos, cardWidth, cardHeight);
@@ -450,7 +584,7 @@ public class InterfaceJeu implements Runnable {
 //                throw new RuntimeException(e);
 //            }
 //            g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, getWidth(), null);
-//
+
 //
 //            //右边背景
 //            BufferedImage imageBackGroundRight;
@@ -562,6 +696,32 @@ public class InterfaceJeu implements Runnable {
                     g2d.draw(bounds);
                 }
             }
+            File imgFileT = null;
+            BufferedImage imageTurn;
+            switch (j.TurnProcess) {
+                case 1:
+                    if (j.playerNow == 0) imgFileT = new File("./res/images/j1j-modified.png");
+                    else imgFileT = new File("./res/images/j2j-modified.png");
+                    break;
+                case 2:
+                    if (j.playerNow == 0) imgFileT = new File("./res/images/j1j-modified.png");
+                    else imgFileT = new File("./res/images/j2j-modified.png");
+                    break;
+                case 3:
+                    if (j.playerNow == 0) imgFileT = new File("./res/images/j1p-modified.png");
+                    else imgFileT = new File("./res/images/j2p-modified.png");
+                    break;
+                case 4:
+                    if (j.playerNow == 0) imgFileT = new File("./res/images/j1p-modified.png");
+                    else imgFileT = new File("./res/images/j2p-modified.png");
+                    break;
+            }
+            try {
+                imageTurn = ImageIO.read(imgFileT);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            g2d.drawImage(imageTurn, getWidth() / 100 * 70, getHeight() / 100 * 45, getWidth() / 100 * 10, getWidth() / 100 * 10, null);
 
 
             for (Brand card : j.playercard[0]) {
@@ -651,14 +811,8 @@ public class InterfaceJeu implements Runnable {
             //杈撳嚭鍙宠竟娓告垙淇℃伅銆?
             //Atout 鏂囧瓧
             g2d.setColor(Color.red);
-            g2d.setFont(new
-
-                    Font(dfonts[1], Font.BOLD, 30));
-            g2d.drawString("Atout",
-
-                    getWidth() / 100 * 85,
-
-                    getHeight() / 15);
+            g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
+            g2d.drawString("Atout", getWidth() / 100 * 85, getHeight() / 15);
             //BRAND 鍥剧墖
             BufferedImage imageCardAtout;
             File ImageAtoutFile;
@@ -669,19 +823,10 @@ public class InterfaceJeu implements Runnable {
             }
             try {
                 imageCardAtout = ImageIO.read(ImageAtoutFile);
-            } catch (
-                    IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imageCardAtout,
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 8,
-
-                    getWidth() / 100 * 15, (
-
-                            getWidth() / 100 * 15) / 6 * 10, null);
+            g2d.drawImage(imageCardAtout, getWidth() / 100 * 82, getHeight() / 100 * 8, getWidth() / 100 * 15, (getWidth() / 100 * 15) / 6 * 10, null);
 
             //GameMode 娓告垙妯″紡杈撳嚭
             String GameModeStr = "GameMode est :";
@@ -703,14 +848,8 @@ public class InterfaceJeu implements Runnable {
                     break;
             }
             g2d.setColor(Color.green);
-            g2d.setFont(new
-
-                    Font(dfonts[2], Font.BOLD, 15));
-            g2d.drawString(GameModeStr,
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 55);
+            g2d.setFont(new Font(dfonts[2], Font.BOLD, 15));
+            g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 55);
             if (GameMode2 != null) {
                 g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 60);
             }
@@ -718,59 +857,107 @@ public class InterfaceJeu implements Runnable {
             //numbre de tour  鍥炲悎鏁?
             String nbtour = "Le numbre de tour est " + j.numberOfRounds;
             g2d.setColor(Color.blue);
-            g2d.setFont(new
-
-                    Font(dfonts[3], Font.BOLD, 15));
-            g2d.drawString(nbtour,
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 65);
+            g2d.setFont(new Font(dfonts[3], Font.BOLD, 15));
+            g2d.drawString(nbtour, getWidth() / 100 * 82, getHeight() / 100 * 65);
             //playernow  鍝釜鐜╁杩涜鎿嶄綔
             g2d.setColor(Color.yellow);
-            g2d.setFont(new
-
-                    Font(dfonts[4], Font.BOLD, 15));
-            g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1,
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 70);
+            g2d.setFont(new Font(dfonts[4], Font.BOLD, 15));
+            g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1, getWidth() / 100 * 82, getHeight() / 100 * 70);
             //playercard ou takecard璇ュ嚭鐗岃繕鏄嬁鐗?
             g2d.setColor(Color.green);
-            g2d.setFont(new
-
-                    Font(dfonts[5], Font.BOLD, 15));
+            g2d.setFont(new Font(dfonts[5], Font.BOLD, 15));
             if (j.TurnProcess < 3) {
                 g2d.drawString("Veuillez montrer vos cartes", getWidth() / 100 * 82, getHeight() / 100 * 75);
-            } else g2d.drawString("Veuillez prendre une carte",
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 75);
+            } else g2d.drawString("Veuillez prendre une carte", getWidth() / 100 * 82, getHeight() / 100 * 75);
             //鏄剧ず鐜╁1寰楀垎
             g2d.setColor(Color.PINK);
-            g2d.setFont(new
-
-                    Font(dfonts[8], Font.BOLD, 15));
-            g2d.drawString("Player 01 total score est " + j.Player1totalScore,
-
-                    getWidth() / 100 * 82,
-
-                    getHeight() / 100 * 80);
+            g2d.setFont(new Font(dfonts[8], Font.BOLD, 15));
+            g2d.drawString("Player 01 total score est " + j.Player1totalScore, getWidth() / 100 * 82, getHeight() / 100 * 80);
             //鏄剧ず鐜╁2寰楀垎
             g2d.setColor(Color.cyan);
-            g2d.setFont(new
+            g2d.setFont(new Font(dfonts[7], Font.BOLD, 15));
+            g2d.drawString("Player 02 total score est " + j.Player2totalScore, getWidth() / 100 * 82, getHeight() / 100 * 85);
 
-                    Font(dfonts[7], Font.BOLD, 15));
-            g2d.drawString("Player 02 total score est " + j.Player2totalScore,
+            //player1 score
+            g2d.setColor(Color.blue);
+            g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
+            g2d.drawString("Player 1 score est ", getWidth() / 100 * 70, getHeight() / 100 * 85);
+            g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
+            g2d.drawString(String.valueOf(j.Player1Score), getWidth() / 100 * 72, getHeight() / 100 * 92);
+            //player2 score
+            g2d.setColor(Color.red);
+            g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
+            g2d.drawString("Player 2 score est ", getWidth() / 100 * 70, getHeight() / 100 * 5);
+            g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
+            g2d.drawString(String.valueOf(j.Player2Score), getWidth() / 100 * 72, getHeight() / 100 * 12);
 
-                    getWidth() / 100 * 82,
+            //双发拿的手卡
+            if (j.numberOfRounds <= 16) {
+                if (!(j.numberOfRounds == 1 && j.TurnProcess <= 3)) {
 
-                    getHeight() / 100 * 85);
+                    if (j.TurnProcess == 4) {
+                        BufferedImage imageCard;
+                        File imgFilecard = null;
+                        if (j.playerNow == 0) {
+                            imgFilecard = new File("./res/images/card (" + j.player2takecard.id + ").png");
+                        } else {
+                            imgFilecard = new File("./res/images/card (" + j.player1takecard.id + ").png");
+                        }
+                        try {
+                            imageCard = ImageIO.read(imgFilecard);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        int cardHeight = (getHeight() - 20) / 8;
+                        int cardWidth = (int) (cardHeight * 0.6);
+                        g2d.setFont(new Font(dfonts[10], Font.BOLD, 10));
+                        if (j.playerNow == 1) {
+                            g2d.setColor(Color.BLUE);
+                            g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, getHeight() / 20 * 13);
+                            g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 20*14, cardWidth, cardHeight, null);
+                        } else {
+
+                            g2d.setColor(Color.RED);
+                            g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100 * 38);
+                            g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() /100*20, cardWidth, cardHeight, null);
+                        }
+
+
+                    } else if (j.TurnProcess == 3) {
+
+                    } else {
+                        BufferedImage imageCard;
+                        BufferedImage imageCard2;
+                        File imgFilecard = new File("./res/images/card (" + j.player2takecard.id + ").png");
+                        File imgFilecard2 = new File("./res/images/card (" + j.player1takecard.id + ").png");
+                        try {
+                            imageCard = ImageIO.read(imgFilecard);
+                            imageCard2 = ImageIO.read(imgFilecard2);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        int cardHeight = (getHeight() - 20) / 8;
+                        int cardWidth = (int) (cardHeight * 0.6);
+                        g2d.setFont(new Font(dfonts[10], Font.BOLD, 10));
+
+                        g2d.setColor(Color.BLUE);
+                        g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, getHeight() / 20 * 13);
+                        g2d.drawImage(imageCard2, getWidth() / 100 * 5, getHeight() / 20 * 14, cardWidth, cardHeight, null);
+
+                        g2d.setColor(Color.RED);
+                        g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100*38);
+                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100*20, cardWidth, cardHeight, null);
+                    }
+                }
+            }
 
 
             g2d.dispose();
+        }
+
+        public void changejue(Jeu j) {
+            this.j = j;
+            repaint();
         }
 
         public void estFINI(Jeu j, Histoire h) {
@@ -849,11 +1036,13 @@ public class InterfaceJeu implements Runnable {
             if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
                 j.playerFirst = (j.numberOfGames - 1) % 2;
                 j.numberOfRounds = 1;
+                j.playerNow=j.playerFirst;
                 //进行发牌以及牌堆的实现
                 if (j.numberOfGames != 1) {
                     StartHand startHand = new StartHand(j);
                     startHand.stardHand();
                 }
+                drawCHANGFANGXING(j);
                 Atout a = new Atout(j);
                 a.determinerAtout();
                 Jeu j0 = (Jeu) j.clone();
@@ -864,8 +1053,16 @@ public class InterfaceJeu implements Runnable {
             }
         }
 
-        public void changejue(Jeu j) {
-            this.j = j;
+        public void surrenderthisgame() {
+            if (j.playerNow == 0) {
+                j.Player2totalScore += (26 - j.numberOfRounds+1);
+                wingamewindow(j, 1, 2);
+                gameStartencore(j,h);
+            } else {
+                j.Player1totalScore += (26 - j.numberOfRounds+1);
+                wingamewindow(j, 1, 21);
+                gameStartencore(j,h);
+            }
             repaint();
         }
 
@@ -877,7 +1074,8 @@ public class InterfaceJeu implements Runnable {
                 String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
                 int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
                 if (res == 0) {
-                    //TODO how to close the window of game
+                    //TODO how to close the window of game 如何回到主菜单
+
                     Main window = new Main();
                     window.mainframe.setVisible(true);
                 } else {
@@ -886,55 +1084,7 @@ public class InterfaceJeu implements Runnable {
             }
 
         }
+
     }
-
-
-    public Jeu creatJeu() {
-        player1 = 0;
-        player2 = 0;
-        j = new Jeu();
-        a = new Atout(j);
-        h = new Histoire(j);
-        String GameMode = Configuration.instance().lis("GameMode");
-        int GameModei = Integer.parseInt(GameMode);
-        if (GameModei > 2) {
-            String GameInformation = Configuration.instance().lis("GameInformation");
-            int GameInformationi = Integer.parseInt(GameInformation);
-            j.GameInformation = GameInformationi;
-        }
-
-        String AI = Configuration.instance().lis("AI");
-        int AIi = Integer.parseInt(AI);
-        j.AI = AIi;
-        j.GameMode = GameModei;
-
-        j.playerFirst = 2;
-        IA = j.AI;
-        StartHand startHand = new StartHand(j);
-        startHand.stardHand();
-        //gameMode(j);
-        return j;
-    }
-
-    public void gameStart(Jeu j, Histoire h) {
-        j.reset();
-        if (j.numberOfGames == 0) j.numberOfGames = 1;//濡傛灉娓告垙鍒氬紑濮嬬殑璇?
-        if (j.playerFirst == 2) {//濡傛灉鏈疆璇ュ紑濮嬬殑璇濓紝鍒ゆ柇鍝釜鐜╁鍏堝紑濮嬫父鎴忋??
-            j.playerFirst = (j.numberOfGames - 1) % 2;
-            j.numberOfRounds = 1;
-            //杩涜鍙戠墝浠ュ強鐗屽爢鐨勫疄鐜?
-            if (j.numberOfGames != 1) {
-                StartHand startHand = new StartHand(j);
-                startHand.stardHand();
-            }
-            a.determinerAtout();
-            Jeu j0 = (Jeu) j.clone();
-            h.ajouteListDeHistoire(j0);
-            Jeu j100 = (Jeu) j.clone();
-            h.ajouteListDeHistoire(j100);
-
-        }
-    }
-
 
 }
