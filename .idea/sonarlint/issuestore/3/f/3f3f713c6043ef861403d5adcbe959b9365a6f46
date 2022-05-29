@@ -1,0 +1,22 @@
+
+J
+java:S1604"(Make this anonymous inner class a lambda(¤©Òâüÿÿÿÿ8ÄÓ°0
+o
+java:S1104¬"QMake items a static final constant or non-public and provide accessors if needed.(ï­Œ¦8‚ÄÓ°0
+I
+java:S1444¬"+Make this "public static items" field final(ï­Œ¦8ƒÄÓ°0
+^
+java:S2184ä"@Cast one of the operands of this integer division to a "double".(­‹èÌ8„ÄÓ°0
+f
+java:S32521"IUse static access with "javax.swing.WindowConstants" for "EXIT_ON_CLOSE".(¢¡´8µÄÓ°0
+;
+java:S2386¬"Make this member "protected".(ï­Œ¦8¿ÄÓ°0
+L
+java:S1948³")Make "players" transient or serializable.(Ä‚Õãüÿÿÿÿ8ÃÄÓ°0
+M
+java:S1948µ"*Make "mapCards" transient or serializable.(’÷‰Ìúÿÿÿÿ8ÄÄÓ°0
+M
+java:S1948·"*Make "selected" transient or serializable.(¡Û‡ÿÿÿÿÿ8ÄÄÓ°0
+X
+java:S1161í":Add the "@Override" annotation above this method signature(ÈÊ“À8ËÄÓ°0
+V	java:S106ó"9Replace this use of System.out or System.err by a logger.(î¾üà8ÍÄÓ°0

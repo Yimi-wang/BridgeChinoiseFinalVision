@@ -37,6 +37,40 @@ public class Main extends JFrame implements ActionListener {
     JLabel lblAIMode;//gamemode标签
     JComboBox AIModeComboBox;//单选框
 
+    //用户设置
+    JFrame settingJframe;
+
+    Container settingContentPanel;
+
+    JLabel settingJLabel;
+
+    JLabel settingDesktoplbl;
+
+    JLabel settingCardBack;
+
+    JLabel settingShowCard;
+
+
+
+    JRadioButton backradioBtn1;
+
+    JRadioButton backradioBtn2;
+
+    JRadioButton backradioBtn3;
+
+    JRadioButton cardRadioBtn1;
+
+    JRadioButton cardRadioBtn2;
+
+    JRadioButton cardRadioBtn3;
+
+    JRadioButton cardShowBtn1;
+
+    JRadioButton cardShowBtn2;
+
+    JButton settingGetBackBtn;
+
+    JButton settingSaveBackBtn;
 
     /**
      * Launch the application.
@@ -392,6 +426,155 @@ public class Main extends JFrame implements ActionListener {
             //use Jeu j =Controleur.SaveLoadVue(Dossier nom)
             //
         }
+    }
+
+    //setting Gui
+    public void initSettingJFrame(){
+
+        settingJframe = new JFrame("Bcvue game");
+        settingJframe.setSize(600,600);
+        settingJframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        gameframe.setResizable(false);
+        settingJframe.setLocationRelativeTo(getOwner()); // 屏幕居中
+        settingContentPanel = settingJframe.getContentPane();
+
+
+        settingGetBackBtn = new JButton("返回");
+        settingGetBackBtn.setBounds(130,500,60,30);
+        settingContentPanel.add(settingGetBackBtn);
+
+
+        settingSaveBackBtn = new JButton("保存");
+        settingSaveBackBtn.setBounds(370,500,60,30);
+        settingContentPanel.add(settingSaveBackBtn);
+
+        //初始化组件
+        settingJLabel = new JLabel("Configuration");
+        settingJLabel.setBounds(220,20,200,30);
+        Font f1 = new Font("隶书",Font.PLAIN,18);
+        settingJLabel.setFont(f1);
+        settingContentPanel.add(settingJLabel);
+
+        JLabel seprate0 = new JLabel("");
+        seprate0.setBounds(0, 55, 10000, 1);
+        seprate0.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        settingContentPanel.add(seprate0);
+
+        settingDesktoplbl = new JLabel("Set desktop background:");
+        settingDesktoplbl.setBounds(30,60,230,30);
+        settingDesktoplbl.setFont(f1);
+        settingContentPanel.add(settingDesktoplbl);
+
+        backradioBtn1 = new JRadioButton("", true);
+        backradioBtn1.setBounds(60,100,30,30);
+        settingContentPanel.add(backradioBtn1);
+        JLabel back1 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back1.png", true));
+        back1.setBounds(90,100,100,60);
+        settingContentPanel.add(back1);
+
+        backradioBtn2 = new JRadioButton("", false);
+        backradioBtn2.setBounds(230,100,30,30);
+        settingContentPanel.add(backradioBtn2);
+        JLabel back2 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back2.png", true));
+        back2.setBounds(260,100,100,60);
+        settingContentPanel.add(back2);
+
+        backradioBtn3 = new JRadioButton("", false);
+        backradioBtn3.setBounds(390,100,30,30);
+        settingContentPanel.add(backradioBtn3);
+        JLabel back3 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back3.png", true));
+        back3.setBounds(420,100,100,60);
+        settingContentPanel.add(back3);
+        ButtonGroup btnBackGroup = new ButtonGroup();
+        btnBackGroup.add(backradioBtn1);
+        btnBackGroup.add(backradioBtn2);
+        btnBackGroup.add(backradioBtn3);
+
+        //分割线
+        JLabel seprate1 = new JLabel("");
+        seprate1.setBounds(0, 180, 10000, 1);
+        seprate1.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        settingContentPanel.add(seprate1);
+
+
+        settingCardBack = new JLabel("Set card background:");
+        settingCardBack.setBounds(30,200,230,30);
+        settingCardBack.setFont(f1);
+        settingContentPanel.add(settingCardBack);
+//
+        cardRadioBtn1 = new JRadioButton("", true);
+        cardRadioBtn1.setBounds(60,250,30,30);
+        settingContentPanel.add(cardRadioBtn1);
+        JLabel cardBack1 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack1.png", true));
+        cardBack1.setBounds(90,250,60,90);
+        settingContentPanel.add(cardBack1);
+
+        cardRadioBtn2 = new JRadioButton("", false);
+        cardRadioBtn2.setBounds(230,250,30,30);
+        settingContentPanel.add(cardRadioBtn2);
+        JLabel cardBack2 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack2.png", true));
+        cardBack2.setBounds(260,250,60,90);
+        settingContentPanel.add(cardBack2);
+
+        cardRadioBtn3 = new JRadioButton("", false);
+        cardRadioBtn3.setBounds(390,250,30,30);
+        settingContentPanel.add(cardRadioBtn3);
+        JLabel cardBack3 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack3.png", true));
+        cardBack3.setBounds(420,250,60,90);
+        settingContentPanel.add(cardBack3);
+        ButtonGroup btnCardGroup = new ButtonGroup();
+        btnCardGroup.add(cardRadioBtn1);
+        btnCardGroup.add(cardRadioBtn2);
+        btnCardGroup.add(cardRadioBtn3);
+
+
+        //分割线2
+        JLabel seprate2 = new JLabel("");
+        seprate2.setBounds(0, 390, 10000, 1);
+        seprate2.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        settingContentPanel.add(seprate2);
+
+
+
+        settingShowCard = new JLabel("Show card:");
+        settingShowCard.setBounds(30,400,230,30);
+        settingShowCard.setFont(f1);
+        settingContentPanel.add(settingShowCard);
+
+
+        cardShowBtn1 = new JRadioButton("Yes", true);
+        Font f2 = new Font("隶书",Font.PLAIN,20);
+        cardShowBtn1.setFont(f2);
+        cardShowBtn1.setBounds(120,440,120,30);
+        settingContentPanel.add(cardShowBtn1);
+
+
+        cardShowBtn2 = new JRadioButton("No", false);
+        cardShowBtn2.setFont(f2);
+        cardShowBtn2.setBounds(300,440,120,30);
+        settingContentPanel.add(cardShowBtn2);
+        ButtonGroup btnShowGroup = new ButtonGroup();
+        btnShowGroup.add(cardShowBtn1);
+        btnShowGroup.add(cardShowBtn2);
+
+
+        settingContentPanel.setLayout(null);
+
+    }
+
+    //添加setting界面监听
+    public void addSettingActionListener(){
+        cardRadioBtn1.addActionListener(this);
+        cardRadioBtn2.addActionListener(this);
+        cardRadioBtn3.addActionListener(this);
+        backradioBtn1.addActionListener(this);
+        backradioBtn2.addActionListener(this);
+        backradioBtn3.addActionListener(this);
+        cardShowBtn1.addActionListener(this);
+        cardShowBtn2.addActionListener(this);
+        settingGetBackBtn.addActionListener(this);
+        settingSaveBackBtn.addActionListener(this);
+
     }
 }
 
