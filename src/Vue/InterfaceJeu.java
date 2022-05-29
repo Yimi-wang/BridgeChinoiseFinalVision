@@ -1056,14 +1056,12 @@ public class InterfaceJeu implements Runnable {
         public void surrenderthisgame() {
             if (j.playerNow == 0) {
                 j.Player2totalScore += (26 - j.numberOfRounds+1);
-                wingamewindow(j, 1, 2);
-                gameStartencore(j,h);
             } else {
                 j.Player1totalScore += (26 - j.numberOfRounds+1);
-                wingamewindow(j, 1, 21);
-                gameStartencore(j,h);
             }
-            repaint();
+            j.numberOfRounds=27;
+            estFINI(j,h);
+
         }
 
         public void wingamewindow(Jeu j, int i, int winner) {
