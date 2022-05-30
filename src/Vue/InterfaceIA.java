@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 import static java.lang.System.exit;
 
-public class InterfaceJeu implements Runnable {
+public class InterfaceIA implements Runnable {
 
     public Brand selected;
     Jeu j;
@@ -27,7 +27,7 @@ public class InterfaceJeu implements Runnable {
     boolean showcard;
 
     //æž„é? å‡½æ•?
-    public InterfaceJeu() {
+    public InterfaceIA() {
     }
 
     public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class InterfaceJeu implements Runnable {
     }
 
     public static void start() {
-        SwingUtilities.invokeLater(new InterfaceJeu());
+        SwingUtilities.invokeLater(new InterfaceIA());
     }
 
     public void run() {
@@ -59,7 +59,7 @@ public class InterfaceJeu implements Runnable {
         //end
         frame.setPreferredSize(new Dimension(1200,800));
 
-        GamePane cardinterface = new GamePane(j, this, frame,h);
+        GamePaneIA cardinterface = new GamePaneIA(j, this, frame,h);
 
         cardinterface.setLayout(null);
 
@@ -229,7 +229,7 @@ public class InterfaceJeu implements Runnable {
                 while(j.playerNow!=pn)
                     j=h.returnHistoire();
                 frame.dispose();
-                InterfaceJeuLoad ijl = new InterfaceJeuLoad(h);
+                InterfaceIALoad ijl = new InterfaceIALoad(h);
                 ijl.run();
             }
 
@@ -240,7 +240,7 @@ public class InterfaceJeu implements Runnable {
                 while(j.numberOfRounds!=1||j.TurnProcess!=1)
                     j=h.returnHistoire();
                 frame.dispose();
-                InterfaceJeuLoad ijl = new InterfaceJeuLoad(h);
+                InterfaceIALoad ijl = new InterfaceIALoad(h);
                 ijl.run();
 
             }
@@ -326,7 +326,7 @@ public class InterfaceJeu implements Runnable {
                         "        Abandonnez tout le jeu : Abandonnez ce jeu. L'adversaire gagne\n" +
                         "\n" +
                         "        Showcard : Montrez la carte de l'adversaire", "help", JOptionPane.QUESTION_MESSAGE);
-                        }
+            }
         });
         helpMenuItem02.addActionListener(new ActionListener() {
             @Override
@@ -338,7 +338,6 @@ public class InterfaceJeu implements Runnable {
                         "Il doit fournir de la couleur quand c¡¯est possible sinon on coupe avec l¡¯atout ou on se d¨¦fausse.\n", "regle", JOptionPane.QUESTION_MESSAGE);
             }
         });
-
         JMenuItem quitMenuItem01 = new JMenuItem("Quitter le Jeu");
         JMenuItem quitMenuItem02 = new JMenuItem("Return to Menu");
         quitterMenu.add(quitMenuItem01);

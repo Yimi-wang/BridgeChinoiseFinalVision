@@ -1,5 +1,6 @@
 package Vue;
 
+import Controleur.SaveLoadVue;
 import global.ConfigurationSetting;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -287,7 +289,7 @@ public class Main extends JFrame implements ActionListener {
 
         AIModeComboBox = new JComboBox();
         // 绑定下拉框选项
-        String[] AIStrArray = {"Sans AI", "AIsimple", "AIminmax", "AIrandom"};
+        String[] AIStrArray = {"Sans AI", "AIrandom", "AIsimple", "AIminmax"};
         for (String item : AIStrArray) {
             AIModeComboBox.addItem(item);
         }
@@ -441,18 +443,20 @@ public class Main extends JFrame implements ActionListener {
             gameModeAppear();
         }
         if (e.getSource() == AIModeRightButton) {
+            int IA=0;
             try {
                 FileWriter fw;
                 fw = new FileWriter("./res/default.cfg", true);
                 // Human vs Human
-                int IA = AIModeComboBox.getSelectedIndex() + 1;
+                IA = AIModeComboBox.getSelectedIndex();
                 fw.write("AI=" + IA + "\n");
                 fw.close();
             } catch (IOException err) {
                 err.printStackTrace();
             }
             mainframe.dispose();
-            InterfaceJeu.start();
+            if (IA==0) InterfaceJeu.start();
+            else InterfaceIA.start();
         }
 
         if (e.getSource() == AIModeQuestionButton) {
@@ -462,7 +466,9 @@ public class Main extends JFrame implements ActionListener {
             mainframe.dispose();
             //TODO Loadgame
             //use Jeu j =Controleur.SaveLoadVue(Dossier nom)
-            //
+            LoadInterface li = new LoadInterface();
+            li.run();
+
         }
 
         if(e.getSource()==btnSettingButton){

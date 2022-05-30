@@ -23,7 +23,7 @@ public class ConfigurationSetting {
     }
 
     public static ConfigurationSetting instance() {
-        if(instance == null) instance = new ConfigurationSetting();
+        instance = new ConfigurationSetting();
         return instance;
     }
 

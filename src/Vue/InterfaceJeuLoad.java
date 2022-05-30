@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 import static java.lang.System.exit;
 
-public class InterfaceJeu implements Runnable {
+public class InterfaceJeuLoad implements Runnable {
 
     public Brand selected;
     Jeu j;
@@ -27,7 +27,8 @@ public class InterfaceJeu implements Runnable {
     boolean showcard;
 
     //鏋勯?犲嚱鏁?
-    public InterfaceJeu() {
+    public InterfaceJeuLoad(Histoire h1) {
+        this.h=h1;
     }
 
     public static void main(String[] args) {
@@ -49,8 +50,7 @@ public class InterfaceJeu implements Runnable {
             ex.printStackTrace();
         }
         //确保jue里头有手卡
-        j = creatJeu();
-        gameStart(j, h);
+        j = h.listDeHistoire.get(h.listDeHistoire.size() - 1);
         //gameprocessvue.gameMode(j);锛堝惎鍔ㄦ父鎴忥級
 
         //鐣岄潰
@@ -59,7 +59,7 @@ public class InterfaceJeu implements Runnable {
         //end
         frame.setPreferredSize(new Dimension(1200,800));
 
-        GamePane cardinterface = new GamePane(j, this, frame,h);
+        GamePaneLoad cardinterface = new GamePaneLoad(j, this, frame,h);
 
         cardinterface.setLayout(null);
 
@@ -326,7 +326,7 @@ public class InterfaceJeu implements Runnable {
                         "        Abandonnez tout le jeu : Abandonnez ce jeu. L'adversaire gagne\n" +
                         "\n" +
                         "        Showcard : Montrez la carte de l'adversaire", "help", JOptionPane.QUESTION_MESSAGE);
-                        }
+            }
         });
         helpMenuItem02.addActionListener(new ActionListener() {
             @Override
@@ -338,7 +338,6 @@ public class InterfaceJeu implements Runnable {
                         "Il doit fournir de la couleur quand c’est possible sinon on coupe avec l’atout ou on se défausse.\n", "regle", JOptionPane.QUESTION_MESSAGE);
             }
         });
-
         JMenuItem quitMenuItem01 = new JMenuItem("Quitter le Jeu");
         JMenuItem quitMenuItem02 = new JMenuItem("Return to Menu");
         quitterMenu.add(quitMenuItem01);
@@ -357,7 +356,6 @@ public class InterfaceJeu implements Runnable {
 
             }
         });
-
         //添加到frame
         frame.setJMenuBar(menuBar);
         frame.add(cardinterface);

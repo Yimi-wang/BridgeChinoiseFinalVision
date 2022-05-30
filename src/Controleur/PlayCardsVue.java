@@ -104,9 +104,9 @@ public class PlayCardsVue {
             System.out.println("IA 2 jouer" + j.playercard[j.playerNow].get(index).toString());
         }
         playCards(j, index);
-        //打印IA出的牌
         if (j.playerNow != j.playerFirst) {
             j = comparer(j);
+            j.setlastgame();
             //先后手改变
             j.playerFirst = j.Playerwin;
             //得分增加
@@ -119,7 +119,10 @@ public class PlayCardsVue {
                 j.Player2totalScore++;
             }
             System.out.println(("Player 1 score est " + j.Player1Score + ". Player 2 Score est " + j.Player2Score));
-            if (j.numberOfRounds > 15) j.numberOfRounds++;
+            if (j.numberOfRounds > 15) {j.numberOfRounds++; j.TurnProcess = 1;}
+            j.playerNow=j.Playerwin;
+        }else{
+            j.playerNow=(j.playerNow+1)%2;
         }
         Jeu j2 = (Jeu) j.clone();
         h.ajouteListDeHistoire(j2);

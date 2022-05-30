@@ -18,11 +18,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.exit;
 
-public class GamePane extends JPanel {
-    InterfaceJeu ifjgp;
+public class GamePaneIA extends JPanel {
+    InterfaceIA ifjgp;
     JFrame fgp;
     Histoire h;
     JFrame frame;
@@ -34,8 +35,8 @@ public class GamePane extends JPanel {
     Brand player2playercard;
     private Map<Brand, Rectangle> mapCards;
 
-    public GamePane(Jeu j, InterfaceJeu ifj, JFrame f, Histoire h) {
-        //鐐瑰嚮榧犳爣锛屽鏋滅偣鍑绘槸鍗＄殑浣嶇疆锛屽垯浼氬皢鍗″悜涓婄Щ锛屼笉鏄殑璇濆凡缁忕Щ鍔ㄨ繃鐨勫崱鍥為??鍘熸潵鐨勪綅缃級
+    public GamePaneIA(Jeu j, InterfaceIA ifj, JFrame f, Histoire h) {
+        //点击鼠标，如果点击是卡的位置，则会将卡向上移，不是的话已经移动过的卡回�??原来的位置）
 
         this.j = j;
         this.ifjgp = ifj;
@@ -49,7 +50,6 @@ public class GamePane extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
                 if (ifjgp.selected != null) {
                     Rectangle bounds = mapCards.get(ifjgp.selected);
                     if (ifjgp.selected.getPlace() == 0)
@@ -60,32 +60,18 @@ public class GamePane extends JPanel {
                 }
                 ifjgp.selected = null;
                 if (j.TurnProcess == 1) {
-                    if (j.playerFirst == 0) {
+                    if (j.playerNow == 0) {
                         for (Brand card : j.playercard[0]) {
                             //Rectangle bounds = mapCards.get(card);
                             if (mapCards.get(card).contains(e.getPoint())) {
                                 ifjgp.selected = card;
                                 mapCards.get(card).y -= 30;
-                                //鎵撳嵃鐜╁鎵嬬墝
+                                //打印玩家手牌
                                 //player0play.setText("PLAY");
                                 System.out.println(card.toString());
                                 repaint();
                                 break;
                             }
-                        }
-                    } else {
-                        for (Brand card : j.playercard[1]) {
-                            Rectangle bounds = mapCards.get(card);
-                            if (bounds.contains(e.getPoint())) {
-                                ifjgp.selected = card;
-                                bounds.y += 30;
-                                //鎵撳嵃鐜╁鎵嬬墝
-                                //player1play.setText("PLAY");
-                                System.out.println(card.toString());
-                                //repaint();
-                                break;
-                            }
-
                         }
                     }
                 } else if (j.TurnProcess == 2) {
@@ -95,7 +81,7 @@ public class GamePane extends JPanel {
                             if (bounds.contains(e.getPoint())) {
                                 ifjgp.selected = card;
                                 bounds.y -= 30;
-                                //鎵撳嵃鐜╁鎵嬬墝
+                                //打印玩家手牌
                                 //player0play.setText("PLAY");
                                 System.out.println(card.toString());
                                 repaint();
@@ -103,45 +89,55 @@ public class GamePane extends JPanel {
                             }
                         }
                     }
-                    for (Brand card : j.playercard[1]) {
-                        if (playcard.limite(j, card)) {
-                            Rectangle bounds = mapCards.get(card);
-                            if (bounds.contains(e.getPoint())) {
-                                ifjgp.selected = card;
-                                bounds.y += 30;
-                                //鎵撳嵃鐜╁鎵嬬墝
-                                //player1play.setText("PLAY");
-                                System.out.println(card.toString());
-                                repaint();
-                                break;
-                            }
-                        }
-                    }
-                } else if (j.TurnProcess >= 3 && j.numberOfRounds <= 15) {
+                }//���ƽ׶Σ�������Ӯ
+                else if (j.TurnProcess == 3 && j.numberOfRounds <= 15&&j.Playerwin==0) {
                     for (int i = 0; i <= 5; i++) {
                         if (j.pilescard[i].size() > 0) {
                             Brand card = j.pilescard[i].get(0);
                             Rectangle bounds = mapCards.get(card);
                             if (bounds.contains((e.getPoint()))) {
-                                if (j.TurnProcess == 3) takecard.playerWinTakeCard(j, card);
-                                else takecard.playerLoseTakeCard(j, card);
+                               takecard.playerWinTakeCard(j, card);
                                 drawCHANGFANGXING(j);
                                 repaint();
                             }
                         }
                     }
+                    takecard.IAtakecard(j,j.AI);
+                    drawCHANGFANGXING(j);
+                    repaint();
+                }//���ƽ׶Σ���������
+                else if (j.TurnProcess == 4 && j.numberOfRounds <= 15&&j.Playerwin==1){
+                    for (int i = 0; i <= 5; i++) {
+                        if (j.pilescard[i].size() > 0) {
+                            Brand card = j.pilescard[i].get(0);
+                            Rectangle bounds = mapCards.get(card);
+                            if (bounds.contains((e.getPoint()))) {
+                                takecard.playerLoseTakeCard(j, card);
+                                drawCHANGFANGXING(j);
+                                repaint();
+                            }
+                        }
+                    }
+                    try { TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException ie){}
+                    playcard.IAplaycard(j,j.AI);
+                    player2playercard=j.FirstPlayerPlayCard;
+                    drawCHANGFANGXING(j);
+                    repaint();
                 }
 
             }
         });
-
+        //�����һ�غ�AI����
     }
 
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(1200, 800);
     }
+    public void firstplayerplaycard(){
 
+    }
     @Override
     public void invalidate() {
         super.invalidate();
@@ -158,31 +154,75 @@ public class GamePane extends JPanel {
         player0Suggest.setBounds(getWidth() / 100 * 45, height / 20 * 15, getWidth() / 10, height / 20);
         this.add(player0Suggest);
 
-        player1play = new JButton("Play");
-        player1play.setBackground(Color.red);
-        player1play.setBounds(getWidth() / 100*25, height / 20 * 4, getWidth() / 15, height / 20);
-        this.add(player1play);
-        player1Suggest = new JButton("Suggestion");
-        player1Suggest.setBackground(Color.red);
-        player1Suggest.setBounds(getWidth() / 100 * 45, height / 20 * 4, getWidth() / 10, height / 20);
-        this.add(player1Suggest);
 
         player0play.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ifjgp.selected != null) {
                     if (j.playerNow == 0) {
-                        System.out.println("playcard");
                         player1playercard = ifjgp.selected;
-                        if (j.playerNow == j.playerFirst) playcard.playerFirstPlayCard(j, ifjgp.selected);
+                        //����ȳ���
+                        if (j.playerNow == j.playerFirst){
+                            j=playcard.playerFirstPlayCard(j, ifjgp.selected);
+                            drawCHANGFANGXING(j);
+                            ifjgp.selected = null;
+                            repaint();
+                            //TODO how to stop a second
+//                            try {
+//                                Thread.sleep(3000);
+//                            } catch (InterruptedException ex) {
+//                                throw new RuntimeException(ex);
+//                            }
+//                            System.out.println(456);
+
+                            //AI chu pai ����
+                            playcard.IAplaycard(j,j.AI);
+                            player2playercard=j.SecondPlayerPlayerCard;
+                            drawCHANGFANGXING(j);
+                            repaint();
+//                            try { TimeUnit.SECONDS.sleep(2);
+//                            } catch (InterruptedException ie){}
+                            estFINI(j, ifjgp.h);
+                            //���Ӯ��ʲô���鶼������
+                            //����䣬�п������ã��������ÿ�
+                            if(j.Playerwin==1&&j.numberOfRounds<16){
+//                                try { TimeUnit.SECONDS.sleep(2);
+//                                } catch (InterruptedException ie){}
+                                takecard.IAtakecard(j,j.AI);
+                                repaint();
+                            }
+                            //����䣬û�п������ã������˳���
+                            else if(j.Playerwin==1&&j.numberOfRounds>=16){
+//                                try { TimeUnit.SECONDS.sleep(2);
+//                                } catch (InterruptedException ie){}
+                                playcard.IAplaycard(j,j.AI);
+                                repaint();
+                            }
+
+                        }
+                        //��Һ��ֳ���
                         else {
                             playcard.playerSecondePlayCard(j, ifjgp.selected);
                             estFINI(j, ifjgp.h);
+                            //����䣬���ƿ�����
+                            if(j.Playerwin==1&&j.numberOfRounds<16){
+                                try { TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException ie){}
+                                takecard.IAtakecard(j,j.AI);
+                                repaint();
+                            } //����䣬û�п������ã������˳���
+                            else if(j.Playerwin==1&&j.numberOfRounds>=16){
+                                try { TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException ie){}
+                                playcard.IAplaycard(j,j.AI);
+                                repaint();
+                            }
                         }
                         drawCHANGFANGXING(j);
-                        //TODO Can't make the button disappear
                         repaint();
                         ifjgp.selected = null;
                         estFINI(j,h);
+
+
                     }
                 } else {
                     System.out.println("Please choose your card.");
@@ -210,68 +250,28 @@ public class GamePane extends JPanel {
             }
         });
 
-        player1play.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (ifjgp.selected != null) {
-                    if (j.playerNow == 1) {
-                        System.out.println("playcard");
-                        player2playercard = ifjgp.selected;
-                        if (j.playerNow == j.playerFirst) playcard.playerFirstPlayCard(j, ifjgp.selected);
-                        else {
-                            playcard.playerSecondePlayCard(j, ifjgp.selected);
-                            estFINI(j, ifjgp.h);
-                        }
-                        drawCHANGFANGXING(j);
-                        repaint();
-                        ifjgp.selected = null;
-                        estFINI(j,h);
-                    }
-                }
-            }
-        });
-
-        player1Suggest.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (j.playerNow == 1&&j.TurnProcess<3) {
-                    Rectangle bounds;
-                    if (ifjgp.selected != null) {
-                        bounds = mapCards.get(ifjgp.selected);
-                        bounds.y -= 30;
-                    }
-                    System.out.println("playcard");
-                    IASimpleVue ia = new IASimpleVue(j);
-                    int index = ia.IASimplePlayerCard(1);
-                    ifjgp.selected = j.playercard[1].get(index);
-                    bounds = mapCards.get(ifjgp.selected);
-                    bounds.y += 30;
-                    repaint();
-                    //player1play.setText("PLAY");
-                }
-            }
-        });
-
-        //鍙宠竟娓告垙淇℃伅
+        //右边游戏信息
         drawCHANGFANGXING(j);
     }
 
     public void drawCHANGFANGXING(Jeu j) {
-        //鐢婚暱鏂瑰舰锛屽苟涓斿皢姣忎釜闀挎柟褰㈠拰card缁戝畾
-        //纭畾姣忎釜鍗＄墖鐨勯珮涓庡
+        //画长方形，并且将每个长方形和card绑定
+        //确定每个卡片的高与宽
         int height = getHeight();
         int cardHeight = (height - 20) / 8;
         int cardWidth = (int) (cardHeight * 0.6);
-        //姣忎釜鍗＄墖鐨勫亸绉婚噺
+        //每个卡片的偏移量
         int xDelta = cardWidth + 5;
-        //绗竴涓崱鐗囩殑妯潗鏍囧拰绾靛潗鏍?
+        //第一个卡片的横坐标和纵坐�?
         int xPos = getWidth() / 10;
         int yPos = height / 100 * 85;
-        //寤虹珛涓?涓猦ashmap锛屼娇姣忎釜闀挎柟褰㈠拰姣忎釜鍗＄墖杩涜瀵瑰簲銆傛樉绀轰笅鏂圭帺瀹剁殑鎵嬬墝銆?
+        //建立�?个hashmap，使每个长方形和每个卡片进行对应。显示下方玩家的手牌�?
         for (Brand card : j.playercard[0]) {
             Rectangle bounds = new Rectangle(xPos, yPos, cardWidth, cardHeight);
             mapCards.put(card, bounds);
             xPos += xDelta;
         }
-        //鏄剧ず涓婃柟鐨勬墜鐗?
+        //显示上方的手�?
         xPos = getWidth() / 10;
         yPos = height / 20;
         for (Brand card : j.playercard[1]) {
@@ -279,7 +279,7 @@ public class GamePane extends JPanel {
             mapCards.put(card, bounds);
             xPos += xDelta;
         }
-        //鏄剧ずpile鐨勬墜鍗°??
+        //显示pile的手卡�??
         int xOri = 60;
         xPos = getWidth() / 100 * xOri;
         xDelta = cardWidth / 5;
@@ -303,7 +303,7 @@ public class GamePane extends JPanel {
         int backi = Integer.parseInt(back);
         backi++;
         //TODO setting background.
-        //背景
+        //����
         String background = ConfigurationSetting.instance().lis("background");
         int backgroundi = Integer.parseInt(background);
         backgroundi++;
@@ -320,7 +320,7 @@ public class GamePane extends JPanel {
         g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, height, null);
 
 
-        //右边背景
+        //�ұ߱���
 
         BufferedImage imageBackGroundRight;
         File ImageBackGroundRightFile;
@@ -336,10 +336,10 @@ public class GamePane extends JPanel {
         System.out.println(getWidth() / 5*4);
         g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), height, null);
 
-            System.out.println(getWidth());
-            System.out.println(height);
+        System.out.println(getWidth());
+        System.out.println(height);
         if (j.TurnProcess == 2 || j.TurnProcess == 3) {
-            //鐢诲厛鎵嬫柟鍑虹殑鐗?
+            //画先手方出的�?
             if (j.TurnProcess == 2) {
                 BufferedImage imageCard;
                 File imgFilecard = null;
@@ -365,9 +365,9 @@ public class GamePane extends JPanel {
                     g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 5, cardWidth, cardHeight, null);
                 }
             }
-            //鎵撳嵃鍙屾柟鍑虹殑鐗?
+            //打印双方出的�?
             if (j.TurnProcess == 3) {
-                //鎵撳嵃鍏堟墜鏂瑰嚭鐨勭墝
+                //打印先手方出的牌
                 BufferedImage imageCard;
                 File imgFilecard = new File("./res/images/card (" + player1playercard.id + ").png");
                 try {
@@ -380,7 +380,7 @@ public class GamePane extends JPanel {
                 int cardWidth = (int) (cardHeight * 0.6);
                 g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 12, cardWidth, cardHeight, null);
 
-                //鍚庢墜鏂瑰嚭鐨勭墝
+                //后手方出的牌
                 imgFilecard = new File("./res/images/card (" + player2playercard.id + ").png");
                 try {
                     imageCard = ImageIO.read(imgFilecard);
@@ -393,7 +393,7 @@ public class GamePane extends JPanel {
         }
         for (Brand card : j.playercard[1]) {
             Rectangle bounds = mapCards.get(card);
-            //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
+            //根据长方形的位置，填充图�?
             if (bounds != null) {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 1) {
@@ -414,9 +414,9 @@ public class GamePane extends JPanel {
                     }
                     int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //鐢诲浘鍍?
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
-                    //鐢婚暱鏂瑰舰杈规
+                    //画长方形边框
                     g2d.setColor(Color.red);
                     g2d.draw(bounds);
                 } else {
@@ -428,9 +428,9 @@ public class GamePane extends JPanel {
                     }
                     int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //鐢诲浘鍍?
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
-                    //鐢婚暱鏂瑰舰杈规
+                    //画长方形边框
                     g2d.setColor(Color.red);
                     g2d.draw(bounds);
                 }
@@ -468,7 +468,7 @@ public class GamePane extends JPanel {
         for (Brand card : j.playercard[0]) {
             Rectangle bounds = mapCards.get(card);
             //System.out.println(bounds);
-            //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
+            //根据长方形的位置，填充图�?
             if (bounds != null) {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 0) {
@@ -489,9 +489,9 @@ public class GamePane extends JPanel {
                     }
                     int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //鐢诲浘鍍?
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
-                    //鐢婚暱鏂瑰舰杈规
+                    //画长方形边框
                     g2d.setColor(Color.blue);
                     g2d.draw(bounds);
                 } else {
@@ -503,9 +503,9 @@ public class GamePane extends JPanel {
                     }
                     int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //鐢诲浘鍍?
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
-                    //鐢婚暱鏂瑰舰杈规
+                    //画长方形边框
                     g2d.setColor(Color.blue);
                     g2d.draw(bounds);
                 }
@@ -519,7 +519,7 @@ public class GamePane extends JPanel {
                 Brand card = j.pilescard[i].get(a);
                 Rectangle bounds = mapCards.get(card);
                 //System.out.println(bounds);
-                //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
+                //根据长方形的位置，填充图�?
                 if (bounds != null) {
                     BufferedImage imageCard;
                     File imgFile;
@@ -536,9 +536,9 @@ public class GamePane extends JPanel {
                     }
                     int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    //鐢诲浘鍍?
+                    //画图�?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
-                    //鐢婚暱鏂瑰舰杈规
+                    //画长方形边框
                     g2d.setColor(Color.BLACK);
                     g2d.draw(bounds);
                 }
@@ -548,13 +548,13 @@ public class GamePane extends JPanel {
         String[] dfonts;
         dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
-        //杈撳嚭鍙宠竟娓告垙淇℃伅銆?
-        //Atout 鏂囧瓧
+        //输出右边游戏信息�?
+        //Atout 文字
         g2d.setColor(Color.red);
         g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
         System.out.println(getWidth() / 100 * 90);
         g2d.drawString("Atout", middle+middle/15, height / 15);
-        //BRAND 鍥剧墖
+        //BRAND 图片
         BufferedImage imageCardAtout;
         File ImageAtoutFile;
         if (j.avoiratout) {
@@ -570,7 +570,7 @@ public class GamePane extends JPanel {
         g2d.drawImage(imageCardAtout, middle+middle/15, height / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
         g2d.setColor(Color.ORANGE);
         g2d.setFont(new Font("Calibri",Font.ITALIC,20));
-        g2d.drawString("Cartes joué au tour précédent",middle+middle/100,getHeight()/100*35);
+        g2d.drawString("Cartes jou�� au tour pr��c��dent",middle+middle/100,getHeight()/100*35);
         if(j.lastgamep1playcard!=null){
             g2d.setFont(new Font(dfonts[5], Font.BOLD, 20));
             g2d.drawString("Joueur 1 ",middle+middle/40, getHeight()/100*38);
@@ -594,7 +594,7 @@ public class GamePane extends JPanel {
 
 
         }
-        //GameMode 娓告垙妯″紡杈撳嚭
+        //GameMode 游戏模式输出
         String GameModeStr = "GameMode est :";
         String Gamemode1 = null;
         String GameMode2 = null;
@@ -622,13 +622,13 @@ public class GamePane extends JPanel {
             g2d.drawString(GameMode2, middle+middle/100, getHeight() / 100 * 75);
         }
 
-        //numbre de tour  鍥炲悎鏁?
+        //numbre de tour  回合�?
         String nbtour = "Le numbre de tour est " + j.numberOfRounds;
         g2d.setColor(Color.blue);
         g2d.setFont(new Font("Monaco", Font.PLAIN, 20));
         g2d.drawString(nbtour, middle+middle/100, getHeight() / 100 * 80);
 
-        //鏄剧ず鐜╁1寰楀垎
+        //显示玩家1得分
         g2d.setColor(Color.blue);
         g2d.setFont(new Font("Calibri", Font.BOLD, 20));
         g2d.drawString("Score total du joueur 1: " + j.Player1totalScore, middle+middle/100, getHeight() / 100 * 90);
@@ -650,7 +650,7 @@ public class GamePane extends JPanel {
         g2d.setFont(new Font("Calibri", Font.BOLD, 50));
         g2d.drawString(String.valueOf(j.Player2Score), getWidth() / 100 * 72, height / 100 * 12);
 
-        //双发拿的手卡
+        //˫���õ��ֿ�
         if (j.numberOfRounds <= 16) {
             if (!(j.numberOfRounds == 1 && j.TurnProcess <= 3)) {
 
@@ -791,12 +791,12 @@ public class GamePane extends JPanel {
 
     public void gameStartencore(Jeu j, Histoire h) {
         j.reset();
-        if (j.numberOfGames == 0) j.numberOfGames = 1;//如果游戏刚开始的话
-        if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
+        if (j.numberOfGames == 0) j.numberOfGames = 1;//�����Ϸ�տ�ʼ�Ļ�
+        if (j.playerFirst == 2) {//������ָÿ�ʼ�Ļ����ж��ĸ�����ȿ�ʼ��Ϸ��
             j.playerFirst = (j.numberOfGames - 1) % 2;
             j.numberOfRounds = 1;
             j.playerNow = j.playerFirst;
-            //进行发牌以及牌堆的实现
+            //���з����Լ��ƶѵ�ʵ��
             if (j.numberOfGames != 1) {
                 StartHand startHand = new StartHand(j);
                 startHand.stardHand();
@@ -808,7 +808,11 @@ public class GamePane extends JPanel {
             h.ajouteListDeHistoire(j0);
             Jeu j100 = (Jeu) j.clone();
             h.ajouteListDeHistoire(j100);
-
+            if(j.TurnProcess==1&&j.numberOfRounds==1&&j.playerNow==1){
+                playcard.IAplaycard(j,j.AI);
+                player2playercard=j.FirstPlayerPlayCard;
+                repaint();
+            }
         }
     }
 
@@ -828,10 +832,10 @@ public class GamePane extends JPanel {
             String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continuer";
             JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
         } else {
-            String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
+            String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore��";
             int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
             if (res == 0) {
-                //TODO how to close the window of game 如何回到主菜单
+                //TODO how to close the window of game ��λص����˵�
                 fgp.dispose();
                 Main window = new Main();
                 window.mainframe.setVisible(true);

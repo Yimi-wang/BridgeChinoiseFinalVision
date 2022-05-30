@@ -94,11 +94,14 @@ public class TakeCardVue {
         System.out.println("IA prendre" + card.toString() + index);
         j.pilescard[index].remove(0);
         j.playercard[j.playerNow].add(card);
+         j.player2takecard=card;
         j.TurnProcess++;
+        if(j.TurnProcess==5)j.TurnProcess=1;
 
         if (j.playerNow != j.Playerwin) {
             j.numberOfRounds++;
         }
+        j.playerNow=(j.playerNow+1)%2;
         return j;
     }
 
