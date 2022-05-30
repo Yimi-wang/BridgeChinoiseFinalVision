@@ -56,7 +56,7 @@ public class InterfaceJeu implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //end
 
-        GamePane cardinterface = new GamePane(j, this, frame);
+        GamePane cardinterface = new GamePane(j, this, frame,h);
         cardinterface.setLayout(null);
 
         frame.setSize(1200, 800);

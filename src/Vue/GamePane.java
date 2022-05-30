@@ -24,6 +24,7 @@ import static java.lang.System.exit;
 public class GamePane extends JPanel {
     InterfaceJeu ifjgp;
     JFrame fgp;
+    Histoire h;
     JFrame frame;
     Jeu j;
     JButton player0play, player1play, player0Suggest, player1Suggest;
@@ -33,12 +34,13 @@ public class GamePane extends JPanel {
     Brand player2playercard;
     private Map<Brand, Rectangle> mapCards;
 
-    public GamePane(Jeu j, InterfaceJeu ifj, JFrame f) {
+    public GamePane(Jeu j, InterfaceJeu ifj, JFrame f, Histoire h) {
         //鐐瑰嚮榧犳爣锛屽鏋滅偣鍑绘槸鍗＄殑浣嶇疆锛屽垯浼氬皢鍗″悜涓婄Щ锛屼笉鏄殑璇濆凡缁忕Щ鍔ㄨ繃鐨勫崱鍥為??鍘熸潵鐨勪綅缃級
 
         this.j = j;
         this.ifjgp = ifj;
         this.fgp = f;
+        this.h=h;
 
         playcard = new PlayCardsVue(j, ifjgp.h);
         takecard = new TakeCardVue(j, ifjgp.h);
@@ -175,6 +177,7 @@ public class GamePane extends JPanel {
                         //TODO Can't make the button disappear
                         repaint();
                         ifjgp.selected = null;
+                        estFINI(j,h);
                     }
                 } else {
                     System.out.println("Please choose your card.");
@@ -216,6 +219,7 @@ public class GamePane extends JPanel {
                         drawCHANGFANGXING(j);
                         repaint();
                         ifjgp.selected = null;
+                        estFINI(j,h);
                     }
                 }
             }
