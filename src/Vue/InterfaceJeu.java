@@ -104,19 +104,12 @@ public class InterfaceJeu implements Runnable {
 
 
                 JButton saveconfirm = new JButton("Sauvgarder");
-                saveframe.add(saveconfirm);
 
                 JButton savecancel = new JButton("Quitter");
-                saveframe.add(savecancel);
-
 
                 JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier ид sauvgarder");
-                saveframe.add(saveinfoLabel);
-
 
                 JTextField savenameField = new JTextField("defautSaveFile");
-                saveframe.add(savenameField);
-
 
                 Box savebuttonBox = Box.createHorizontalBox();
                 savebuttonBox.add(saveconfirm);
@@ -171,19 +164,12 @@ public class InterfaceJeu implements Runnable {
 
 
                 JButton saveconfirm = new JButton("Sauvgarder");
-                saveframe.add(saveconfirm);
 
                 JButton savecancel = new JButton("Quitter");
-                saveframe.add(savecancel);
-
 
                 JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier ид sauvgarder");
-                saveframe.add(saveinfoLabel);
-
 
                 JTextField savenameField = new JTextField("defautSaveFile");
-                saveframe.add(savenameField);
-
 
                 Box savebuttonBox = Box.createHorizontalBox();
                 savebuttonBox.add(saveconfirm);

@@ -191,6 +191,8 @@ public class Jeu implements Cloneable, Serializable {
         Player2Score = 0;
         TurnProcess = 1;
         numberOfGames++;
+        lastgamep0playcard=null;
+        lastgamep1playcard=null;
     }
     public void restart(){
         playerFirst=(numberOfGames+1)%2;

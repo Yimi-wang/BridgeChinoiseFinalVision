@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -234,7 +236,7 @@ public class Main extends JFrame implements ActionListener {
         lblGameModeTest.setBounds(150, 150, 300, 300);
         Font f22 = new Font("隶书", Font.PLAIN, 15);
         lblGameModeTest.setFont(f22);
-        Color fg22 = new Color(27, 179, 205);
+        Color fg22 = new Color(205, 27, 74);
         lblGameModeTest.setForeground(fg22);
         mainContentPanel.add(lblGameModeTest);
         //添加文本框
@@ -242,8 +244,27 @@ public class Main extends JFrame implements ActionListener {
         jta.setForeground(Color.BLACK);    //设置组件的背景色
         jta.setFont(new Font(dfonts[15], Font.ROMAN_BASELINE, 10));    //修改字体样式
         jta.setBounds(150, 350, 200, 30);
+        lblGameModeTest.setVisible(false);
+        jta.setVisible(false);
         mainContentPanel.add(jta);
-
+        GameModeComboBox.addItemListener(new ItemListener()
+        {
+            public void itemStateChanged(ItemEvent event)
+            {
+                switch (event.getStateChange())
+                {
+                    case ItemEvent.SELECTED:
+                        if(event.getItem()=="Number of Fixe"||event.getItem()=="Score Fixe"){
+                            lblGameModeTest.setVisible(true);
+                            jta.setVisible(true);
+                        }else{
+                            lblGameModeTest.setVisible(false);
+                            jta.setVisible(false);
+                        }
+                        break;
+                }
+            }
+        });
         //添加左右按钮
         GameModeLeftButton = new JButton("←");
         GameModeLeftButton.setBounds(150, 400, 50, 30);
@@ -310,8 +331,13 @@ public class Main extends JFrame implements ActionListener {
         lblGameMode.setVisible(true);
         GameModeComboBox.setVisible(true);
         GameModeQuestionButton.setVisible(true);
-        jta.setVisible(true);
-        lblGameModeTest.setVisible(true);
+        if(GameModeComboBox.getSelectedIndex()<2){
+        jta.setVisible(false);
+        lblGameModeTest.setVisible(false);}
+        else{
+            jta.setVisible(true);
+            lblGameModeTest.setVisible(true);
+        }
         GameModeLeftButton.setVisible(true);
         GameModeRightButton.setVisible(true);
     }
