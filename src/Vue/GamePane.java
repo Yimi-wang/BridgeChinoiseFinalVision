@@ -49,6 +49,14 @@ public class GamePane extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                java.awt.Point point = MouseInfo.getPointerInfo().getLocation();
+
+                double x = point.getX();
+                double y = point.getY();
+                System.out.println(x);
+                System.out.println(y);
+                System.out.println("这是在输出你鼠标所在的位置");
+
                 if (ifjgp.selected != null) {
                     Rectangle bounds = mapCards.get(ifjgp.selected);
                     if (ifjgp.selected.getPlace() == 0)
@@ -147,19 +155,19 @@ public class GamePane extends JPanel {
         mapCards.clear();
         this.removeAll();
         this.repaint();
-
+        int height=getHeight();
         player0play = new JButton("Play");
-        player0play.setBounds(getWidth() / 3, getHeight() / 20 * 15, getWidth() / 15, getHeight() / 20);
+        player0play.setBounds(getWidth() / 3, height / 20 * 15, getWidth() / 15, height / 20);
         this.add(player0play);
         player0Suggest = new JButton("Hint");
-        player0Suggest.setBounds(getWidth() / 100 * 45, getHeight() / 20 * 15, getWidth() / 15, getHeight() / 20);
+        player0Suggest.setBounds(getWidth() / 100 * 45, height / 20 * 15, getWidth() / 15, height / 20);
         this.add(player0Suggest);
 
         player1play = new JButton("Play");
-        player1play.setBounds(getWidth() / 3, getHeight() / 20 * 4, getWidth() / 15, getHeight() / 20);
+        player1play.setBounds(getWidth() / 3, height / 20 * 4, getWidth() / 15, height / 20);
         this.add(player1play);
         player1Suggest = new JButton("Hint");
-        player1Suggest.setBounds(getWidth() / 100 * 45, getHeight() / 20 * 4, getWidth() / 15, getHeight() / 20);
+        player1Suggest.setBounds(getWidth() / 100 * 45, height / 20 * 4, getWidth() / 15, height / 20);
         this.add(player1Suggest);
 
         player0play.addActionListener(new ActionListener() {
@@ -252,13 +260,14 @@ public class GamePane extends JPanel {
     public void drawCHANGFANGXING(Jeu j) {
         //鐢婚暱鏂瑰舰锛屽苟涓斿皢姣忎釜闀挎柟褰㈠拰card缁戝畾
         //纭畾姣忎釜鍗＄墖鐨勯珮涓庡
-        int cardHeight = (getHeight() - 20) / 8;
+        int height = getHeight();
+        int cardHeight = (height - 20) / 8;
         int cardWidth = (int) (cardHeight * 0.6);
         //姣忎釜鍗＄墖鐨勫亸绉婚噺
         int xDelta = cardWidth + 5;
         //绗竴涓崱鐗囩殑妯潗鏍囧拰绾靛潗鏍?
         int xPos = getWidth() / 10;
-        int yPos = getHeight() / 100 * 85;
+        int yPos = height / 100 * 85;
         //寤虹珛涓?涓猦ashmap锛屼娇姣忎釜闀挎柟褰㈠拰姣忎釜鍗＄墖杩涜瀵瑰簲銆傛樉绀轰笅鏂圭帺瀹剁殑鎵嬬墝銆?
         for (Brand card : j.playercard[0]) {
             Rectangle bounds = new Rectangle(xPos, yPos, cardWidth, cardHeight);
@@ -267,7 +276,7 @@ public class GamePane extends JPanel {
         }
         //鏄剧ず涓婃柟鐨勬墜鐗?
         xPos = getWidth() / 10;
-        yPos = getHeight() / 20;
+        yPos = height / 20;
         for (Brand card : j.playercard[1]) {
             Rectangle bounds = new Rectangle(xPos, yPos, cardWidth, cardHeight);
             mapCards.put(card, bounds);
@@ -277,7 +286,7 @@ public class GamePane extends JPanel {
         int xOri = 60;
         xPos = getWidth() / 100 * xOri;
         xDelta = cardWidth / 5;
-        yPos = getHeight() / 2 - cardHeight / 2;
+        yPos = height / 2 - cardHeight / 2;
         for (int i = 0; i <= 5; i++) {
             for (int a = j.pilescard[i].size() - 1; a >= 0; a--) {
                 Brand card = j.pilescard[i].get(a);
@@ -309,7 +318,9 @@ public class GamePane extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, getWidth(), null);
+        int middle=getWidth()/5*4;
+        int height=getHeight()+1;
+        g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, height, null);
 
 
         //右边背景
@@ -325,9 +336,11 @@ public class GamePane extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), getWidth(), null);
+        System.out.println(getWidth() / 5*4);
+        g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), height, null);
 
-
+            System.out.println(getWidth());
+            System.out.println(height);
         if (j.TurnProcess == 2 || j.TurnProcess == 3) {
             //鐢诲厛鎵嬫柟鍑虹殑鐗?
             if (j.TurnProcess == 2) {
@@ -345,14 +358,14 @@ public class GamePane extends JPanel {
                 }
                 if (j.playerNow == 1) {
                     ifjgp.a1 = 1;
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    g2d.drawImage(imageCard, getWidth() / 3, getHeight() / 20 * 12, cardWidth, cardHeight, null);
+                    g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 12, cardWidth, cardHeight, null);
                 } else {
                     ifjgp.a1 = 0;
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
-                    g2d.drawImage(imageCard, getWidth() / 3, getHeight() / 20 * 5, cardWidth, cardHeight, null);
+                    g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 5, cardWidth, cardHeight, null);
                 }
             }
             //鎵撳嵃鍙屾柟鍑虹殑鐗?
@@ -366,9 +379,9 @@ public class GamePane extends JPanel {
                     throw new RuntimeException(e);
                 }
 
-                int cardHeight = (getHeight() - 20) / 8;
+                int cardHeight = (height - 20) / 8;
                 int cardWidth = (int) (cardHeight * 0.6);
-                g2d.drawImage(imageCard, getWidth() / 3, getHeight() / 20 * 12, cardWidth, cardHeight, null);
+                g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 12, cardWidth, cardHeight, null);
 
                 //鍚庢墜鏂瑰嚭鐨勭墝
                 imgFilecard = new File("./res/images/card (" + player2playercard.id + ").png");
@@ -377,7 +390,7 @@ public class GamePane extends JPanel {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                g2d.drawImage(imageCard, getWidth() / 3, getHeight() / 20 * 5, cardWidth, cardHeight, null);
+                g2d.drawImage(imageCard, getWidth() / 3, height / 20 * 5, cardWidth, cardHeight, null);
 
             }
         }
@@ -402,7 +415,7 @@ public class GamePane extends JPanel {
                             throw new RuntimeException(e);
                         }
                     }
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
                     //鐢诲浘鍍?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
@@ -417,7 +430,7 @@ public class GamePane extends JPanel {
                         throw new RuntimeException(e);
                     }
                 }
-                int cardHeight = (getHeight() - 20) / 8;
+                int cardHeight = (height - 20) / 8;
                 int cardWidth = (int) (cardHeight * 0.6);
                 //鐢诲浘鍍?
                 g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
@@ -451,7 +464,7 @@ public class GamePane extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageTurn, getWidth() / 100 * 70, getHeight() / 100 * 45, getWidth() / 100 * 10, getWidth() / 100 * 10, null);
+        g2d.drawImage(imageTurn, getWidth() / 100 * 70, height / 100 * 45, getWidth() / 100 * 10, getWidth() / 100 * 10, null);
 
 
         for (Brand card : j.playercard[0]) {
@@ -476,7 +489,7 @@ public class GamePane extends JPanel {
                             throw new RuntimeException(e);
                         }
                     }
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
                     //鐢诲浘鍍?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
@@ -491,7 +504,7 @@ public class GamePane extends JPanel {
                         throw new RuntimeException(e);
                     }
                 }
-                int cardHeight = (getHeight() - 20) / 8;
+                int cardHeight = (height - 20) / 8;
                 int cardWidth = (int) (cardHeight * 0.6);
                 //鐢诲浘鍍?
                 g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
@@ -522,7 +535,7 @@ public class GamePane extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
                     //鐢诲浘鍍?
                     g2d.drawImage(imageCard, bounds.x, bounds.y, cardWidth, cardHeight, null);
@@ -540,7 +553,8 @@ public class GamePane extends JPanel {
         //Atout 鏂囧瓧
         g2d.setColor(Color.red);
         g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
-        g2d.drawString("Atout", getWidth() / 100 * 85, getHeight() / 15);
+        System.out.println(getWidth() / 100 * 90);
+        g2d.drawString("Atout", middle+middle/15, height / 15);
         //BRAND 鍥剧墖
         BufferedImage imageCardAtout;
         File ImageAtoutFile;
@@ -554,10 +568,11 @@ public class GamePane extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageCardAtout, getWidth() / 100 * 88, getHeight() / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
+
+        g2d.drawImage(imageCardAtout, middle+middle/15, height / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
         if(j.lastgamep1playcard!=null){
-            g2d.setFont(new Font(dfonts[5], Font.BOLD, 15));
-            g2d.drawString("Player 1 play card",getWidth()/100*82, getHeight()/100*20);
+            g2d.setFont(new Font(dfonts[5], Font.BOLD, 10));
+            g2d.drawString("Joueur 1 ",middle+middle/40, getHeight()/100*40);
             BufferedImage imagelastplayercard;
             File imagelastplayercardfile;
             imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep0playcard.id + ").png");
@@ -566,20 +581,21 @@ public class GamePane extends JPanel {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imagelastplayercard,getWidth() / 100 * 82, getHeight() / 100 * 25, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
-            g2d.drawString("Player 2 play card",getWidth()/100*91, getHeight()/100*20);
+            g2d.drawImage(imagelastplayercard,middle+middle/40, getHeight()/100*40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
+            g2d.drawString("Joueur 2 ",middle+middle/8, getHeight()/100*40);
             imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep1playcard.id + ").png");
             try {
                 imagelastplayercard = ImageIO.read(imagelastplayercardfile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imagelastplayercard,getWidth() / 100 * 90, getHeight() / 100 * 25, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
+            g2d.drawImage(imagelastplayercard,middle+middle/8, getHeight()/100*40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
 
 
         }
         //GameMode 娓告垙妯″紡杈撳嚭
         String GameModeStr = "GameMode est :";
+        String Gamemode1 = null;
         String GameMode2 = null;
         switch (j.GameMode) {
             case 1:
@@ -589,57 +605,55 @@ public class GamePane extends JPanel {
                 GameModeStr = GameModeStr.concat("BO3");
                 break;
             case 3:
-                GameModeStr = GameModeStr.concat("Nombre fixe de tours");
+                Gamemode1 = "Nombre fixe de tours";
                 GameMode2 = "Le tours pour gagner est " + j.GameInformation;
                 break;
             case 4:
-                GameModeStr = GameModeStr.concat("Nombre fix de Score");
+                Gamemode1 = "Nombre fix de Score";
                 GameMode2 = "Le score pour gagner est " + j.GameInformation;
                 break;
         }
         g2d.setColor(Color.green);
-        g2d.setFont(new Font(dfonts[2], Font.BOLD, 15));
-        g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 55);
+        g2d.setFont(new Font(dfonts[2], Font.BOLD, 18));
+        g2d.drawString(GameModeStr, middle+middle/100, getHeight() / 100 * 65);
         if (GameMode2 != null) {
-            g2d.drawString(GameMode2, getWidth() / 100 * 82, getHeight() / 100 * 60);
+            g2d.drawString(Gamemode1, middle+middle/100, getHeight() / 100 * 70);
+            g2d.drawString(GameMode2, middle+middle/100, getHeight() / 100 * 75);
         }
 
         //numbre de tour  鍥炲悎鏁?
         String nbtour = "Le numbre de tour est " + j.numberOfRounds;
         g2d.setColor(Color.blue);
-        g2d.setFont(new Font(dfonts[3], Font.BOLD, 15));
-        g2d.drawString(nbtour, getWidth() / 100 * 82, getHeight() / 100 * 65);
+        g2d.setFont(new Font("Monaco", Font.PLAIN, 20));
+        g2d.drawString(nbtour, middle+middle/100, getHeight() / 100 * 80);
         //playernow  鍝釜鐜╁杩涜鎿嶄綔
-        g2d.setColor(Color.yellow);
-        g2d.setFont(new Font(dfonts[4], Font.BOLD, 15));
-        g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1, getWidth() / 100 * 82, getHeight() / 100 * 70);
+        //g2d.setColor(Color.yellow);
+        //g2d.setFont(new Font(dfonts[4], Font.PLAIN, 22));
+        //g2d.drawString("C'est le tour de joueur " + j.getPlayerNow() + 1, getWidth() / 100 * 82, height / 100 * 70);
         //playercard ou takecard璇ュ嚭鐗岃繕鏄嬁鐗?
-        g2d.setColor(Color.green);
-        g2d.setFont(new Font(dfonts[5], Font.BOLD, 15));
-        if (j.TurnProcess < 3) {
-            g2d.drawString("Veuillez montrer vos cartes", getWidth() / 100 * 82, getHeight() / 100 * 75);
-        } else g2d.drawString("Veuillez prendre une carte", getWidth() / 100 * 82, getHeight() / 100 * 75);
+        g2d.setColor(Color.blue);
+        g2d.setFont(new Font("Calibri", Font.PLAIN, 22));
         //鏄剧ず鐜╁1寰楀垎
         g2d.setColor(Color.PINK);
-        g2d.setFont(new Font(dfonts[8], Font.BOLD, 15));
-        g2d.drawString("Player 01 total score est " + j.Player1totalScore, getWidth() / 100 * 82, getHeight() / 100 * 80);
-        //鏄剧ず鐜╁2寰楀垎
+        g2d.setFont(new Font(dfonts[8], Font.BOLD, 20));
+        g2d.drawString("Player 01 total score est " + j.Player1totalScore, middle+middle/100, getHeight() / 100 * 90);
+
         g2d.setColor(Color.cyan);
-        g2d.setFont(new Font(dfonts[7], Font.BOLD, 15));
-        g2d.drawString("Player 02 total score est " + j.Player2totalScore, getWidth() / 100 * 82, getHeight() / 100 * 85);
+        g2d.setFont(new Font(dfonts[8], Font.BOLD, 20));
+        g2d.drawString("Player 02 total score est " + j.Player2totalScore, middle+middle/100, getHeight() / 100 * 95);
 
         //player1 score
         g2d.setColor(Color.blue);
-        g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
-        g2d.drawString("Player 1 score est ", getWidth() / 100 * 70, getHeight() / 100 * 85);
+        g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
+        g2d.drawString("Player 1 score est ", getWidth() / 100 * 70, height / 100 * 85);
         g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
-        g2d.drawString(String.valueOf(j.Player1Score), getWidth() / 100 * 72, getHeight() / 100 * 92);
+        g2d.drawString(String.valueOf(j.Player1Score), getWidth() / 100 * 72, height / 100 * 92);
         //player2 score
         g2d.setColor(Color.red);
-        g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
-        g2d.drawString("Player 2 score est ", getWidth() / 100 * 70, getHeight() / 100 * 5);
+        g2d.setFont(new Font("Calibri", Font.PLAIN, 20));
+        g2d.drawString("Player 2 score est ", getWidth() / 100 * 70, height / 100 * 5);
         g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
-        g2d.drawString(String.valueOf(j.Player2Score), getWidth() / 100 * 72, getHeight() / 100 * 12);
+        g2d.drawString(String.valueOf(j.Player2Score), getWidth() / 100 * 72, height / 100 * 12);
 
         //双发拿的手卡
         if (j.numberOfRounds <= 16) {
@@ -658,18 +672,18 @@ public class GamePane extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
                     g2d.setFont(new Font(dfonts[10], Font.BOLD, 10));
                     if (j.playerNow == 1) {
                         g2d.setColor(Color.BLUE);
-                        g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, getHeight() / 20 * 13);
-                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 20 * 14, cardWidth, cardHeight, null);
+                        g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, height / 20 * 13);
+                        g2d.drawImage(imageCard, getWidth() / 100 * 5, height / 20 * 14, cardWidth, cardHeight, null);
                     } else {
 
                         g2d.setColor(Color.RED);
-                        g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100 * 38);
-                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100 * 20, cardWidth, cardHeight, null);
+                        g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, height / 100 * 38);
+                        g2d.drawImage(imageCard, getWidth() / 100 * 5, height / 100 * 20, cardWidth, cardHeight, null);
                     }
 
 
@@ -686,17 +700,17 @@ public class GamePane extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    int cardHeight = (getHeight() - 20) / 8;
+                    int cardHeight = (height - 20) / 8;
                     int cardWidth = (int) (cardHeight * 0.6);
                     g2d.setFont(new Font(dfonts[10], Font.BOLD, 10));
 
                     g2d.setColor(Color.BLUE);
-                    g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, getHeight() / 20 * 13);
-                    g2d.drawImage(imageCard2, getWidth() / 100 * 5, getHeight() / 20 * 14, cardWidth, cardHeight, null);
+                    g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, height / 20 * 13);
+                    g2d.drawImage(imageCard2, getWidth() / 100 * 5, height / 20 * 14, cardWidth, cardHeight, null);
 
                     g2d.setColor(Color.RED);
-                    g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100 * 38);
-                    g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100 * 20, cardWidth, cardHeight, null);
+                    g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, height / 100 * 38);
+                    g2d.drawImage(imageCard, getWidth() / 100 * 5, height / 100 * 20, cardWidth, cardHeight, null);
                 }
             }
         }

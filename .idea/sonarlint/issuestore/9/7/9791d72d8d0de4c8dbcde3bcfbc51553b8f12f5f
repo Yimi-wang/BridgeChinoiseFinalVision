@@ -1,39 +1,0 @@
-
-d
-java:S1192W"NDefine a constant instead of duplicating this literal "Player 1 win!" 4 times.(õ•şÄ
-i
-java:S1192Y"NDefine a constant instead of duplicating this literal "Player 2 win!" 4 times.(µÀ†Õıÿÿÿÿ
-r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù…›êşÿÿÿÿ8£ñÈÖ0
-k	java:S1178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÍÛ¦úÿÿÿÿ
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¬¡Å©øÿÿÿÿ
-i
-java:S2095$"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(Ç¤ßüÿÿÿÿ
-k
-java:S2095'"PUse try-with-resources or close this "ObjectOutputStream" in a "finally" clause.(ĞÛÅøÿÿÿÿ
-j	java:S116"VRename this field "GameProcess" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ¿§E
-œ
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÜÈ§ˆûÿÿÿÿ
-B
-java:S1948"-Make "GameProcess" transient or serializable.(Ğ¿§E
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ö–Üşÿÿÿÿ
-c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û¿®Ş
-N
-java:S1854#"8Remove this useless assignment to local variable "file".(ÁäÄî
-S	java:S106"9Replace this use of System.out or System.err by a logger.(èÿØùÿÿÿÿ
-?
-java:S1481#")Remove this unused "file" local variable.(ÁäÄî
-b	java:S1003"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×…´F
-g
-java:S37763"RRefactor this method to reduce its Cognitive Complexity from 59 to the 15 allowed.(×…´F
-N	java:S1066"9Replace this use of System.out or System.err by a logger.(ù¥¢š
-S	java:S106E"9Replace this use of System.out or System.err by a logger.(Îó¯Àüÿÿÿÿ
-S	java:S106J"9Replace this use of System.out or System.err by a logger.(Ã¨Ø°ıÿÿÿÿ
-7	java:S131M""Add a default case to this switch.(ü½œ¾
-N	java:S106W"9Replace this use of System.out or System.err by a logger.(õ•şÄ
-S	java:S106Y"9Replace this use of System.out or System.err by a logger.(µÀ†Õıÿÿÿÿ
-N	java:S106m"9Replace this use of System.out or System.err by a logger.(õ•şÄ
-S	java:S106p"9Replace this use of System.out or System.err by a logger.(µÀ†Õıÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(õ•şÄ
-T	java:S106"9Replace this use of System.out or System.err by a logger.(µÀ†Õıÿÿÿÿ
-O	java:S106"9Replace this use of System.out or System.err by a logger.(õ•şÄ
-T	java:S106"9Replace this use of System.out or System.err by a logger.(µÀ†Õıÿÿÿÿ

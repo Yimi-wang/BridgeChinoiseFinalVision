@@ -55,11 +55,10 @@ public class InterfaceJeu implements Runnable {
         JFrame frame = new JFrame("Testing");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //end
-
+        frame.setPreferredSize(new Dimension(1200,800));
         GamePane cardinterface = new GamePane(j, this, frame,h);
         cardinterface.setLayout(null);
 
-        frame.setSize(1600, 1200);
         frame.setMinimumSize(new Dimension(1200, 800));
         /**
          * 游戏菜单栏实现
