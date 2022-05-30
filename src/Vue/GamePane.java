@@ -4,6 +4,7 @@ import Controleur.IASimpleVue;
 import Controleur.PlayCardsVue;
 import Controleur.TakeCardVue;
 import Modele.*;
+import global.ConfigurationSetting;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -175,7 +176,7 @@ public class GamePane extends JPanel {
                         repaint();
                         ifjgp.selected = null;
                     }
-                }else{
+                } else {
                     System.out.println("Please choose your card.");
                 }
             }
@@ -222,7 +223,7 @@ public class GamePane extends JPanel {
 
         player1Suggest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(j.playerNow==1){
+                if (j.playerNow == 1) {
                     Rectangle bounds;
                     if (ifjgp.selected != null) {
                         bounds = mapCards.get(ifjgp.selected);
@@ -231,9 +232,9 @@ public class GamePane extends JPanel {
                     System.out.println("playcard");
                     IASimpleVue ia = new IASimpleVue(j);
                     int index = ia.IASimplePlayerCard(1);
-                    ifjgp.selected=j.playercard[1].get(index);
+                    ifjgp.selected = j.playercard[1].get(index);
                     bounds = mapCards.get(ifjgp.selected);
-                    bounds.y+=30;
+                    bounds.y += 30;
                     repaint();
                     //player1play.setText("PLAY");
                 }
@@ -289,28 +290,35 @@ public class GamePane extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         //TODO setting background.
-            //背景
-            BufferedImage imageBackGround;
-            File ImageBackGroundFile;
-            ImageBackGroundFile = new File("./res/images/background (1).png");
-            try {
-                imageBackGround = ImageIO.read(ImageBackGroundFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, getWidth(), null);
+        //背景
+        String background = ConfigurationSetting.instance().lis("background");
+        int backgroundi = Integer.parseInt(background);
+        backgroundi++;
+        BufferedImage imageBackGround;
+        File ImageBackGroundFile;
+        ImageBackGroundFile = new File("./res/images/background ("+backgroundi+").png");
+        try {
+            imageBackGround = ImageIO.read(ImageBackGroundFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, getWidth(), null);
 
 
-            //右边背景
-            BufferedImage imageBackGroundRight;
-            File ImageBackGroundRightFile;
-            ImageBackGroundRightFile = new File("./res/images/backright (1).png");
-            try {
-                imageBackGroundRight = ImageIO.read(ImageBackGroundRightFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), getWidth(), null);
+        //右边背景
+
+        BufferedImage imageBackGroundRight;
+        File ImageBackGroundRightFile;
+        String rightback= ConfigurationSetting.instance().lis("backright");
+        int rightbacki =Integer.parseInt(rightback);
+        rightbacki++;
+        ImageBackGroundRightFile = new File("./res/images/backright ("+rightbacki+").png");
+        try {
+            imageBackGroundRight = ImageIO.read(ImageBackGroundRightFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), getWidth(), null);
 
 
         if (j.TurnProcess == 2 || j.TurnProcess == 3) {
@@ -629,12 +637,12 @@ public class GamePane extends JPanel {
                     if (j.playerNow == 1) {
                         g2d.setColor(Color.BLUE);
                         g2d.drawString("Joueur 1 pioche", getWidth() / 100 * 5, getHeight() / 20 * 13);
-                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 20*14, cardWidth, cardHeight, null);
+                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 20 * 14, cardWidth, cardHeight, null);
                     } else {
 
                         g2d.setColor(Color.RED);
                         g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100 * 38);
-                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() /100*20, cardWidth, cardHeight, null);
+                        g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100 * 20, cardWidth, cardHeight, null);
                     }
 
 
@@ -660,8 +668,8 @@ public class GamePane extends JPanel {
                     g2d.drawImage(imageCard2, getWidth() / 100 * 5, getHeight() / 20 * 14, cardWidth, cardHeight, null);
 
                     g2d.setColor(Color.RED);
-                    g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100*38);
-                    g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100*20, cardWidth, cardHeight, null);
+                    g2d.drawString("Joueur 2 pioche", getWidth() / 100 * 5, getHeight() / 100 * 38);
+                    g2d.drawImage(imageCard, getWidth() / 100 * 5, getHeight() / 100 * 20, cardWidth, cardHeight, null);
                 }
             }
         }
@@ -751,7 +759,7 @@ public class GamePane extends JPanel {
         if (j.playerFirst == 2) {//如果本轮该开始的话，判断哪个玩家先开始游戏。
             j.playerFirst = (j.numberOfGames - 1) % 2;
             j.numberOfRounds = 1;
-            j.playerNow=j.playerFirst;
+            j.playerNow = j.playerFirst;
             //进行发牌以及牌堆的实现
             if (j.numberOfGames != 1) {
                 StartHand startHand = new StartHand(j);
@@ -770,12 +778,12 @@ public class GamePane extends JPanel {
 
     public void surrenderthisgame() {
         if (j.playerNow == 0) {
-            j.Player2totalScore += (26 - j.numberOfRounds+1);
+            j.Player2totalScore += (26 - j.numberOfRounds + 1);
         } else {
-            j.Player1totalScore += (26 - j.numberOfRounds+1);
+            j.Player1totalScore += (26 - j.numberOfRounds + 1);
         }
-        j.numberOfRounds=27;
-        estFINI(j,ifjgp.h);
+        j.numberOfRounds = 27;
+        estFINI(j, ifjgp.h);
 
     }
 
@@ -788,7 +796,7 @@ public class GamePane extends JPanel {
             int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
             if (res == 0) {
                 //TODO how to close the window of game 如何回到主菜单
-                frame.dispose();
+                fgp.dispose();
                 Main window = new Main();
                 window.mainframe.setVisible(true);
             } else {
