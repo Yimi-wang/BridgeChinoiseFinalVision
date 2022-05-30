@@ -31,6 +31,9 @@ public class Jeu implements Cloneable, Serializable {
     public Brand player1takecard;
     public Brand player2takecard;
 
+    public Brand lastgamep0playcard;
+
+    public Brand lastgamep1playcard;
     public Jeu() {
         numberOfGames = 0;
         playerFirst = 2;
@@ -196,5 +199,14 @@ public class Jeu implements Cloneable, Serializable {
         Player1Score = 0;
         Player2Score = 0;
         TurnProcess = 1;
+    }
+    public void setlastgame(){
+        if(playerNow==0){
+            lastgamep0playcard=SecondPlayerPlayerCard;
+            lastgamep1playcard=FirstPlayerPlayCard;
+        }else{
+            lastgamep1playcard=SecondPlayerPlayerCard;
+            lastgamep0playcard=FirstPlayerPlayCard;
+        }
     }
 }

@@ -440,12 +440,16 @@ public class Main extends JFrame implements ActionListener {
         }
 
         if(e.getSource()==btnSettingButton){
+            mainframe.dispose();
             initSettingJFrame();
             addSettingActionListener();
         }
 
         if(e.getSource()==settingGetBackBtn){
             settingJframe.dispose();
+            Main window = new Main();
+            window.mainframe.setVisible(true);
+
         }
         if(e.getSource()==settingSaveBackBtn){
             FileWriter fw;
@@ -484,6 +488,8 @@ public class Main extends JFrame implements ActionListener {
                 }
                 fw.close();
                 settingJframe.dispose();
+                Main window = new Main();
+                window.mainframe.setVisible(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

@@ -187,7 +187,7 @@ public class GamePane extends JPanel {
 
         player0Suggest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (j.playerNow == 0) {
+                if (j.playerNow == 0&&j.TurnProcess<3) {
                     Rectangle bounds;
                     if (ifjgp.selected != null) {
                         bounds = mapCards.get(ifjgp.selected);
@@ -227,7 +227,7 @@ public class GamePane extends JPanel {
 
         player1Suggest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (j.playerNow == 1) {
+                if (j.playerNow == 1&&j.TurnProcess<3) {
                     Rectangle bounds;
                     if (ifjgp.selected != null) {
                         bounds = mapCards.get(ifjgp.selected);
@@ -293,6 +293,9 @@ public class GamePane extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
+        String back = ConfigurationSetting.instance().lis("back");
+        int backi = Integer.parseInt(back);
+        backi++;
         //TODO setting background.
         //背景
         String background = ConfigurationSetting.instance().lis("background");
@@ -407,7 +410,7 @@ public class GamePane extends JPanel {
                     g2d.setColor(Color.BLACK);
                     g2d.draw(bounds);
                 } else {
-                    File imgFile = new File("./res/images/back (1).png");
+                    File imgFile = new File("./res/images/back ("+backi+").png");
                     try {
                         imageCard = ImageIO.read(imgFile);
                     } catch (IOException e) {
@@ -481,7 +484,7 @@ public class GamePane extends JPanel {
                     g2d.setColor(Color.BLACK);
                     g2d.draw(bounds);
                 } else {
-                    File imgFile = new File("./res/images/back (1).png");
+                    File imgFile = new File("./res/images/back ("+backi+").png");
                     try {
                         imageCard = ImageIO.read(imgFile);
                     } catch (IOException e) {
@@ -511,7 +514,7 @@ public class GamePane extends JPanel {
                     if (a == 0) {
                         imgFile = new File("./res/images/card (" + card.id + ").png");
                     } else {
-                        imgFile = new File("./res/images/back (1).png");
+                        imgFile = new File("./res/images/back ("+backi+").png");
                     }
 
                     try {
@@ -531,9 +534,7 @@ public class GamePane extends JPanel {
         }
 
         String[] dfonts;
-        dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().
-
-                getAvailableFontFamilyNames();
+        dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
         //杈撳嚭鍙宠竟娓告垙淇℃伅銆?
         //Atout 鏂囧瓧
@@ -546,15 +547,37 @@ public class GamePane extends JPanel {
         if (j.avoiratout) {
             ImageAtoutFile = new File("./res/images/Atout" + j.atout.getInttype() + ".png");
         } else {
-            ImageAtoutFile = new File("./res/images/back (1).png");
+            ImageAtoutFile = new File("./res/images/back ("+backi+").png");
         }
         try {
             imageCardAtout = ImageIO.read(ImageAtoutFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageCardAtout, getWidth() / 100 * 82, getHeight() / 100 * 8, getWidth() / 100 * 15, (getWidth() / 100 * 15) / 6 * 10, null);
+        g2d.drawImage(imageCardAtout, getWidth() / 100 * 88, getHeight() / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
+        if(j.lastgamep1playcard!=null){
+            g2d.setFont(new Font(dfonts[5], Font.BOLD, 15));
+            g2d.drawString("Player 1 play card",getWidth()/100*82, getHeight()/100*20);
+            BufferedImage imagelastplayercard;
+            File imagelastplayercardfile;
+            imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep0playcard.id + ").png");
+            try {
+                imagelastplayercard = ImageIO.read(imagelastplayercardfile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            g2d.drawImage(imagelastplayercard,getWidth() / 100 * 82, getHeight() / 100 * 25, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
+            g2d.drawString("Player 2 play card",getWidth()/100*91, getHeight()/100*20);
+            imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep1playcard.id + ").png");
+            try {
+                imagelastplayercard = ImageIO.read(imagelastplayercardfile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            g2d.drawImage(imagelastplayercard,getWidth() / 100 * 90, getHeight() / 100 * 25, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
 
+
+        }
         //GameMode 娓告垙妯″紡杈撳嚭
         String GameModeStr = "GameMode est :";
         String GameMode2 = null;

@@ -25,16 +25,6 @@ public class PlayCardsVue {
             if (card == j.playercard[j.playerFirst].get(index))
                 break;
         }
-        //回退历史记录
-        if (index == -1) {
-            h.returnHistoire();
-            return j;
-        }
-        //保存读取
-        if (index == -2) {
-            SL.saveorload(h);
-            return j;
-        }
         //进行出牌操作
         j = playCards(j, index);
         //打印先手方出的牌
@@ -52,21 +42,13 @@ public class PlayCardsVue {
             if (card == j.playercard[(j.playerFirst+1)%2].get(index))
                 break;
         }
-        //回退历史记录
-        if (index == -1) {
-            h.returnHistoire();
-            return j;
-        }
-        //保存读取
-        if (index == -2) {
-            SL.saveorload(h);
-            return j;
-        }
+
         //进行出牌操作
         playCards(j, index);
         //打印后手方出的牌
         System.out.println((j.playerNow + 1) + "jouer" + j.SecondPlayerPlayerCard.toString());
         j = comparer(j);
+        j.setlastgame();
         //先后手改变
         j.playerFirst = j.Playerwin;
         //得分增加
