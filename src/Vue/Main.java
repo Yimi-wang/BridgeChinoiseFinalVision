@@ -1,12 +1,14 @@
 package Vue;
 
+import global.ConfigurationSetting;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Enumeration;
 
 
 public class Main extends JFrame implements ActionListener {
@@ -51,12 +53,16 @@ public class Main extends JFrame implements ActionListener {
     JLabel settingShowCard;
 
 
-
     JRadioButton backradioBtn1;
 
     JRadioButton backradioBtn2;
 
     JRadioButton backradioBtn3;
+    JRadioButton rightbackradioBtn1;
+
+    JRadioButton rightbackradioBtn2;
+
+    JRadioButton rightbackradioBtn3;
 
     JRadioButton cardRadioBtn1;
 
@@ -71,6 +77,17 @@ public class Main extends JFrame implements ActionListener {
     JButton settingGetBackBtn;
 
     JButton settingSaveBackBtn;
+    ButtonGroup btnBackGroup;
+    ButtonGroup btnCardGroup;
+    ButtonGroup btnrightBackGroup;
+
+    /**
+     * Create the application.
+     */
+    public Main() {
+        initialize();
+        addEventListener();
+    }
 
     /**
      * Launch the application.
@@ -80,12 +97,9 @@ public class Main extends JFrame implements ActionListener {
         window.mainframe.setVisible(true);
     }
 
-    /**
-     * Create the application.
-     */
-    public Main() {
-        initialize();
-        addEventListener();
+    public static void backmenu() {
+        Main window = new Main();
+        window.mainframe.setVisible(true);
     }
 
     /**
@@ -252,7 +266,7 @@ public class Main extends JFrame implements ActionListener {
 
         AIModeComboBox = new JComboBox();
         // 绑定下拉框选项
-        String[] AIStrArray = {"AIrandom", "AIsimple", "AIminmax", "AIrandom"};
+        String[] AIStrArray = {"Sans AI", "AIsimple", "AIminmax", "AIrandom"};
         for (String item : AIStrArray) {
             AIModeComboBox.addItem(item);
         }
@@ -262,9 +276,7 @@ public class Main extends JFrame implements ActionListener {
 
         //添加问号按钮
         //AIModeQuestionButton = new JButton("?");
-        AIModeQuestionButton = new JButton();
-        ImageIcon Help = new ImageIcon("bridgechinoise-New Version/bridgechinoise/res/images/HELP.png");
-        AIModeQuestionButton.setIcon(Help);
+        AIModeQuestionButton = new JButton("?");
         AIModeQuestionButton.setBounds(340, 200, 50, 30);
         mainContentPanel.add(AIModeQuestionButton);
 
@@ -420,38 +432,88 @@ public class Main extends JFrame implements ActionListener {
         if (e.getSource() == AIModeQuestionButton) {
             JOptionPane.showMessageDialog(null, "这里给出本游戏AI模式的疑问解答\r\n如果您有什么不懂的，可以联系我们121212@gmail.com\r\n", "提示", JOptionPane.QUESTION_MESSAGE);
         }
-        if(e.getSource()==btnLoadButton){
+        if (e.getSource() == btnLoadButton) {
             mainframe.dispose();
             //TODO Loadgame
             //use Jeu j =Controleur.SaveLoadVue(Dossier nom)
             //
         }
+
+        if(e.getSource()==btnSettingButton){
+            initSettingJFrame();
+            addSettingActionListener();
+        }
+
+        if(e.getSource()==settingGetBackBtn){
+            settingJframe.dispose();
+        }
+        if(e.getSource()==settingSaveBackBtn){
+            FileWriter fw;
+            try{
+                int i=0;
+                fw = new FileWriter("./res/defaultSetting.cfg", false);
+                Enumeration element =btnBackGroup.getElements();
+                while (element.hasMoreElements()){
+                    AbstractButton button = (AbstractButton)element.nextElement();
+                    if (button.isSelected()) {
+                        fw.write("background="+i+"\n");
+
+                        break;
+                    }
+                    i++;
+                }
+                i=0;
+                element=btnCardGroup.getElements();
+                while (element.hasMoreElements()){
+                    AbstractButton button = (AbstractButton)element.nextElement();
+                    if (button.isSelected()) {
+                        fw.write("back="+i+"\n");
+                        break;
+                    }
+                    i++;
+                }
+                i=0;
+                element=btnrightBackGroup.getElements();
+                while (element.hasMoreElements()){
+                    AbstractButton button = (AbstractButton)element.nextElement();
+                    if (button.isSelected()) {
+                        fw.write("backright="+i+"\n");
+                        break;
+                    }
+                    i++;
+                }
+                fw.close();
+                settingJframe.dispose();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     //setting Gui
-    public void initSettingJFrame(){
+    public void initSettingJFrame() {
 
-        settingJframe = new JFrame("Bcvue game");
-        settingJframe.setSize(600,600);
+        settingJframe = new JFrame("Configuration");
+        settingJframe.setSize(600, 700);
         settingJframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        gameframe.setResizable(false);
+        settingJframe.setResizable(false);
         settingJframe.setLocationRelativeTo(getOwner()); // 屏幕居中
         settingContentPanel = settingJframe.getContentPane();
 
 
-        settingGetBackBtn = new JButton("返回");
-        settingGetBackBtn.setBounds(130,500,60,30);
+        settingGetBackBtn = new JButton("rentrer");
+        settingGetBackBtn.setBounds(70, 600, 160, 30);
         settingContentPanel.add(settingGetBackBtn);
 
 
-        settingSaveBackBtn = new JButton("保存");
-        settingSaveBackBtn.setBounds(370,500,60,30);
+        settingSaveBackBtn = new JButton("conserver");
+        settingSaveBackBtn.setBounds(370, 600, 160, 30);
         settingContentPanel.add(settingSaveBackBtn);
 
         //初始化组件
         settingJLabel = new JLabel("Configuration");
-        settingJLabel.setBounds(220,20,200,30);
-        Font f1 = new Font("隶书",Font.PLAIN,18);
+        settingJLabel.setBounds(220, 20, 200, 30);
+        Font f1 = new Font("隶书", Font.PLAIN, 18);
         settingJLabel.setFont(f1);
         settingContentPanel.add(settingJLabel);
 
@@ -461,31 +523,43 @@ public class Main extends JFrame implements ActionListener {
         settingContentPanel.add(seprate0);
 
         settingDesktoplbl = new JLabel("Set desktop background:");
-        settingDesktoplbl.setBounds(30,60,230,30);
+        settingDesktoplbl.setBounds(30, 60, 230, 30);
         settingDesktoplbl.setFont(f1);
         settingContentPanel.add(settingDesktoplbl);
 
-        backradioBtn1 = new JRadioButton("", true);
-        backradioBtn1.setBounds(60,100,30,30);
+        String background = ConfigurationSetting.instance().lis("background");
+        int backgroundi = Integer.parseInt(background);
+
+
+        if (backgroundi == 0)
+            backradioBtn1 = new JRadioButton("", true);
+        else backradioBtn1 = new JRadioButton("", false);
+        backradioBtn1.setBounds(60, 100, 30, 30);
         settingContentPanel.add(backradioBtn1);
-        JLabel back1 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back1.png", true));
-        back1.setBounds(90,100,100,60);
+        JLabel back1 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/background (1).png", true));
+        back1.setBounds(90, 100, 100, 60);
         settingContentPanel.add(back1);
 
-        backradioBtn2 = new JRadioButton("", false);
-        backradioBtn2.setBounds(230,100,30,30);
+        if (backgroundi == 1)
+            backradioBtn2 = new JRadioButton("", true);
+        else backradioBtn2 = new JRadioButton("", false);
+        backradioBtn2.setBounds(230, 100, 30, 30);
         settingContentPanel.add(backradioBtn2);
-        JLabel back2 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back2.png", true));
-        back2.setBounds(260,100,100,60);
+        JLabel back2 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/background (2).png", true));
+        back2.setBounds(260, 100, 100, 60);
         settingContentPanel.add(back2);
 
-        backradioBtn3 = new JRadioButton("", false);
-        backradioBtn3.setBounds(390,100,30,30);
+        if (backgroundi == 2)
+            backradioBtn3 = new JRadioButton("", true);
+        else backradioBtn3 = new JRadioButton("", false);
+        backradioBtn3.setBounds(390, 100, 30, 30);
         settingContentPanel.add(backradioBtn3);
-        JLabel back3 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\back3.png", true));
-        back3.setBounds(420,100,100,60);
+        JLabel back3 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/background (3).png", true));
+        back3.setBounds(420, 100, 100, 60);
         settingContentPanel.add(back3);
-        ButtonGroup btnBackGroup = new ButtonGroup();
+
+
+        btnBackGroup = new ButtonGroup();
         btnBackGroup.add(backradioBtn1);
         btnBackGroup.add(backradioBtn2);
         btnBackGroup.add(backradioBtn3);
@@ -498,84 +572,117 @@ public class Main extends JFrame implements ActionListener {
 
 
         settingCardBack = new JLabel("Set card background:");
-        settingCardBack.setBounds(30,200,230,30);
+        settingCardBack.setBounds(30, 200, 230, 30);
         settingCardBack.setFont(f1);
         settingContentPanel.add(settingCardBack);
-//
-        cardRadioBtn1 = new JRadioButton("", true);
-        cardRadioBtn1.setBounds(60,250,30,30);
+
+        String back = ConfigurationSetting.instance().lis("back");
+        int backi = Integer.parseInt(back);
+
+        if (backi == 0)
+            cardRadioBtn1 = new JRadioButton("", true);
+        else cardRadioBtn1 = new JRadioButton("", false);
+        cardRadioBtn1.setBounds(60, 250, 30, 30);
         settingContentPanel.add(cardRadioBtn1);
-        JLabel cardBack1 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack1.png", true));
-        cardBack1.setBounds(90,250,60,90);
+        JLabel cardBack1 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/back (1).png", true));
+        cardBack1.setBounds(90, 250, 60, 90);
         settingContentPanel.add(cardBack1);
 
-        cardRadioBtn2 = new JRadioButton("", false);
-        cardRadioBtn2.setBounds(230,250,30,30);
+        if (backi == 1)
+            cardRadioBtn2 = new JRadioButton("", true);
+        else cardRadioBtn2 = new JRadioButton("", false);
+        cardRadioBtn2.setBounds(230, 250, 30, 30);
         settingContentPanel.add(cardRadioBtn2);
-        JLabel cardBack2 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack2.png", true));
-        cardBack2.setBounds(260,250,60,90);
+        JLabel cardBack2 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/back (2).png", true));
+        cardBack2.setBounds(260, 250, 60, 90);
         settingContentPanel.add(cardBack2);
 
-        cardRadioBtn3 = new JRadioButton("", false);
-        cardRadioBtn3.setBounds(390,250,30,30);
+        if (backi == 2)
+            cardRadioBtn3 = new JRadioButton("", true);
+        else cardRadioBtn3 = new JRadioButton("", false);
+        cardRadioBtn3.setBounds(390, 250, 30, 30);
         settingContentPanel.add(cardRadioBtn3);
-        JLabel cardBack3 = new JLabel(SwingUtil.createAutoAdjustIcon("D:\\OutSourcing\\CardGame\\BCvue\\bridgechinoise-New Version\\bridgechinoise\\src\\images\\cardBack3.png", true));
-        cardBack3.setBounds(420,250,60,90);
+        JLabel cardBack3 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/back (3).png", true));
+        cardBack3.setBounds(420, 250, 60, 90);
         settingContentPanel.add(cardBack3);
-        ButtonGroup btnCardGroup = new ButtonGroup();
+
+
+
+        btnCardGroup = new ButtonGroup();
         btnCardGroup.add(cardRadioBtn1);
         btnCardGroup.add(cardRadioBtn2);
         btnCardGroup.add(cardRadioBtn3);
 
 
-        //分割线2
+        //分割线2 设置右边背景
         JLabel seprate2 = new JLabel("");
         seprate2.setBounds(0, 390, 10000, 1);
         seprate2.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         settingContentPanel.add(seprate2);
 
 
-
-        settingShowCard = new JLabel("Show card:");
-        settingShowCard.setBounds(30,400,230,30);
+        settingShowCard = new JLabel(" set right background");
+        settingShowCard.setBounds(30, 400, 230, 30);
         settingShowCard.setFont(f1);
         settingContentPanel.add(settingShowCard);
 
 
-        cardShowBtn1 = new JRadioButton("Yes", true);
-        Font f2 = new Font("隶书",Font.PLAIN,20);
-        cardShowBtn1.setFont(f2);
-        cardShowBtn1.setBounds(120,440,120,30);
-        settingContentPanel.add(cardShowBtn1);
+        String rightback= ConfigurationSetting.instance().lis("backright");
+        int rightbacki =Integer.parseInt(rightback);
+
+        if (rightbacki == 0)
+            rightbackradioBtn1 = new JRadioButton("", true);
+        else rightbackradioBtn1 = new JRadioButton("", false);
+        rightbackradioBtn1.setBounds(60, 450, 30, 30);
+        settingContentPanel.add(rightbackradioBtn1);
+        JLabel rightback1 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/backright (1).png", true));
+        rightback1.setBounds(90, 450, 60, 90);
+        settingContentPanel.add(rightback1);
+
+        if (rightbacki == 1)
+            rightbackradioBtn2 = new JRadioButton("", true);
+        else rightbackradioBtn2 = new JRadioButton("", false);
+        rightbackradioBtn2.setBounds(230, 450, 30, 30);
+        settingContentPanel.add(rightbackradioBtn2);
+        JLabel rightback2 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/backright (2).png", true));
+        rightback2.setBounds(260, 450, 60, 90);
+        settingContentPanel.add(rightback2);
+
+        if (rightbacki == 2)
+            rightbackradioBtn3 = new JRadioButton("", true);
+        else rightbackradioBtn3 = new JRadioButton("", false);
+        rightbackradioBtn3.setBounds(390, 450, 30, 30);
+        settingContentPanel.add(rightbackradioBtn3);
+        JLabel rightback3 = new JLabel(SwingUtil.createAutoAdjustIcon("./res/images/backright (3).png", true));
+        rightback3.setBounds(420, 450, 60, 90);
+        settingContentPanel.add(rightback3);
 
 
-        cardShowBtn2 = new JRadioButton("No", false);
-        cardShowBtn2.setFont(f2);
-        cardShowBtn2.setBounds(300,440,120,30);
-        settingContentPanel.add(cardShowBtn2);
-        ButtonGroup btnShowGroup = new ButtonGroup();
-        btnShowGroup.add(cardShowBtn1);
-        btnShowGroup.add(cardShowBtn2);
-
+        btnrightBackGroup = new ButtonGroup();
+        btnrightBackGroup.add(rightbackradioBtn1);
+        btnrightBackGroup.add(rightbackradioBtn2);
+        btnrightBackGroup.add(rightbackradioBtn3);
 
         settingContentPanel.setLayout(null);
 
+        settingJframe.setVisible(true);
     }
 
     //添加setting界面监听
-    public void addSettingActionListener(){
-        cardRadioBtn1.addActionListener(this);
-        cardRadioBtn2.addActionListener(this);
-        cardRadioBtn3.addActionListener(this);
-        backradioBtn1.addActionListener(this);
-        backradioBtn2.addActionListener(this);
-        backradioBtn3.addActionListener(this);
-        cardShowBtn1.addActionListener(this);
-        cardShowBtn2.addActionListener(this);
+    public void addSettingActionListener() {
+//        cardRadioBtn1.addActionListener(this);
+//        cardRadioBtn2.addActionListener(this);
+//        cardRadioBtn3.addActionListener(this);
+//        backradioBtn1.addActionListener(this);
+//        backradioBtn2.addActionListener(this);
+//        backradioBtn3.addActionListener(this);
+//        cardShowBtn1.addActionListener(this);
+//        cardShowBtn2.addActionListener(this);
         settingGetBackBtn.addActionListener(this);
         settingSaveBackBtn.addActionListener(this);
 
     }
+
 }
 
 

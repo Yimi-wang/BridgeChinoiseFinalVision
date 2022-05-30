@@ -1,0 +1,67 @@
+
+d
+java:S1192Y"NDefine a constant instead of duplicating this literal "Player 1 win!" 8 times.(õ•þÄ
+i
+java:S1192["NDefine a constant instead of duplicating this literal "Player 2 win!" 8 times.(µÀ†Õýÿÿÿÿ
+t	java:S135Á"YReduce the total number of break and continue statements in this loop to use at most one.(˜Á£àýÿÿÿÿ
+f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó•—¢
+e	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó½¸i
+k	java:S117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(øƒ²‰üÿÿÿÿ
+k	java:S117#"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä…‡Áúÿÿÿÿ
+f	java:S117'"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿¸Ðñ
+f	java:S117("QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘ñÛ±
+l	java:S117Œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù÷Çùþÿÿÿÿ
+l	java:S117­"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù÷Çùþÿÿÿÿ
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÐûÊ9
+b	java:S116"MRename this field "IA" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜŸíö
+c	java:S116"NRename this field "GSI" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÝÅ„¦
+—
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(öáúò
+Q	java:S1250"<This block of commented-out lines of code should be removed.(¼«úà
+m
+java:S3776H"RRefactor this method to reduce its Cognitive Complexity from 58 to the 15 allowed.(è¿ù™üÿÿÿÿ
+Q
+java:S1854I"6Remove this useless assignment to local variable "sl".(ÆžÕøþÿÿÿÿ
+B
+java:S1481I"'Remove this unused "sl" local variable.(ÆžÕøþÿÿÿÿ
+7	java:S131M""Add a default case to this switch.(¸·žá
+N	java:S106Y"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+S	java:S106["9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+N	java:S106q"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+S	java:S106t"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+N	java:S106z"9Replace this use of System.out or System.err by a logger.(Ã–³¦
+O	java:S106…"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106‡"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+O	java:S106"9Replace this use of System.out or System.err by a logger.(³¬Í­
+O	java:S106Ž"9Replace this use of System.out or System.err by a logger.(á×†á
+O	java:S106"9Replace this use of System.out or System.err by a logger.(á×†á
+O	java:S106–"9Replace this use of System.out or System.err by a logger.(á×†á
+O	java:S106™"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106›"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+n
+java:S3776ª"RRefactor this method to reduce its Cognitive Complexity from 59 to the 15 allowed.(‡Ï‰­øÿÿÿÿ
+8	java:S131®""Add a default case to this switch.(¸·žá
+T	java:S106°"9Replace this use of System.out or System.err by a logger.(†Þ‹ûÿÿÿÿ
+O	java:S106º"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106¼"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+T	java:S106À"9Replace this use of System.out or System.err by a logger.(Ò–ú§ûÿÿÿÿ
+O	java:S106Ð"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106Ó"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+O	java:S106Ù"9Replace this use of System.out or System.err by a logger.(Ø¨åº
+T	java:S106á"9Replace this use of System.out or System.err by a logger.(óú£©ýÿÿÿÿ
+O	java:S106â"9Replace this use of System.out or System.err by a logger.(Ò”´ž
+O	java:S106æ"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106è"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+T	java:S106í"9Replace this use of System.out or System.err by a logger.(ü¯¯Ìúÿÿÿÿ
+O	java:S106ö"9Replace this use of System.out or System.err by a logger.(õ•þÄ
+T	java:S106ø"9Replace this use of System.out or System.err by a logger.(µÀ†Õýÿÿÿÿ
+T	java:S106þ"9Replace this use of System.out or System.err by a logger.(óú£©ýÿÿÿÿ
+O	java:S106ÿ"9Replace this use of System.out or System.err by a logger.(Ò”´ž
+n
+java:S3776†"RRefactor this method to reduce its Cognitive Complexity from 33 to the 15 allowed.(Ç÷¡®úÿÿÿÿ
+8	java:S131Š""Add a default case to this switch.(Î¢Äø
+i	java:S100È"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™Ñ‡´üÿÿÿÿ
+n
+java:S3776È"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(™Ñ‡´üÿÿÿÿ
+8	java:S131Ì""Add a default case to this switch.(Î¢Äø
+W	java:S125×"<This block of commented-out lines of code should be removed.(“Ù¨Ÿþÿÿÿÿ

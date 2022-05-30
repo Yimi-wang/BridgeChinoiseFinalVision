@@ -190,8 +190,11 @@ public class Jeu implements Cloneable, Serializable {
         numberOfGames++;
     }
     public void restart(){
-        Player1totalScore=0;
-        Player2totalScore=0;
-        reset();
+        playerFirst=(numberOfGames+1)%2;
+        numberOfRounds = 0;
+        Playerwin = 1100000;
+        Player1Score = 0;
+        Player2Score = 0;
+        TurnProcess = 1;
     }
 }
