@@ -573,8 +573,8 @@ public class GamePaneLoad extends JPanel {
         }
         g2d.drawImage(imageCardAtout, middle+middle/15, height / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
         g2d.setColor(Color.ORANGE);
-        g2d.setFont(new Font("Calibri",Font.ITALIC,20));
-        g2d.drawString("Cartes joué au tour précédent",middle+middle/100,getHeight()/100*35);
+        g2d.setFont(new Font("Calibri",Font.ITALIC,18));
+        g2d.drawString("Cartes joue au tour precedent",middle+middle/100,getHeight()/100*35);
         if(j.lastgamep1playcard!=null){
             g2d.setFont(new Font(dfonts[5], Font.BOLD, 20));
             g2d.drawString("Joueur 1 ",middle+middle/40, getHeight()/100*38);
@@ -829,10 +829,10 @@ public class GamePaneLoad extends JPanel {
 
     public void wingamewindow(Jeu j, int i, int winner) {
         if (i == 1) {
-            String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continuer";
+            String winmassage = "Joueur " + winner + " ganne cette rond, le jeu va continuer";
             JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
         } else {
-            String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
+            String winmassage = "Joueur " + winner + " ganne cette jeux, Vous volez jouer encore?";
             int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
             if (res == 0) {
                 //TODO how to close the window of game 如何回到主菜单

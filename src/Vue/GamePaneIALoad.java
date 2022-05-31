@@ -833,10 +833,10 @@ public class GamePaneIALoad extends JPanel {
 
     public void wingamewindow(Jeu j, int i, int winner) {
         if (i == 1) {
-            String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continuer";
+            String winmassage = "Joueur " + winner + " ganne cette rond, le jeu va continuer";
             JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
         } else {
-            String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
+            String winmassage = "Joueur " + winner + " ganne cette jeux, Vous volez jouer encore?";
             int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
             if (res == 0) {
                 //TODO how to close the window of game 如何回到主菜单
