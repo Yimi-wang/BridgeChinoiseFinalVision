@@ -98,7 +98,7 @@ public class InterfaceIALoad implements Runnable {
                 SaveLoadVue slv = new SaveLoadVue();
 
                 JFrame saveframe = new JFrame("Sauvegarder  !");
-                saveframe.setSize(200, 120);
+                saveframe.setSize(280, 120);
                 /*
                  * ImageIcon savelogo = new ImageIcon("res/images/Logo.png"); JLabel
                  * savelogolabel = new JLabel(savelogo); savelogolabel.setBounds(30, 20, 300,

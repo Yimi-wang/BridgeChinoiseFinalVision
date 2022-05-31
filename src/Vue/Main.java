@@ -108,6 +108,7 @@ public class Main extends JFrame implements ActionListener {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+
         //字体表格
         String[] dfonts;
         dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
@@ -162,17 +163,17 @@ public class Main extends JFrame implements ActionListener {
         mainContentPanel.add(btnStartButton);
 
 
-        // online
-        //加载背景图片
-        String onlinePath = "./res/images/ONLINE.png";
-        ImageIcon onlineIcon1 = new ImageIcon(onlinePath);
-        Image onlineImg = onlineIcon1.getImage();
-        Image onlineNewImg = onlineImg.getScaledInstance(120, 40, java.awt.Image.SCALE_SMOOTH);
-        ImageIcon onlineIcon2 = new ImageIcon(onlineNewImg);
-
-        btnOnlineButton = new RoundRectButton(onlineIcon2);
-        btnOnlineButton.setBounds(90, 220, 120, 40);
-        mainContentPanel.add(btnOnlineButton);
+//        // online
+//        //加载背景图片
+//        String onlinePath = "./res/images/ONLINE.png";
+//        ImageIcon onlineIcon1 = new ImageIcon(onlinePath);
+//        Image onlineImg = onlineIcon1.getImage();
+//        Image onlineNewImg = onlineImg.getScaledInstance(120, 40, java.awt.Image.SCALE_SMOOTH);
+//        ImageIcon onlineIcon2 = new ImageIcon(onlineNewImg);
+//
+//        btnOnlineButton = new RoundRectButton(onlineIcon2);
+//        btnOnlineButton.setBounds(90, 220, 120, 40);
+//        mainContentPanel.add(btnOnlineButton);
 
 
         // load
@@ -184,7 +185,7 @@ public class Main extends JFrame implements ActionListener {
         ImageIcon loadIcon2 = new ImageIcon(loadNewImg);
 
         btnLoadButton = new RoundRectButton(loadIcon2);
-        btnLoadButton.setBounds(90, 300, 120, 40);
+        btnLoadButton.setBounds(90, 240, 120, 40);
         mainContentPanel.add(btnLoadButton);
 
 
@@ -197,7 +198,7 @@ public class Main extends JFrame implements ActionListener {
         ImageIcon settingIcon2 = new ImageIcon(settingNewImg);
 
         btnSettingButton = new RoundRectButton(settingIcon2);
-        btnSettingButton.setBounds(90, 380, 120, 40);
+        btnSettingButton.setBounds(90, 340, 120, 40);
         mainContentPanel.add(btnSettingButton);
 
 //        //添加gameMode
@@ -367,7 +368,7 @@ public class Main extends JFrame implements ActionListener {
         btnStartButton.setVisible(false);
         btnLoadButton.setVisible(false);
         btnSettingButton.setVisible(false);
-        btnOnlineButton.setVisible(false);
+       // btnOnlineButton.setVisible(false);
     }
 
 
@@ -378,7 +379,7 @@ public class Main extends JFrame implements ActionListener {
         btnStartButton.setVisible(true);
         btnLoadButton.setVisible(true);
         btnSettingButton.setVisible(true);
-        btnOnlineButton.setVisible(true);
+       // btnOnlineButton.setVisible(true);
 
     }
 
@@ -387,7 +388,7 @@ public class Main extends JFrame implements ActionListener {
         //主界面按钮
         btnStartButton.addActionListener(this);
         btnLoadButton.addActionListener(this);
-        btnOnlineButton.addActionListener(this);
+   //     btnOnlineButton.addActionListener(this);
         btnSettingButton.addActionListener(this);
 
         //gameMode按钮

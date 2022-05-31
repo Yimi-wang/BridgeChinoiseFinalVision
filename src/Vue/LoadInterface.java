@@ -39,7 +39,8 @@ public class LoadInterface implements Runnable{
     @Override
     public void run() {
         this.frame = new JFrame("Charger !");
-
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         JButton confirm = new JButton("Charger");
         JButton cancel = new JButton("Quitter");
 
