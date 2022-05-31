@@ -333,11 +333,9 @@ public class GamePaneLoad extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(getWidth() / 5*4);
+
         g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), height, null);
 
-        System.out.println(getWidth());
-        System.out.println(height);
         if (j.TurnProcess == 2 || j.TurnProcess == 3) {
             //画先手方出的�?
             if (j.TurnProcess == 2) {
@@ -402,7 +400,7 @@ public class GamePaneLoad extends JPanel {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 1) {
                     if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 1 && j.TurnProcess == 2) {
-                        File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        File imgFile = new File("./res/images/BBcard (" + card.id + ").png");
                         try {
                             imageCard = ImageIO.read(imgFile);
                         } catch (IOException e) {
@@ -477,7 +475,7 @@ public class GamePaneLoad extends JPanel {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 0) {
                     if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 0 && j.TurnProcess == 2) {
-                        File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        File imgFile = new File("./res/images/BBcard (" + card.id + ").png");
                         try {
                             imageCard = ImageIO.read(imgFile);
                         } catch (IOException e) {
@@ -528,7 +526,10 @@ public class GamePaneLoad extends JPanel {
                     BufferedImage imageCard;
                     File imgFile;
                     if (a == 0) {
-                        imgFile = new File("./res/images/card (" + card.id + ").png");
+                        if (j.TurnProcess < 3)
+                            imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        else
+                            imgFile = new File("./res/images/card (" + card.id + ").png");
                     } else {
                         imgFile = new File("./res/images/back ("+backi+").png");
                     }
@@ -556,7 +557,6 @@ public class GamePaneLoad extends JPanel {
         //Atout 文字
         g2d.setColor(Color.red);
         g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
-        System.out.println(getWidth() / 100 * 90);
         g2d.drawString("Atout", middle+middle/15, height / 15);
         //BRAND 图片
         BufferedImage imageCardAtout;
@@ -627,7 +627,7 @@ public class GamePaneLoad extends JPanel {
         }
 
         //numbre de tour  回合�?
-        String nbtour = "Le numbre de tour est " + j.numberOfRounds;
+        String nbtour = "Le nombre de tour est " + j.numberOfRounds;
         g2d.setColor(Color.blue);
         g2d.setFont(new Font("Monaco", Font.PLAIN, 20));
         g2d.drawString(nbtour, middle+middle/100, getHeight() / 100 * 80);
@@ -759,10 +759,8 @@ public class GamePaneLoad extends JPanel {
                     if (j.Game_ind > j.GameInformation) {
                         if (j.Player1totalScore > j.Player2totalScore) {
                             wingamewindow(j, 2, 1);
-                            System.out.println("Player 1 win!");
                         } else {
                             wingamewindow(j, 2, 2);
-                            System.out.println("Player 2 win!");
                         }
                         h.cleanHistoire();
                     } else {
@@ -829,7 +827,7 @@ public class GamePaneLoad extends JPanel {
 
     public void wingamewindow(Jeu j, int i, int winner) {
         if (i == 1) {
-            String winmassage = "Joueur " + winner + " ganne cette rond, le jeu va continuer";
+            String winmassage = "Joueur " + winner + " ganne ce tour, le jeu va continuer";
             JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
         } else {
             String winmassage = "Joueur " + winner + " ganne cette jeux, Vous volez jouer encore?";

@@ -32,11 +32,11 @@ public class GameProcess {
 
         j.playerFirst = 2;
         System.out.println("IA 0 : sans IA");
-        System.out.println("IA 1 : random");
+        System.out.println("IA 1 : IA Random");
         System.out.println("IA 2 : IA simple");
         System.out.println("IA 3 : QAQ");
         System.out.println("4 : web");
-        System.out.println("Donner le 'IA' que vous voulez jouer");
+        System.out.println("Choisissez la 'IA' avec laquelle que vous voulez jouer");
         Scanner input = new Scanner(System.in);
         IA = input.nextInt();
         if(IA==4){
@@ -68,11 +68,11 @@ public class GameProcess {
         SaveLoad sl = new SaveLoad();
         System.out.println("Gamemode 1 : BO1");
         System.out.println("Gamemode 2 : BO3");
-        System.out.println("Gamemode 3 : Number de Game Fixe");
+        System.out.println("Gamemode 3 : Nombre de Jeu fixe");
         System.out.println("Gamemode 4 : Score Fixe");
-        System.out.println("Gamemode 5 : AI random VS AI simple");
+        System.out.println("Gamemode 5 : IA random vs IA simple");
         System.out.println("Gamemode 6 : Web");
-        System.out.println("Donner le 'gamemode' que vous voulez jouer");
+        System.out.println("Choisissez le 'gamemode' souhaité");
         Scanner input = new Scanner(System.in);
         int gamemode = input.nextInt();
         j.GameMode = gamemode;
@@ -87,9 +87,9 @@ public class GameProcess {
                 }
                 //游戏结束，判断胜负手
                 if (j.Player1Score > j.Player2Score) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a am!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 break;
             case 2:
@@ -110,16 +110,16 @@ public class GameProcess {
                     j.Player2WinGame++;
                 }
                 if (j.Player1WinGame == 2) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                     break;
                 } else if (j.Player2WinGame == 2) {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                     break;
                 }
 
                 break;
             case 3:
-                System.out.println("Donner le numbre de game vous voulez jouer");
+                System.out.println("Choisissez le nombre de game vous voulez jouer");
                 input = new Scanner(System.in);
                 int nGame = input.nextInt();
                 j.GameInformation = nGame;
@@ -133,14 +133,14 @@ public class GameProcess {
                     }
                 }
                 if (j.Player1totalScore > j.Player2totalScore) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 h.cleanHistoire();
                 break;
             case 4:
-                System.out.println("Donner le score vous voulez jouer");
+                System.out.println("Choisissez le score vous voulez jouer");
                 input = new Scanner(System.in);
                 int ScoreWin = input.nextInt();
                 j.GameInformation = ScoreWin;
@@ -152,9 +152,9 @@ public class GameProcess {
                         turnstart(h);
                         if (j.Player1totalScore >= ScoreWin || j.Player2totalScore >= ScoreWin) {
                             if (j.Player1totalScore > j.Player2totalScore) {
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             break;
                         }
@@ -177,9 +177,9 @@ public class GameProcess {
     public void gameAI() {
         System.out.println("Gamemode 1 : BO1");
         System.out.println("Gamemode 2 : BO3");
-        System.out.println("Gamemode 3 : Number de Game Fixe");
-        System.out.println("Gamemode 4 : Score Fixe");
-        System.out.println("Donner le 'gamemode' que vous voulez jouer");
+        System.out.println("Gamemode 3 : Nombre de jeux fixe");
+        System.out.println("Gamemode 4 : Score fixe");
+        System.out.println("Choisissez le 'gamemode' que vous voulez jouer");
         Scanner input = new Scanner(System.in);
         int gamemode = input.nextInt();
         switch (gamemode) {
@@ -193,9 +193,9 @@ public class GameProcess {
                 }
                 //游戏结束，判断胜负手
                 if (j.Player1Score > j.Player2Score) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 break;
             case 2:
@@ -214,16 +214,16 @@ public class GameProcess {
                         j.Player2WinGame++;
                     }
                     if (j.Player1WinGame == 2) {
-                        System.out.println("Player 1 win!");
+                        System.out.println("Joueur 1 a gagné!");
                         break;
                     } else if (j.Player2WinGame == 2) {
-                        System.out.println("Player 2 win!");
+                        System.out.println("Joueur 2 a gagné!");
                         break;
                     }
                 }
                 break;
             case 3:
-                System.out.println("Donner le numbre de game vous voulez jouer");
+                System.out.println("Donner le nombre de jeux vous voulez jouer");
                 input = new Scanner(System.in);
                 int nGame = input.nextInt();
                 for (int i = 0; i < nGame; i++) {
@@ -238,14 +238,14 @@ public class GameProcess {
 
                 }
                 if (j.Player1totalScore > j.Player2totalScore) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 h.cleanHistoire();
                 break;
             case 4:
-                System.out.println("Donner le score vous voulez jouer");
+                System.out.println("Choisissez le score vous voulez jouer");
                 input = new Scanner(System.in);
                 int ScoreWin = input.nextInt();
                 while (j.Player1totalScore < ScoreWin && j.Player2totalScore < ScoreWin) {
@@ -256,16 +256,16 @@ public class GameProcess {
                         AIvsAI();
                         if (j.Player1totalScore >= ScoreWin || j.Player2totalScore >= ScoreWin) {
                             if (j.Player1totalScore > j.Player2totalScore) {
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             break;
                         }
                     }
                 }
-                System.out.println("player 1 total score est " + j.Player1totalScore);
-                System.out.println("player 2 total score est " + j.Player2totalScore);
+                System.out.println("Le score total du joueur 1 est " + j.Player1totalScore);
+                System.out.println("Le score total du joueur 2 est " + j.Player2totalScore);
                 h.cleanHistoire();
                 break;
         }
@@ -392,5 +392,4 @@ public class GameProcess {
         }
     }
 }
-
 

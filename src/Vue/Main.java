@@ -112,7 +112,7 @@ public class Main extends JFrame implements ActionListener {
         String[] dfonts;
         dfonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         // ≥ı ºªØ¥∞ÃÂ
-        mainframe = new JFrame("Bcvue game");
+        mainframe = new JFrame("Bridge Chinoise");
         mainframe.setSize(720, 506);
         mainframe.setLocationRelativeTo(null);
         mainframe.getContentPane().setLayout(null);

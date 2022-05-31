@@ -95,13 +95,13 @@ public class Jeu implements Cloneable, Serializable {
     public void showCard() {
         //将牌按照花色和大小排序
         handCardSorting();
-        System.out.println("player 1 card");
+        System.out.println("Carte du joueur 1");
         for (int i = 0; i < playercard[0].size(); i++) {
             Brand b = playercard[0].get(i);
             String s = b.toString();
             System.out.println("index " + i + " " + s);
         }
-        System.out.println("player 2 card");
+        System.out.println("Carte du joueur 2");
         for (int i = 0; i < playercard[1].size(); i++) {
             Brand b = playercard[1].get(i);
             String s = b.toString();

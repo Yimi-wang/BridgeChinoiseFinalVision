@@ -70,11 +70,11 @@ public class InterfaceIALoad implements Runnable {
 
         //主菜单
         JMenuBar menuBar = new JMenuBar();
-        JMenu saveMenu = new JMenu("Save");
-        JMenu backMenu = new JMenu("Back");
-        JMenu surrenderMenu = new JMenu("Surrender");
-        JMenu showcardMenu = new JMenu("Showcard");
-        JMenu helpMenu = new JMenu("Help");
+        JMenu saveMenu = new JMenu("Sauvegarder");
+        JMenu backMenu = new JMenu("Retour");
+        JMenu surrenderMenu = new JMenu("Abondonner");
+        JMenu showcardMenu = new JMenu("Montrer la carte");
+        JMenu helpMenu = new JMenu("Aide");
         JMenu quitterMenu = new JMenu("Quit");
         menuBar.add(saveMenu);
         menuBar.add(backMenu);
@@ -86,8 +86,8 @@ public class InterfaceIALoad implements Runnable {
          * Save主菜单和监听以及对于方法
          */
         //Save菜单子菜单
-        JMenuItem saveMenuItem01 = new JMenuItem("Save and continue");
-        JMenuItem saveMenuItem02 = new JMenuItem("Save and quit");
+        JMenuItem saveMenuItem01 = new JMenuItem("Sauvegarder et continuer");
+        JMenuItem saveMenuItem02 = new JMenuItem("Sauvegarder et quitter");
         saveMenu.add(saveMenuItem01);
         saveMenu.add(saveMenuItem02);
         saveMenuItem01.addActionListener(new ActionListener() {
@@ -97,7 +97,7 @@ public class InterfaceIALoad implements Runnable {
 
                 SaveLoadVue slv = new SaveLoadVue();
 
-                JFrame saveframe = new JFrame("Sauvgarder !");
+                JFrame saveframe = new JFrame("Sauvegarder  !");
                 saveframe.setSize(200, 120);
                 /*
                  * ImageIcon savelogo = new ImageIcon("res/images/Logo.png"); JLabel
@@ -108,11 +108,11 @@ public class InterfaceIALoad implements Runnable {
                  */
 
 
-                JButton saveconfirm = new JButton("Sauvgarder");
+                JButton saveconfirm = new JButton("Sauvegarder ");
 
                 JButton savecancel = new JButton("Quitter");
 
-                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvgarder");
+                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvegarder ");
 
                 JTextField savenameField = new JTextField("defautSaveFile");
 
@@ -157,7 +157,7 @@ public class InterfaceIALoad implements Runnable {
 
                 SaveLoadVue slv = new SaveLoadVue();
 
-                JFrame saveframe = new JFrame("Sauvgarder !");
+                JFrame saveframe = new JFrame("Sauvegarder !");
                 saveframe.setSize(200, 120);
                 /*
                  * ImageIcon savelogo = new ImageIcon("res/images/Logo.png"); JLabel
@@ -168,11 +168,11 @@ public class InterfaceIALoad implements Runnable {
                  */
 
 
-                JButton saveconfirm = new JButton("Sauvgarder");
+                JButton saveconfirm = new JButton("Sauvegarder");
 
                 JButton savecancel = new JButton("Quitter");
 
-                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvgarder");
+                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvegarder");
 
                 JTextField savenameField = new JTextField("defautSaveFile");
 
@@ -217,8 +217,8 @@ public class InterfaceIALoad implements Runnable {
          * Back主菜单和监听和对应方法
          */
         //Back菜单子菜单
-        JMenuItem backMenuItem01 = new JMenuItem("Back to your trun");
-        JMenuItem backMenuItem02 = new JMenuItem("Restart");
+        JMenuItem backMenuItem01 = new JMenuItem("Retourner à ton tour");
+        JMenuItem backMenuItem02 = new JMenuItem("Redémarrer");
         backMenu.add(backMenuItem01);
         backMenu.add(backMenuItem02);
         //监听和方法
@@ -249,8 +249,8 @@ public class InterfaceIALoad implements Runnable {
          * Surrender 主菜单和监听和对应方法
          */
         //surrender菜单子菜单
-        JMenuItem surrenderMenuItem01 = new JMenuItem("Surrender this game");
-        JMenuItem surrenderMenuItem02 = new JMenuItem("Surrender all game");
+        JMenuItem surrenderMenuItem01 = new JMenuItem("Abondonner ce jeu");
+        JMenuItem surrenderMenuItem02 = new JMenuItem("Abondonner tous les jeux");
         surrenderMenu.add(surrenderMenuItem01);
         surrenderMenu.add(surrenderMenuItem02);
         //监听
@@ -271,8 +271,8 @@ public class InterfaceIALoad implements Runnable {
          * showcard主菜单和监听和对应方法
          */
         //shoucard菜单子菜单
-        final JRadioButtonMenuItem showcardTrue = new JRadioButtonMenuItem("yes");
-        final JRadioButtonMenuItem showcardFalse = new JRadioButtonMenuItem("no");
+        final JRadioButtonMenuItem showcardTrue = new JRadioButtonMenuItem("oui");
+        final JRadioButtonMenuItem showcardFalse = new JRadioButtonMenuItem("non");
         showcardMenu.add(showcardTrue);
         showcardMenu.add(showcardFalse);
         // 其中两个 单选按钮子菜单，要实现单选按钮的效果，需要将它们放到一个按钮组中
@@ -301,8 +301,8 @@ public class InterfaceIALoad implements Runnable {
          * help主菜单和监听和对应方法。
          */
         //help 菜单子菜单
-        JMenuItem helpMenuItem01 = new JMenuItem("help");
-        JMenuItem helpMenuItem02 = new JMenuItem("regle");
+        JMenuItem helpMenuItem01 = new JMenuItem("Aide");
+        JMenuItem helpMenuItem02 = new JMenuItem("Règles");
         helpMenu.add(helpMenuItem01);
         helpMenu.add(helpMenuItem02);
         //监听

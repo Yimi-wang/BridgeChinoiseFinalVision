@@ -40,7 +40,7 @@ public class GamePane extends JPanel {
         this.j = j;
         this.ifjgp = ifj;
         this.fgp = f;
-        this.h=h;
+        this.h = h;
 
         playcard = new PlayCardsVue(j, ifjgp.h);
         takecard = new TakeCardVue(j, ifjgp.h);
@@ -148,10 +148,10 @@ public class GamePane extends JPanel {
         mapCards.clear();
         this.removeAll();
         this.repaint();
-        int height=getHeight();
+        int height = getHeight();
         player0play = new JButton("Play");
         player0play.setBackground(Color.blue);
-        player0play.setBounds(getWidth() /100*25, height / 20 * 15, getWidth() / 15, height / 20);
+        player0play.setBounds(getWidth() / 100 * 25, height / 20 * 15, getWidth() / 15, height / 20);
         this.add(player0play);
         player0Suggest = new JButton("Suggestion");
         player0Suggest.setBackground(Color.blue);
@@ -160,7 +160,7 @@ public class GamePane extends JPanel {
 
         player1play = new JButton("Play");
         player1play.setBackground(Color.red);
-        player1play.setBounds(getWidth() / 100*25, height / 20 * 4, getWidth() / 15, height / 20);
+        player1play.setBounds(getWidth() / 100 * 25, height / 20 * 4, getWidth() / 15, height / 20);
         this.add(player1play);
         player1Suggest = new JButton("Suggestion");
         player1Suggest.setBackground(Color.red);
@@ -182,7 +182,7 @@ public class GamePane extends JPanel {
                         //TODO Can't make the button disappear
                         repaint();
                         ifjgp.selected = null;
-                        estFINI(j,h);
+                        estFINI(j, h);
                     }
                 } else {
                     System.out.println("Please choose your card.");
@@ -192,7 +192,7 @@ public class GamePane extends JPanel {
 
         player0Suggest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (j.playerNow == 0&&j.TurnProcess<3) {
+                if (j.playerNow == 0 && j.TurnProcess < 3) {
                     Rectangle bounds;
                     if (ifjgp.selected != null) {
                         bounds = mapCards.get(ifjgp.selected);
@@ -224,7 +224,7 @@ public class GamePane extends JPanel {
                         drawCHANGFANGXING(j);
                         repaint();
                         ifjgp.selected = null;
-                        estFINI(j,h);
+                        estFINI(j, h);
                     }
                 }
             }
@@ -232,7 +232,7 @@ public class GamePane extends JPanel {
 
         player1Suggest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (j.playerNow == 1&&j.TurnProcess<3) {
+                if (j.playerNow == 1 && j.TurnProcess < 3) {
                     Rectangle bounds;
                     if (ifjgp.selected != null) {
                         bounds = mapCards.get(ifjgp.selected);
@@ -309,14 +309,14 @@ public class GamePane extends JPanel {
         backgroundi++;
         BufferedImage imageBackGround;
         File ImageBackGroundFile;
-        ImageBackGroundFile = new File("./res/images/background ("+backgroundi+").png");
+        ImageBackGroundFile = new File("./res/images/background (" + backgroundi + ").png");
         try {
             imageBackGround = ImageIO.read(ImageBackGroundFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        int middle=getWidth()/5*4;
-        int height=getHeight()+1;
+        int middle = getWidth() / 5 * 4;
+        int height = getHeight() + 1;
         g2d.drawImage(imageBackGround, 0, 0, getWidth() / 5 * 4, height, null);
 
 
@@ -324,20 +324,19 @@ public class GamePane extends JPanel {
 
         BufferedImage imageBackGroundRight;
         File ImageBackGroundRightFile;
-        String rightback= ConfigurationSetting.instance().lis("backright");
-        int rightbacki =Integer.parseInt(rightback);
+        String rightback = ConfigurationSetting.instance().lis("backright");
+        int rightbacki = Integer.parseInt(rightback);
         rightbacki++;
-        ImageBackGroundRightFile = new File("./res/images/backright ("+rightbacki+").png");
+        ImageBackGroundRightFile = new File("./res/images/backright (" + rightbacki + ").png");
         try {
             imageBackGroundRight = ImageIO.read(ImageBackGroundRightFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(getWidth() / 5*4);
+
         g2d.drawImage(imageBackGroundRight, getWidth() / 5 * 4, 0, getWidth(), height, null);
 
-            System.out.println(getWidth());
-            System.out.println(height);
+
         if (j.TurnProcess == 2 || j.TurnProcess == 3) {
             //鐢诲厛鎵嬫柟鍑虹殑鐗?
             if (j.TurnProcess == 2) {
@@ -398,7 +397,7 @@ public class GamePane extends JPanel {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 1) {
                     if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 1 && j.TurnProcess == 2) {
-                        File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        File imgFile = new File("./res/images/BBcard (" + card.id + ").png");
                         try {
                             imageCard = ImageIO.read(imgFile);
                         } catch (IOException e) {
@@ -420,7 +419,7 @@ public class GamePane extends JPanel {
                     g2d.setColor(Color.red);
                     g2d.draw(bounds);
                 } else {
-                    File imgFile = new File("./res/images/back ("+backi+").png");
+                    File imgFile = new File("./res/images/back (" + backi + ").png");
                     try {
                         imageCard = ImageIO.read(imgFile);
                     } catch (IOException e) {
@@ -467,13 +466,13 @@ public class GamePane extends JPanel {
 
         for (Brand card : j.playercard[0]) {
             Rectangle bounds = mapCards.get(card);
-            //System.out.println(bounds);
+
             //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
             if (bounds != null) {
                 BufferedImage imageCard;
                 if (ifjgp.showcard || j.playerNow == 0) {
                     if ((j.playerFirst != j.playerNow) && !playcard.limite(j, card) && j.playerNow == 0 && j.TurnProcess == 2) {
-                        File imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        File imgFile = new File("./res/images/BBcard (" + card.id + ").png");
                         try {
                             imageCard = ImageIO.read(imgFile);
                         } catch (IOException e) {
@@ -495,7 +494,7 @@ public class GamePane extends JPanel {
                     g2d.setColor(Color.blue);
                     g2d.draw(bounds);
                 } else {
-                    File imgFile = new File("./res/images/back ("+backi+").png");
+                    File imgFile = new File("./res/images/back (" + backi + ").png");
                     try {
                         imageCard = ImageIO.read(imgFile);
                     } catch (IOException e) {
@@ -518,15 +517,18 @@ public class GamePane extends JPanel {
             for (int a = j.pilescard[i].size() - 1; a >= 0; a--) {
                 Brand card = j.pilescard[i].get(a);
                 Rectangle bounds = mapCards.get(card);
-                //System.out.println(bounds);
+
                 //鏍规嵁闀挎柟褰㈢殑浣嶇疆锛屽～鍏呭浘鐗?
                 if (bounds != null) {
                     BufferedImage imageCard;
                     File imgFile;
                     if (a == 0) {
-                        imgFile = new File("./res/images/card (" + card.id + ").png");
+                        if (j.TurnProcess < 3)
+                            imgFile = new File("./res/images/Bcard (" + card.id + ").png");
+                        else
+                            imgFile = new File("./res/images/card (" + card.id + ").png");
                     } else {
-                        imgFile = new File("./res/images/back ("+backi+").png");
+                        imgFile = new File("./res/images/back (" + backi + ").png");
                     }
 
                     try {
@@ -552,45 +554,45 @@ public class GamePane extends JPanel {
         //Atout 鏂囧瓧
         g2d.setColor(Color.red);
         g2d.setFont(new Font(dfonts[1], Font.BOLD, 30));
-        System.out.println(getWidth() / 100 * 90);
-        g2d.drawString("Atout", middle+middle/15, height / 15);
+
+        g2d.drawString("Atout", middle + middle / 15, height / 15);
         //BRAND 鍥剧墖
         BufferedImage imageCardAtout;
         File ImageAtoutFile;
         if (j.avoiratout) {
             ImageAtoutFile = new File("./res/images/Atout" + j.atout.getInttype() + ".png");
         } else {
-            ImageAtoutFile = new File("./res/images/back ("+backi+").png");
+            ImageAtoutFile = new File("./res/images/back (" + backi + ").png");
         }
         try {
             imageCardAtout = ImageIO.read(ImageAtoutFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        g2d.drawImage(imageCardAtout, middle+middle/15, height / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
+        g2d.drawImage(imageCardAtout, middle + middle / 15, height / 100 * 8, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
         g2d.setColor(Color.ORANGE);
-        g2d.setFont(new Font("Calibri",Font.ITALIC,18));
-        g2d.drawString("Cartes joue au tour precedent",middle+middle/100,getHeight()/100*35);
-        if(j.lastgamep1playcard!=null){
+        g2d.setFont(new Font("Calibri", Font.ITALIC, 18));
+        g2d.drawString("Cartes joue au tour precedent", middle + middle / 100, getHeight() / 100 * 35);
+        if (j.lastgamep1playcard != null) {
             g2d.setFont(new Font(dfonts[5], Font.BOLD, 20));
-            g2d.drawString("Joueur 1 ",middle+middle/40, getHeight()/100*38);
+            g2d.drawString("Joueur 1 ", middle + middle / 40, getHeight() / 100 * 38);
             BufferedImage imagelastplayercard;
             File imagelastplayercardfile;
-            imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep0playcard.id + ").png");
+            imagelastplayercardfile = new File("./res/images/card (" + j.lastgamep0playcard.id + ").png");
             try {
                 imagelastplayercard = ImageIO.read(imagelastplayercardfile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imagelastplayercard,middle+middle/40, getHeight()/100*40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
-            g2d.drawString("Joueur 2 ",middle+middle/8, getHeight()/100*38);
-            imagelastplayercardfile= new File("./res/images/card (" + j.lastgamep1playcard.id + ").png");
+            g2d.drawImage(imagelastplayercard, middle + middle / 40, getHeight() / 100 * 40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
+            g2d.drawString("Joueur 2 ", middle + middle / 8, getHeight() / 100 * 38);
+            imagelastplayercardfile = new File("./res/images/card (" + j.lastgamep1playcard.id + ").png");
             try {
                 imagelastplayercard = ImageIO.read(imagelastplayercardfile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            g2d.drawImage(imagelastplayercard,middle+middle/8, getHeight()/100*40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10,null);
+            g2d.drawImage(imagelastplayercard, middle + middle / 8, getHeight() / 100 * 40, getWidth() / 100 * 7, (getWidth() / 100 * 7) / 6 * 10, null);
 
 
         }
@@ -616,26 +618,26 @@ public class GamePane extends JPanel {
         }
         g2d.setColor(Color.black);
         g2d.setFont(new Font(dfonts[2], Font.BOLD, 18));
-        g2d.drawString(GameModeStr, middle+middle/100, getHeight() / 100 * 65);
+        g2d.drawString(GameModeStr, middle + middle / 100, getHeight() / 100 * 65);
         if (GameMode2 != null) {
-            g2d.drawString(Gamemode1, middle+middle/100, getHeight() / 100 * 70);
-            g2d.drawString(GameMode2, middle+middle/100, getHeight() / 100 * 75);
+            g2d.drawString(Gamemode1, middle + middle / 100, getHeight() / 100 * 70);
+            g2d.drawString(GameMode2, middle + middle / 100, getHeight() / 100 * 75);
         }
 
         //numbre de tour  鍥炲悎鏁?
-        String nbtour = "Le numbre de tour est " + j.numberOfRounds;
+        String nbtour = "Le nombre de tour est " + j.numberOfRounds;
         g2d.setColor(Color.blue);
         g2d.setFont(new Font("Monaco", Font.PLAIN, 20));
-        g2d.drawString(nbtour, middle+middle/100, getHeight() / 100 * 80);
+        g2d.drawString(nbtour, middle + middle / 100, getHeight() / 100 * 80);
 
         //鏄剧ず鐜╁1寰楀垎
         g2d.setColor(Color.blue);
         g2d.setFont(new Font("Calibri", Font.BOLD, 20));
-        g2d.drawString("Score total du joueur 1: " + j.Player1totalScore, middle+middle/100, getHeight() / 100 * 90);
+        g2d.drawString("Score total du joueur 1: " + j.Player1totalScore, middle + middle / 100, getHeight() / 100 * 90);
 
         g2d.setColor(Color.red);
         g2d.setFont(new Font("Calibri", Font.BOLD, 20));
-        g2d.drawString("Score total du joueur 2: " + j.Player2totalScore, middle+middle/100, getHeight() / 100 * 95);
+        g2d.drawString("Score total du joueur 2: " + j.Player2totalScore, middle + middle / 100, getHeight() / 100 * 95);
 
         //player1 score
         g2d.setColor(Color.blue);
@@ -755,10 +757,8 @@ public class GamePane extends JPanel {
                     if (j.Game_ind > j.GameInformation) {
                         if (j.Player1totalScore > j.Player2totalScore) {
                             wingamewindow(j, 2, 1);
-                            System.out.println("Player 1 win!");
                         } else {
                             wingamewindow(j, 2, 2);
-                            System.out.println("Player 2 win!");
                         }
                         h.cleanHistoire();
                     } else {
@@ -825,7 +825,7 @@ public class GamePane extends JPanel {
 
     public void wingamewindow(Jeu j, int i, int winner) {
         if (i == 1) {
-            String winmassage = "Joueur " + winner + " ganne cette rond, le jeu va continuer";
+            String winmassage = "Joueur " + winner + " ganne ce tour, le jeu va continuer";
             JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
         } else {
             String winmassage = "Joueur " + winner + " ganne cette jeux, Vous volez jouer encore?";

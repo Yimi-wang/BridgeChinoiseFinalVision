@@ -16,14 +16,14 @@ public class Client {
     public Client(){}
     public void client() throws IOException, ClassNotFoundException {
         //建立套接字通讯
-        System.out.println("Donner le ip adresse pour connecte");
+        System.out.println("Donner l'adresse IP pour vous connecter");
         Scanner input = new Scanner(System.in);
         String ipadresse = input.nextLine();
         ObjectOutput objectOutput = null;
         ObjectInput objectInput = null;
         try {
             socket = new Socket(ipadresse, 8080);
-            System.out.println("connect success");
+            System.out.println("Connexion avec succès");
             objectInput = new ObjectInputStream(socket.getInputStream());
             objectOutput = new ObjectOutputStream(socket.getOutputStream());
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class Client {
     }
 
     public void gameModeC(ObjectOutput objectOutput,ObjectInput objectInput) throws IOException, ClassNotFoundException {
-         j = (Jeu) objectInput.readObject();
+        j = (Jeu) objectInput.readObject();
         switch (j.GameMode) {
             case 1:
                 //进行26轮游戏（因为一共52张牌）
@@ -44,9 +44,9 @@ public class Client {
                 }
                 //游戏结束，判断胜负手
                 if (j.Player1Score > j.Player2Score) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 break;
             case 2:
@@ -66,10 +66,10 @@ public class Client {
                     j.Player2WinGame++;
                 }
                 if (j.Player1WinGame == 2) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                     break;
                 } else if (j.Player2WinGame == 2) {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                     break;
                 }
 
@@ -84,9 +84,9 @@ public class Client {
                     }
                 }
                 if (j.Player1totalScore > j.Player2totalScore) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 h.cleanHistoire();
                 break;
@@ -98,9 +98,9 @@ public class Client {
                         PlayGame(j, objectOutput,objectInput);
                         if (j.Player1totalScore >= j.GameInformation || j.Player2totalScore >= j.GameInformation) {
                             if (j.Player1totalScore > j.Player2totalScore) {
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             break;
                         }
@@ -126,11 +126,11 @@ public class Client {
                     playCards.playerFirstPlayCard(j);
                     objectOutput.writeObject(j);
                     objectOutput.flush();
-                    System.out.println("fa song cheng gong ");
+                    System.out.println("Envoyé avec succès");
 
                 } else {
                     this.j=(Jeu) objectInput.readObject();
-                    System.out.println("jie shou cheng gong ");
+                    System.out.println("Reçu avec succès");
                 }
                 break;
             //后手方出牌
@@ -141,11 +141,11 @@ public class Client {
                     playCards.playerSecondePlayCard(j);
                     objectOutput.writeObject(j);
                     objectOutput.flush();
-                    System.out.println("fa song cheng gong ");
+                    System.out.println("Envoyé avec succès");
 
                 } else {
                     this.j=(Jeu) objectInput.readObject();
-                    System.out.println("jie shou cheng gong ");
+                    System.out.println("Reçu avec succès");
                 }
                 break;
             //根据赢家，进行拿牌操作。
@@ -158,10 +158,10 @@ public class Client {
                         takeCard.playerWinTakeCard(j);
                         objectOutput.writeObject(j);
                         objectOutput.flush();
-                        System.out.println("fa song cheng gong ");
+                        System.out.println("Envoyé avec succès");
                     } else {
                         this.j=(Jeu) objectInput.readObject();
-                        System.out.println("jie shou cheng gong ");
+                        System.out.println("Reçu avec succès");
                     }
 
                 } else {
@@ -176,19 +176,18 @@ public class Client {
                         takeCard.playerLoseTakeCard(j);
                         objectOutput.writeObject(j);
                         objectOutput.flush();
-                        System.out.println("fa song cheng gong ");
+                        System.out.println("Envoyé avec succès");
 
                     } else {
                         this.j=(Jeu) objectInput.readObject();
-                        System.out.println("jie shou cheng gong ");
+                        System.out.println("Reçu avec succès");
                     }
                 } else {
                     j.TurnProcess++;
                 }
                 break;
             default:
-                System.out.println("turn erreur");
+                System.out.println("Erreur de turn");
         }
     }
-
 }
