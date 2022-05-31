@@ -1,6 +1,5 @@
 package Vue;
 
-import Controleur.SaveLoadVue;
 import global.ConfigurationSetting;
 
 import javax.swing.*;
@@ -9,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -256,7 +254,7 @@ public class Main extends JFrame implements ActionListener {
                 switch (event.getStateChange())
                 {
                     case ItemEvent.SELECTED:
-                        if(event.getItem()=="Number of Fixe"||event.getItem()=="Score Fixe"){
+                        if(event.getItem()=="Nombre de Jeu Fixe"||event.getItem()=="Score Fixe"){
                             lblGameModeTest.setVisible(true);
                             jta.setVisible(true);
                         }else{
