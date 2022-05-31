@@ -67,7 +67,7 @@ public class InterfaceJeu implements Runnable {
         //gameprocessvue.gameMode(j);锛堝惎鍔ㄦ父鎴忥級
 
         //鐣岄潰
-        JFrame frame = new JFrame("Testing");
+        JFrame frame = new JFrame("Bridge Chinoise");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //end
 
@@ -82,11 +82,11 @@ public class InterfaceJeu implements Runnable {
 
         //主菜单
         JMenuBar menuBar = new JMenuBar();
-        JMenu saveMenu = new JMenu("Save");
-        JMenu backMenu = new JMenu("Back");
-        JMenu surrenderMenu = new JMenu("Surrender");
-        JMenu showcardMenu = new JMenu("Showcard");
-        JMenu helpMenu = new JMenu("Help");
+        JMenu saveMenu = new JMenu("Sauvegarder");
+        JMenu backMenu = new JMenu("Retour");
+        JMenu surrenderMenu = new JMenu("Abondonner");
+        JMenu showcardMenu = new JMenu("Montrer la carte");
+        JMenu helpMenu = new JMenu("Aide");
         menuBar.add(saveMenu);
         menuBar.add(backMenu);
         menuBar.add(surrenderMenu);
@@ -96,8 +96,8 @@ public class InterfaceJeu implements Runnable {
          * Save主菜单和监听以及对于方法
          */
         //Save菜单子菜单
-        JMenuItem saveMenuItem01 = new JMenuItem("Save and continue");
-        JMenuItem saveMenuItem02 = new JMenuItem("Save and quit");
+        JMenuItem saveMenuItem01 = new JMenuItem("Sauvegarder et continuer");
+        JMenuItem saveMenuItem02 = new JMenuItem("Sauvegarder et quitter");
         saveMenu.add(saveMenuItem01);
         saveMenu.add(saveMenuItem02);
         saveMenuItem01.addActionListener(new ActionListener() {
@@ -107,7 +107,7 @@ public class InterfaceJeu implements Runnable {
 
                 SaveLoadVue slv = new SaveLoadVue();
 
-                JFrame saveframe = new JFrame("Sauvgarder !");
+                JFrame saveframe = new JFrame("Sauvegarder !");
                 saveframe.setSize(200, 120);
                 /*
                  * ImageIcon savelogo = new ImageIcon("res/images/Logo.png"); JLabel
@@ -118,14 +118,14 @@ public class InterfaceJeu implements Runnable {
                  */
 
 
-                JButton saveconfirm = new JButton("Sauvgarder");
+                JButton saveconfirm = new JButton("Sauvegarder");
                 saveframe.add(saveconfirm);
 
                 JButton savecancel = new JButton("Quitter");
                 saveframe.add(savecancel);
 
 
-                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvgarder");
+                JLabel saveinfoLabel = new JLabel("Saissisez le nom du fichier à sauvegarder");
                 saveframe.add(saveinfoLabel);
 
 
@@ -178,8 +178,8 @@ public class InterfaceJeu implements Runnable {
          * Back主菜单和监听和对应方法
          */
         //Back菜单子菜单
-        JMenuItem backMenuItem01 = new JMenuItem("Back to your trun");
-        JMenuItem backMenuItem02 = new JMenuItem("Restart");
+        JMenuItem backMenuItem01 = new JMenuItem("Retourner à ton tour");
+        JMenuItem backMenuItem02 = new JMenuItem("Redémarrer");
         backMenu.add(backMenuItem01);
         backMenu.add(backMenuItem02);
         //监听和方法
@@ -204,8 +204,8 @@ public class InterfaceJeu implements Runnable {
          * Surrender 主菜单和监听和对应方法
          */
         //surrender菜单子菜单
-        JMenuItem surrenderMenuItem01 = new JMenuItem("Surrender this game");
-        JMenuItem surrenderMenuItem02 = new JMenuItem("Surrender all game");
+        JMenuItem surrenderMenuItem01 = new JMenuItem("Abondonner ce jeu");
+        JMenuItem surrenderMenuItem02 = new JMenuItem("Abondonner tous les jeux");
         surrenderMenu.add(surrenderMenuItem01);
         surrenderMenu.add(surrenderMenuItem02);
         //监听
@@ -226,8 +226,8 @@ public class InterfaceJeu implements Runnable {
          * showcard主菜单和监听和对应方法
          */
         //shoucard菜单子菜单
-        final JRadioButtonMenuItem showcardTrue = new JRadioButtonMenuItem("yes");
-        final JRadioButtonMenuItem showcardFalse = new JRadioButtonMenuItem("no");
+        final JRadioButtonMenuItem showcardTrue = new JRadioButtonMenuItem("oui");
+        final JRadioButtonMenuItem showcardFalse = new JRadioButtonMenuItem("non");
         showcardMenu.add(showcardTrue);
         showcardMenu.add(showcardFalse);
         // 其中两个 单选按钮子菜单，要实现单选按钮的效果，需要将它们放到一个按钮组中
@@ -256,8 +256,8 @@ public class InterfaceJeu implements Runnable {
          * help主菜单和监听和对应方法。
          */
         //help 菜单子菜单
-        JMenuItem helpMenuItem01 = new JMenuItem("help");
-        JMenuItem helpMenuItem02 = new JMenuItem("regle");
+        JMenuItem helpMenuItem01 = new JMenuItem("Aide");
+        JMenuItem helpMenuItem02 = new JMenuItem("Règles");
         helpMenu.add(helpMenuItem01);
         helpMenu.add(helpMenuItem02);
         //监听
@@ -350,8 +350,8 @@ public class InterfaceJeu implements Runnable {
                 public void mouseClicked(MouseEvent e) {
                     if (selected != null) {
                         Rectangle bounds = mapCards.get(selected);
-                        player0play.setText("Suggestion ");
-                        player1play.setText("Suggestion ");
+                        player0play.setText("Indice");
+                        player1play.setText("Indice");
                         if (selected.getPlace() == 0) bounds.y += 30;
                         else if (selected.getPlace() == 1) bounds.y -= 30;
                         repaint();
@@ -365,7 +365,7 @@ public class InterfaceJeu implements Runnable {
                                     selected = card;
                                     bounds.y -= 30;
                                     //鎵撳嵃鐜╁鎵嬬墝
-                                    player0play.setText("PLAY");
+                                    player0play.setText("JOUER");
                                     System.out.println(card.toString());
                                     repaint();
                                     break;
@@ -378,7 +378,7 @@ public class InterfaceJeu implements Runnable {
                                     selected = card;
                                     bounds.y += 30;
                                     //鎵撳嵃鐜╁鎵嬬墝
-                                    player1play.setText("PLAY");
+                                    player1play.setText("JOUER");
                                     System.out.println(card.toString());
                                     repaint();
                                     break;
@@ -394,7 +394,7 @@ public class InterfaceJeu implements Runnable {
                                     selected = card;
                                     bounds.y -= 30;
                                     //鎵撳嵃鐜╁鎵嬬墝
-                                    player0play.setText("PLAY");
+                                    player0play.setText("JOUER");
                                     System.out.println(card.toString());
                                     repaint();
                                     break;
@@ -408,7 +408,7 @@ public class InterfaceJeu implements Runnable {
                                     selected = card;
                                     bounds.y += 30;
                                     //鎵撳嵃鐜╁鎵嬬墝
-                                    player1play.setText("PLAY");
+                                    player1play.setText("JOUER");
                                     System.out.println(card.toString());
                                     repaint();
                                     break;
@@ -450,11 +450,11 @@ public class InterfaceJeu implements Runnable {
             //player0鍑虹墝鎸夐挳
             player0play = new JButton();
             player0play.setBounds(getWidth() / 3, getHeight() / 20 * 15, getWidth() / 15, getHeight() / 20);
-            player0play.setText("suggestion");
+            player0play.setText("Indice");
 
             player0play.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (player0play.getText() == "PLAY") {
+                    if (player0play.getText() == "JOUER") {
                         if (j.playerNow == 0) {
                             System.out.println("playcard");
                             player1playercard = selected;
@@ -472,7 +472,7 @@ public class InterfaceJeu implements Runnable {
                             selected = null;
                         }
                     }
-                    else if(player0play.getText() == "suggestion"){
+                    else if(player0play.getText() == "Indice"){
                         if(j.playerNow==0){
                             System.out.println("playcard");
                             IASimpleVue ia = new IASimpleVue(j);
@@ -481,7 +481,7 @@ public class InterfaceJeu implements Runnable {
                             Rectangle bounds = mapCards.get(selected);
                             bounds.y-=20;
                             repaint();
-                            player0play.setText("PLAY");
+                            player0play.setText("JOUER");
                         }
                     }
                 }
@@ -490,11 +490,11 @@ public class InterfaceJeu implements Runnable {
             //player1鍑虹墝鎸夐挳
             player1play = new JButton();
             player1play.setBounds(getWidth() / 3, getHeight() / 20 * 4, getWidth() / 15, getHeight() / 20);
-            player1play.setText("suggestion");
+            player1play.setText("Indice");
 
             player1play.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (player1play.getText() == "PLAY") {
+                    if (player1play.getText() == "JOUER") {
                         if (j.playerNow == 1) {
                             System.out.println("playcard");
                             player2playercard = selected;
@@ -507,7 +507,7 @@ public class InterfaceJeu implements Runnable {
                             repaint();
                             selected = null;
                         }
-                    } else if(player0play.getText() == "suggestion"){
+                    } else if(player0play.getText() == "Indice"){
                         if(j.playerNow==1){
                             System.out.println("playcard");
                             IASimpleVue ia = new IASimpleVue(j);
@@ -516,7 +516,7 @@ public class InterfaceJeu implements Runnable {
                             Rectangle bounds = mapCards.get(selected);
                             bounds.y+=20;
                             repaint();
-                            player1play.setText("PLAY");
+                            player1play.setText("JOUER");
                         }
                     }
                 }
@@ -843,7 +843,7 @@ public class InterfaceJeu implements Runnable {
                     GameMode2 = "Le tours pour gagner est " + j.GameInformation;
                     break;
                 case 4:
-                    GameModeStr = GameModeStr.concat("Nombre fix de Score");
+                    GameModeStr = GameModeStr.concat("Nombre fixe de Score");
                     GameMode2 = "Le score pour gagner est " + j.GameInformation;
                     break;
             }
@@ -854,8 +854,8 @@ public class InterfaceJeu implements Runnable {
                 g2d.drawString(GameModeStr, getWidth() / 100 * 82, getHeight() / 100 * 60);
             }
 
-            //numbre de tour  鍥炲悎鏁?
-            String nbtour = "Le numbre de tour est " + j.numberOfRounds;
+            //nombre de tour  鍥炲悎鏁?
+            String nbtour = "Le nombre de tour est " + j.numberOfRounds;
             g2d.setColor(Color.blue);
             g2d.setFont(new Font(dfonts[3], Font.BOLD, 15));
             g2d.drawString(nbtour, getWidth() / 100 * 82, getHeight() / 100 * 65);
@@ -872,22 +872,22 @@ public class InterfaceJeu implements Runnable {
             //鏄剧ず鐜╁1寰楀垎
             g2d.setColor(Color.PINK);
             g2d.setFont(new Font(dfonts[8], Font.BOLD, 15));
-            g2d.drawString("Player 01 total score est " + j.Player1totalScore, getWidth() / 100 * 82, getHeight() / 100 * 80);
+            g2d.drawString("Le score total du joueur 1 est " + j.Player1totalScore, getWidth() / 100 * 82, getHeight() / 100 * 80);
             //鏄剧ず鐜╁2寰楀垎
             g2d.setColor(Color.cyan);
             g2d.setFont(new Font(dfonts[7], Font.BOLD, 15));
-            g2d.drawString("Player 02 total score est " + j.Player2totalScore, getWidth() / 100 * 82, getHeight() / 100 * 85);
+            g2d.drawString("Le score total du joueur 2 est " + j.Player2totalScore, getWidth() / 100 * 82, getHeight() / 100 * 85);
 
             //player1 score
             g2d.setColor(Color.blue);
             g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
-            g2d.drawString("Player 1 score est ", getWidth() / 100 * 70, getHeight() / 100 * 85);
+            g2d.drawString("Le score total du joueur 1 est ", getWidth() / 100 * 70, getHeight() / 100 * 85);
             g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
             g2d.drawString(String.valueOf(j.Player1Score), getWidth() / 100 * 72, getHeight() / 100 * 92);
             //player2 score
             g2d.setColor(Color.red);
             g2d.setFont(new Font(dfonts[10], Font.ITALIC, 15));
-            g2d.drawString("Player 2 score est ", getWidth() / 100 * 70, getHeight() / 100 * 5);
+            g2d.drawString("Le score total du joueur 2 est ", getWidth() / 100 * 70, getHeight() / 100 * 5);
             g2d.setFont(new Font(dfonts[10], Font.BOLD, 50));
             g2d.drawString(String.valueOf(j.Player2Score), getWidth() / 100 * 72, getHeight() / 100 * 12);
 
@@ -996,10 +996,10 @@ public class InterfaceJeu implements Runnable {
                         if (j.Game_ind > j.GameInformation) {
                             if (j.Player1totalScore > j.Player2totalScore) {
                                 wingamewindow(j, 2, 1);
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
                                 wingamewindow(j, 2, 2);
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             h.cleanHistoire();
                         } else {
@@ -1066,11 +1066,11 @@ public class InterfaceJeu implements Runnable {
 
         public void wingamewindow(Jeu j, int i, int winner) {
             if (i == 1) {
-                String winmassage = "Joueur " + winner + "ganne cette rond, le jeu va continuer";
-                JOptionPane.showMessageDialog(null, winmassage, "winer", JOptionPane.PLAIN_MESSAGE);
+                String winmassage = "Joueur " + winner + "gagne ce tour, le jeu va continuer";
+                JOptionPane.showMessageDialog(null, winmassage, "Winner", JOptionPane.PLAIN_MESSAGE);
             } else {
-                String winmassage = "Joueur " + winner + "ganne cette jeux, Vous volez jouer encore？";
-                int res = JOptionPane.showConfirmDialog(null, winmassage, "win", JOptionPane.YES_NO_OPTION);
+                String winmassage = "Joueur " + winner + "gagne ce tour. Voulez-vous jouer encore？";
+                int res = JOptionPane.showConfirmDialog(null, winmassage, "Win", JOptionPane.YES_NO_OPTION);
                 if (res == 0) {
                     //TODO how to close the window of game 如何回到主菜单
 

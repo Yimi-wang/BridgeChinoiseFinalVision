@@ -86,9 +86,9 @@ public class GameProcessVue {
                 }
                 //游戏结束，判断胜负手
                 if (j.Player1Score > j.Player2Score) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 break;
             case 2:
@@ -110,10 +110,10 @@ public class GameProcessVue {
                     j.Player2WinGame++;
                 }
                 if (j.Player1WinGame == 2) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                     break;
                 } else if (j.Player2WinGame == 2) {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                     break;
                 }
 
@@ -130,9 +130,9 @@ public class GameProcessVue {
                     }
                 }
                 if (j.Player1totalScore > j.Player2totalScore) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 h.cleanHistoire();
                 break;
@@ -150,9 +150,9 @@ public class GameProcessVue {
                         System.out.println(j.Player1totalScore);
                         if (j.Player1totalScore >= ScoreWin || j.Player2totalScore >= ScoreWin) {
                             if (j.Player1totalScore > j.Player2totalScore) {
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             h.cleanHistoire();
                             exit(0);
@@ -173,7 +173,7 @@ public class GameProcessVue {
         int ScoreWin = j.GameInformation;
         switch (gamemode) {
             case 1:
-                System.out.println("c'est mode 1");
+                System.out.println("c'est le mode 1");
                 gameStart(j, h);
                 //进行26轮游戏（因为一共52张牌）
                 while (j.numberOfRounds != 26) {
@@ -183,9 +183,9 @@ public class GameProcessVue {
                 }
                 //游戏结束，判断胜负手
                 if (j.Player1Score > j.Player2Score) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 break;
             case 2:
@@ -205,10 +205,10 @@ public class GameProcessVue {
                         j.Player2WinGame++;
                     }
                     if (j.Player1WinGame == 2) {
-                        System.out.println("Player 1 win!");
+                        System.out.println("Joueur 1 a gagné!");
                         break;
                     } else if (j.Player2WinGame == 2) {
-                        System.out.println("Player 2 win!");
+                        System.out.println("Joueur 2 a gagné!");
                         break;
                     }
                 }
@@ -222,14 +222,14 @@ public class GameProcessVue {
                             j.TurnProcess = 1;
                         j = AIvsAI();
                     }
-                    System.out.println("player 1 total score est " + j.Player1totalScore);
-                    System.out.println("player 2 total score est " + j.Player2totalScore);
+                    System.out.println("Le score total du joueur 1 est " + j.Player1totalScore);
+                    System.out.println("Le score total du joueur 2 est " + j.Player2totalScore);
 
                 }
                 if (j.Player1totalScore > j.Player2totalScore) {
-                    System.out.println("Player 1 win!");
+                    System.out.println("Joueur 1 a gagné!");
                 } else {
-                    System.out.println("Player 2 win!");
+                    System.out.println("Joueur 2 a gagné!");
                 }
                 h.cleanHistoire();
                 break;
@@ -243,16 +243,16 @@ public class GameProcessVue {
                         j = AIvsAI();
                         if (j.Player1totalScore >= ScoreWin || j.Player2totalScore >= ScoreWin) {
                             if (j.Player1totalScore > j.Player2totalScore) {
-                                System.out.println("Player 1 win!");
+                                System.out.println("Joueur 1 a gagné!");
                             } else {
-                                System.out.println("Player 2 win!");
+                                System.out.println("Joueur 2 a gagné!");
                             }
                             break;
                         }
                     }
                 }
-                System.out.println("player 1 total score est " + j.Player1totalScore);
-                System.out.println("player 2 total score est " + j.Player2totalScore);
+                System.out.println("Le score total du joueur 1 est " + j.Player1totalScore);
+                System.out.println("Le score total du joueur 2 est " + j.Player2totalScore);
                 h.cleanHistoire();
                 break;
         }

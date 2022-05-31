@@ -41,7 +41,7 @@ public class Atout {
             String a = j.atout.toString();
             System.out.println("Atout est " + a);
         } else {
-            System.out.println("Pas de atout");
+            System.out.println("Pas d'atout");
         }
 
     }
