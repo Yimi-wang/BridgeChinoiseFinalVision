@@ -220,7 +220,7 @@ public class Main extends JFrame implements ActionListener {
 
         GameModeComboBox = new JComboBox();
         // 绑定下拉框选项
-        String[] strArray = {"BO1", "BO3", "Number of Fixe", "Score Fixe"};
+        String[] strArray = {"BO1", "BO3", "Nombre de Jeu Fixe", "Score Fixe"};
         for (String item : strArray) {
             GameModeComboBox.addItem(item);
         }
@@ -436,7 +436,11 @@ public class Main extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == GameModeQuestionButton) {
-            JOptionPane.showMessageDialog(null, "这里给出本游戏模式的疑问解答\r\n如果您有什么不懂的，可以联系我们121212@gmail.com\r\n", "提示", JOptionPane.QUESTION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "BO1 (Best of game 1) : Un jeu (toutes les cartes jouées), celui qui a le meilleur score gagne.\n" +
+                    "BO3 (Best of game 3) : Trois jeu(toutes les cartes jouées dans chaque jeu)Celui qui gagne deux matchs gagne.\n" +
+                    "Nombre de Jeu fixe : On joue x fois jeu.(x est donnee par utilisateur)le joueur ayant le score le plus élevé à la fin de tous les jeu est  gagnée. \n" +
+                    "                                 (Le joueur doit entrer le nombre de parties qu'il veut jouer ci-dessous)\n" +
+                    "Score fixe : Le joueur qui atteint le score requis en premier gagne la partie. (Le joueur doit entrer le score requis ci-dessous)", "Gamemode", JOptionPane.QUESTION_MESSAGE);
         }
         if (e.getSource() == AIModeLeftButton) {
             AIModeDisappear();
@@ -460,7 +464,7 @@ public class Main extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == AIModeQuestionButton) {
-            JOptionPane.showMessageDialog(null, "这里给出本游戏AI模式的疑问解答\r\n如果您有什么不懂的，可以联系我们121212@gmail.com\r\n", "提示", JOptionPane.QUESTION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vous pouvez choisir le mode AI ici", "AImode", JOptionPane.QUESTION_MESSAGE);
         }
         if (e.getSource() == btnLoadButton) {
             mainframe.dispose();
