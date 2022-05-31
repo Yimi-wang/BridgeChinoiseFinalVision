@@ -26,11 +26,14 @@ public class Histoire implements Serializable {
             System.out.println("首回合");
         }
 
+//        listDeHistoire.remove(listDeHistoire.size() - 1);
+//        listDeHistoire.remove(listDeHistoire.size() - 1);
+//        Jeu j1 = listDeHistoire.get(listDeHistoire.size() - 1);
+//        Jeu j0 = (Jeu) j1.clone();
+//        ajouteListDeHistoire(j0);
+//        System.out.println("delete");
+//        return listDeHistoire.get(listDeHistoire.size()-1);
         listDeHistoire.remove(listDeHistoire.size() - 1);
-        listDeHistoire.remove(listDeHistoire.size() - 1);
-        Jeu j1 = listDeHistoire.get(listDeHistoire.size() - 1);
-        Jeu j0 = (Jeu) j1.clone();
-        ajouteListDeHistoire(j0);
         System.out.println("delete");
         return listDeHistoire.get(listDeHistoire.size()-1);
     }

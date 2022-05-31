@@ -10,19 +10,6 @@ import java.util.logging.Logger;
 public class Configuration {
 	private static Configuration instance = null;
 	Properties prop;
-	
-	public static InputStream charge(String nom) {
-		// La méthode de chargement suivante ne dépend pas du système de fichier et sera
-		// donc utilisable pour un .jar
-		// Attention, par contre, le fichier doit se trouver dans le CLASSPATH
-		InputStream is = null;
-		try {
-			is =  new FileInputStream(nom);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return is;
-	}
 
 	private Configuration() {
 		prop = new Properties();
